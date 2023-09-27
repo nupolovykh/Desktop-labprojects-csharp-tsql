@@ -1,38 +1,49 @@
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Win32;
 
 public class Calculator{
-    public static string Dijkstra(string s)
-    {
-        if (s.Length < 2) throw new ArgumentException("Error");
-        int quotes = 0;
-        char prev = ' ';
+
+    public static void Tests(string s){
+        if (s.Length < 5) throw new ArgumentException("Error");
+
+        HashSet<char> set = new HashSet<char>();
         string rigth_sights = "1234567890()-+/*";
+        foreach(char it in rigth_sights) set.Add(it);
+
+        char last = s[s.Length - 1];
+        if(last == '*' || last == '/' || last == '-' || last == '+') throw new ArgumentException("Error");
+        last = s[0];
+        if(last == '*' || last == '/' || last == '-' || last == '+') throw new ArgumentException("Error");
+
+        int quotes = 0, figures = 0;
+        char prev = ' ';
         foreach (char it in s)
         {
-            foreach (char it_ in rigth_sights)
-            {
-                if (it != it_) throw new ArgumentException("Error");
-            }
-
-            if(prev == '-' && char.IsDigit(it)) throw new ArgumentException("Error");
+            if(!set.Contains(it)) throw new ArgumentException("Error");
 
             if (it == '(') quotes++;
             else if (it == ')')
             {
                 quotes--;
-                if (quotes < 0) throw new ArgumentException("Error");
+                if(prev == '*' || prev == '/' || prev == '-' || prev == '+' || quotes < 0 || figures < 2) throw new ArgumentException("Error");
+                if(quotes == 0)  figures = 0;
             }
+            else if(quotes > 0 && char.IsDigit(it) && !char.IsDigit(prev)) figures++;
+            else if(prev == '(' && (it == '*' || it == '/' || it == '-' || it == '+')) throw new ArgumentException("Error");
             prev = it;
         }
-
+    }
+    public static string Dijkstra(string s)
+    {
         string the_return = "";
         Stack<char> stack = new Stack<char>();
 
         foreach (char it in s)
         {
-            if (Char.IsDigit(it))
+            if (char.IsDigit(it))
             {
                 the_return += it;
             }
@@ -140,7 +151,7 @@ public class Calculator{
                         stack.Push(b / a);
                         break;
                     default:
-                        throw new ArgumentException("Invalid operator");
+                        throw new ArgumentException("Error");
                 }
             }
         }
