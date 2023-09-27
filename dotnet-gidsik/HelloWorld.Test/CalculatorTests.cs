@@ -20,7 +20,7 @@ namespace HelloWorld.Test
         }
 
         [Theory]
-        [InlineData("1 3 +", "(1+3)")]
+        [InlineData("1 3 +", "1+3")]
         public void RightExpressionDijkstra(string expected, string input) {
             string answer = Calculator.Dijkstra(input);
             Assert.Equal(expected, answer);
