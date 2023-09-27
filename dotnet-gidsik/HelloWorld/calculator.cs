@@ -7,7 +7,7 @@ using Microsoft.Win32;
 public class Calculator{
 
     public static void Tests(string s){
-        if (s.Length < 5) throw new ArgumentException("Error");
+        if (s.Length < 3) throw new ArgumentException("Error");
 
         HashSet<char> set = new HashSet<char>();
         string rigth_sights = "1234567890()-+/*";

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "HelloWorld\He
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Test", "HelloWorld.Test\HelloWorld.Test.csproj", "{3DFD4F97-8818-49CE-86B1-318FAC24A22C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FistLibrary", "FistLibrary\FistLibrary.csproj", "{4ADAE229-AE9A-4042-9487-438F14DE1903}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3DFD4F97-8818-49CE-86B1-318FAC24A22C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DFD4F97-8818-49CE-86B1-318FAC24A22C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DFD4F97-8818-49CE-86B1-318FAC24A22C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ADAE229-AE9A-4042-9487-438F14DE1903}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ADAE229-AE9A-4042-9487-438F14DE1903}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ADAE229-AE9A-4042-9487-438F14DE1903}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ADAE229-AE9A-4042-9487-438F14DE1903}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
