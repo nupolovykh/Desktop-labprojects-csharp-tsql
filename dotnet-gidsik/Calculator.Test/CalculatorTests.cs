@@ -1,4 +1,4 @@
-namespace HelloWorld.Test
+namespace CalculatorTests.Test
 
 {
     public class CalculatorTests
