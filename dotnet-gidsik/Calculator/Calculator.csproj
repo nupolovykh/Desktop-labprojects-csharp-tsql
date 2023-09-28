@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\FistLibrary\FistLibrary.csproj" />
+    <ProjectReference Include="..\Methods\Methods.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

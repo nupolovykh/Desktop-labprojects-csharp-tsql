@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FistLibrary;
+namespace Methods;
 public static class ArrayMethodsLibrary
 {
     public static double FindMinimum(double[] array){
