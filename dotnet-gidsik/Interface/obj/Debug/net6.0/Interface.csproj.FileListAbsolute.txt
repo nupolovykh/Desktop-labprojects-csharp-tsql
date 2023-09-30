@@ -1,0 +1,12 @@
+C:\Users\PolovyhNA\source\repos\lab3\Interface\obj\Debug\net6.0\Interface.csproj.AssemblyReference.cache
+C:\Users\PolovyhNA\source\repos\lab3\Interface\obj\Debug\net6.0\Interface.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PolovyhNA\source\repos\lab3\Interface\obj\Debug\net6.0\Interface.AssemblyInfoInputs.cache
+C:\Users\PolovyhNA\source\repos\lab3\Interface\obj\Debug\net6.0\Interface.AssemblyInfo.cs
+C:\Users\PolovyhNA\source\repos\lab3\Interface\obj\Debug\net6.0\Interface.csproj.CoreCompileInputs.cache
+C:\Users\PolovyhNA\source\repos\lab3\Interface\bin\Debug\net6.0\Interface.deps.json
+C:\Users\PolovyhNA\source\repos\lab3\Interface\bin\Debug\net6.0\Interface.dll
+C:\Users\PolovyhNA\source\repos\lab3\Interface\bin\Debug\net6.0\Interface.pdb
+C:\Users\PolovyhNA\source\repos\lab3\Interface\obj\Debug\net6.0\Interface.dll
+C:\Users\PolovyhNA\source\repos\lab3\Interface\obj\Debug\net6.0\refint\Interface.dll
+C:\Users\PolovyhNA\source\repos\lab3\Interface\obj\Debug\net6.0\Interface.pdb
+C:\Users\PolovyhNA\source\repos\lab3\Interface\obj\Debug\net6.0\ref\Interface.dll
