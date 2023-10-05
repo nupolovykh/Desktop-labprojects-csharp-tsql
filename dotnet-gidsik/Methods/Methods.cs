@@ -20,8 +20,8 @@ public static class ArrayMethodsLibrary
     public static double FindAverage(double[] array){
         if (array == null || array.Length == 0) throw new ArgumentException("Error");
         double sum = 0;
-        for (int i = 0; i < array.Length; i++) sum += array[i];
-        return sum/array.Length;
+        for (int i = 0; i < array.Length; i++) sum += array[i] / array.Length;
+        return sum;
     }
 
     public static double FindMedian(double[] array){

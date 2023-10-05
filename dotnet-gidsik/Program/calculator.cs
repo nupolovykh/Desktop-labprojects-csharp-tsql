@@ -148,6 +148,7 @@ public class Calculator{
                         stack.Push(b * a);
                         break;
                     case '/':
+                        if(a == 0) throw new ArgumentException("Error");
                         stack.Push(b / a);
                         break;
                     default:
