@@ -37,7 +37,7 @@ public static class ArrayMethodsLibrary
         if (array == null || array.Length == 0) throw new ArgumentException("Error");
         double answer = 1;
         for(int i = 0; i < array.Length; i++){
-            if(array[i] < 0) throw new ArgumentException("Error");
+            if(array[i] <= 0) throw new ArgumentException("Error");
             answer *= array[i];
         }
         return Math.Pow(answer, 1.0 / array.Length);

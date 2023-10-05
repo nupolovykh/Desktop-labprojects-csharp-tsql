@@ -6,6 +6,7 @@ namespace CalculatorTests.Test
         [Theory]
         [InlineData("")]
         [InlineData("(")]
+        [InlineData("(2+-2")]
         [InlineData("()")]
         [InlineData("(1)")]
         [InlineData("(143243)")]

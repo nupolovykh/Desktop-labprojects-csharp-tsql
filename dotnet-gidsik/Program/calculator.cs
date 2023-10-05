@@ -31,6 +31,7 @@ public class Calculator{
                 if(prev == '*' || prev == '/' || prev == '-' || prev == '+' || quotes < 0 || figures < 2) throw new ArgumentException("Error");
                 if(quotes == 0)  figures = 0;
             }
+            else if(it == '*' || it == '/' || it == '-' || it == '+') if(prev == '*' || prev == '/' || prev == '-' || prev == '+') throw new ArgumentException("Error");
             else if(quotes > 0 && char.IsDigit(it) && !char.IsDigit(prev)) figures++;
             else if(prev == '(' && (it == '*' || it == '/' || it == '-' || it == '+')) throw new ArgumentException("Error");
             prev = it;
