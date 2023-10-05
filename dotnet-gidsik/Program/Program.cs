@@ -12,7 +12,7 @@ public static class Extensions
 
 internal class Program
 {
-    private static void Main(string[] args)
+    public static void methods()
     {
         double[] array = new double[10];
         for (int i = 0; i < array.Length; i++)
@@ -26,11 +26,20 @@ internal class Program
         Console.WriteLine("Maximum = " + ArrayMethodsLibrary.FindMaximum(array));
         Console.WriteLine("Average = " + ArrayMethodsLibrary.FindAverage(array));
         Console.WriteLine("Median = " + ArrayMethodsLibrary.FindMedian(array));
-        Console.WriteLine("GeometricAverage = " +ArrayMethodsLibrary.FindGeometricAverage(array));
+        Console.WriteLine("GeometricAverage = " + ArrayMethodsLibrary.FindGeometricAverage(array));
+    }
 
-        // string expression = Console.ReadLine(); //"(0-3)*(5+8-(1*5)+2)/2"
-        // Calculator.Tests(expression);
-        // string reverse_describe = Calculator.Dijkstra(expression);
-        // Console.WriteLine($"({reverse_describe}) --> {Calculator.Decode(reverse_describe)}");
+    public static void calculator()
+    {
+        string expression = Console.ReadLine(); //"(0-3)*(5+8-(1*5)+2)/2"
+        Calculator.Tests(expression);
+        string reverse_describe = Calculator.Dijkstra(expression);
+        Console.WriteLine($"({reverse_describe}) --> {Calculator.Decode(reverse_describe)}");
+    }
+
+    private static void Main(string[] args)
+    {
+        methods();
+        //calculator();
     }
 }
