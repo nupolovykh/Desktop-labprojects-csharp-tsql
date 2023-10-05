@@ -15,6 +15,9 @@ public class MethodsTests
         Assert.Equal(3, answer);
         answer = ArrayMethodsLibrary.FindGeometricAverage(array);
         Assert.Equal(2.605171084697352, answer);
+        double[] array2 = { double.MaxValue, double.MaxValue, double.MaxValue, double.MaxValue, double.MaxValue };
+        answer = ArrayMethodsLibrary.FindAverage(array2);
+        Assert.Equal(double.MaxValue, answer);
     }
 
     [Fact]

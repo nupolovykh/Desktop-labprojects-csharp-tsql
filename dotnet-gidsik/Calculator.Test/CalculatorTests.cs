@@ -31,5 +31,12 @@ namespace CalculatorTests.Test
             double answer = Calculator.Decode("1 3 +");
             Assert.Equal(4, answer);
         }
+
+        [Fact]
+        public void ErrorDecode()
+        {
+            Action action = () => { Calculator.Tests("1 0 /"); };
+            Assert.ThrowsAny<ArgumentException>(action);
+        }
     }
 }
