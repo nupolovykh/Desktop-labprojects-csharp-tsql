@@ -1,6 +1,6 @@
 ﻿namespace Interface
 {
-    public interface ILocker<T>
+    public interface ILocker<T, P>
     {
         T Value { get; set; }
         void LockEdit();

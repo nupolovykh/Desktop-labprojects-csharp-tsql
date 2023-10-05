@@ -2,10 +2,7 @@
 using Interface;
 using System.Drawing;
 
-Console.WriteLine("Hello, World!");
+//Console.WriteLine("Hello, World!");
 
-var acconut = new BankAccount<int>(500);
-
-//var collectio = new List<ILookup<T>>
-//{
-//};
+Person nik = new Person();
+nik.Password = "some";
