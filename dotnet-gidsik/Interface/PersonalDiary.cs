@@ -4,26 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Interface
+namespace Interface;
+
+public class PersonalDiary : ILocker<string, Person>
 {
-    public class PersonalDiary<T> : ILocker<T>
+    public string Value { get; set; }
+    private bool isLocked;
+
+    public void LockEdit()
     {
-        public T Value { get; set; }
-        private bool isLocked;
+        isLocked = true;
+    }
 
-        public void LockEdit()
-        {
-            isLocked = true;
-        }
+    public void LockRead()
+    {
+        isLocked = true;
+    }
 
-        public void LockRead()
-        {
-            isLocked = true;
-        }
-
-        public void UnLock()
-        {
-            isLocked = false;
-        }
+    public void UnLock()
+    {
+        isLocked = false;
     }
 }

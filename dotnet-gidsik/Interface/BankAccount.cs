@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace Interface
 {
 
-    public class BankAccount<T> : ILocker<T>
+    public class BankAccount : ILocker<decimal, Person>
     {
-        public T Value { get; set; }
+        public decimal Value { get; set; }
         private bool isLocked;
 
-        public BankAccount(T value)
+        public BankAccount(decimal value)
         {
             Value = value;
         }
