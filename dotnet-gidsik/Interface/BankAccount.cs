@@ -9,28 +9,13 @@ namespace Interface
 
     public class BankAccount : ILocker<decimal, Person>
     {
-        public decimal Value { get; set; }
-        private bool isLocked;
+        public decimal Data { get; set; }
+        public bool isLocked = true;
 
-        public BankAccount(decimal value)
-        {
-            Value = value;
-        }
+        public BankAccount(decimal amout) => Data = amout;
 
-
-        public void LockEdit()
-        {
-            isLocked = true;
-        }
-
-        public void LockRead()
-        {
-            isLocked = true;
-        }
-
-        public void UnLock()
-        {
-            isLocked = false;
-        }
+        public void LockEdit() => isLocked = true;
+        public void LockRead() => isLocked = true;
+        public void UnLock() => isLocked = false;
     }
 }

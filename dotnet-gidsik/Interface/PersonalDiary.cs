@@ -8,21 +8,10 @@ namespace Interface;
 
 public class PersonalDiary : ILocker<string, Person>
 {
-    public string Value { get; set; }
-    private bool isLocked;
+    public string Data { get; set; }
+    public bool isLocked;
 
-    public void LockEdit()
-    {
-        isLocked = true;
-    }
-
-    public void LockRead()
-    {
-        isLocked = true;
-    }
-
-    public void UnLock()
-    {
-        isLocked = false;
-    }
+    public void LockEdit() => isLocked = true;
+    public void LockRead() => isLocked = true;
+    public void UnLock() => isLocked = false;
 }
