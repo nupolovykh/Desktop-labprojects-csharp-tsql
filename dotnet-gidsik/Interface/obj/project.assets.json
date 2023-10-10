@@ -8,32 +8,24 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\PolovyhNA\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\polov\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\lab3\\Interface\\Interface.csproj",
+      "projectUniqueName": "C:\\Users\\polov\\Documents\\dotnet\\lab3\\Interface\\Interface.csproj",
       "projectName": "Interface",
-      "projectPath": "G:\\lab3\\Interface\\Interface.csproj",
-      "packagesPath": "C:\\Users\\PolovyhNA\\.nuget\\packages\\",
-      "outputPath": "G:\\lab3\\Interface\\obj\\",
+      "projectPath": "C:\\Users\\polov\\Documents\\dotnet\\lab3\\Interface\\Interface.csproj",
+      "packagesPath": "C:\\Users\\polov\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\polov\\Documents\\dotnet\\lab3\\Interface\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "\\\\iscsi\\profstud\\PolovyhNA\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\polov\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -67,7 +59,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.414\\RuntimeIdentifierGraph.json"
       }
     }
   }
