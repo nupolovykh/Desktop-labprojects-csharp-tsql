@@ -1,9 +1,8 @@
 ﻿namespace Interface
 {
-    public interface ILocker<T, P>
+    public interface ILocker<T>
     {
         T Data { get; set; }
-        P Owner { get; set; }
         void LockEdit();
         void LockRead();
         void UnLock();
