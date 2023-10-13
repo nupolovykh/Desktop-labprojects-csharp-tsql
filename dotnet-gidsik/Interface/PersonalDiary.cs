@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Interface;
 
-public class PersonalDiary : ILocker<string, Person>
+public class PersonalDiary : ILocker<string>
 {
-    public string Data { get; set; }
-    public Person Owner { get; set; }
-    public bool isLocked;
-
-    public void LockEdit() => isLocked = true;
-    public void LockRead() => isLocked = true;
-    public void UnLock() => isLocked = false;
+    public string Data {get; set;}
+    public bool isLockedR = true;
+    public bool isLockedE  = true;
+    public void LockEdit() => isLockedE = true;
+    public void LockRead() => isLockedR = true;
+    public void UnLock(){
+        isLockedE = false;
+        isLockedR = false;
+    }
 }

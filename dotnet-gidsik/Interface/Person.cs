@@ -1,36 +1,58 @@
-﻿using Interface;
+﻿
 using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Interface;
 
 public class Person
 {
+    //public Lazy<Account> account;
+    public Account Account;
     public string Password { get; }
 
-    public Collection<BankAccount> CollectionBanks = new Collection<BankAccount>();
-    public Collection<PersonalDiary> Diary = new Collection<PersonalDiary>();
-    public Person() => Password = "1";
-    public Person(string password) => Password = password;
+    Random random = new Random();
 
-    public void CreateBankAccount(decimal amount){
-        BankAccount new_ = new BankAccount();
-        new_.Data = amount;
-        new_.Owner = this;
-        CollectionBanks.Add(new_);        
+    // public Account account
+    // {
+    //     get
+    //     {
+    //         Account = new Account();
+    //         return Account;
+    //     }
+    // }
+
+    public Person()
+    {
+        Password = "1";
+        Account = new Account();
+        Account.CreateBankAccount(random.Next(1000, 5000));
+        Account.CreateNote("salary");
+
+        //account = new Lazy<Account>(() => new Account());
     }
 
-    public void CreateNote(string note){
-        PersonalDiary new_ = new PersonalDiary();
-        new_.Data = note;
-        new_.Owner = this;
-        Diary.Add(new_);        
+    public Person(string password)
+    {
+        Password = password;
+        Account = new Account();
+        Account.CreateBankAccount(random.Next(2000, 5000));
+        Account.CreateNote("salary");
+
+        //account = new Lazy<Account>(() => new Account());
     }
+
+    public void Increase(decimal amount, int index){
+        if(index >= 0 && index <= Account.CollectionBanks.Count()) Account.CollectionBanks[index].Data += amount;
+    }
+
+    public void Decrease(decimal amount, int index){
+        if(index >= 0 && index <= Account.CollectionBanks.Count()) Account.CollectionBanks[index].Data -= amount;
+    }
+
+    public void ShowBalance(){
+        foreach(var it in Account.CollectionBanks){
+            Console.WriteLine(it.Data);
+            Console.WriteLine(it.Info);
+        }
+    }
+
 }

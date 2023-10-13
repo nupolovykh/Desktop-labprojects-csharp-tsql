@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 
-Tempt.Tempt_();
+Tempt.TryCatchFinally();
 return;
 
 ////
@@ -75,9 +75,13 @@ void StatePassword(string action){
 void StateChooseUser(string action){
     if(users.ContainsKey(action)){
         choosenUser = action;
-        states.Push("choose object");
-        Console.WriteLine("personal diary");
-        Console.WriteLine("bank account \n");
+        // states.Push("choose object");
+        // Console.WriteLine("personal diary");
+        // Console.WriteLine("bank account \n");
+        Console.WriteLine("Bank accounts:");
+        foreach(var it in users[choosenUser].Account.CollectionBanks){
+            Console.WriteLine(it.Data);
+        }
     }
     else {
         Console.WriteLine("try again \n");
@@ -95,7 +99,7 @@ void StateChooseObject(string action){
 }
 
 void ActionWithObject(){
-    Console.WriteLine(users[choosenUser].Password);
+    
 }
 
 while(true){
