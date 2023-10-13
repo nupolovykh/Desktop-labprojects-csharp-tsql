@@ -9,6 +9,7 @@ namespace Interface;
 public class PersonalDiary : ILocker<string, Person>
 {
     public string Data { get; set; }
+    public Person Owner { get; set; }
     public bool isLocked;
 
     public void LockEdit() => isLocked = true;

@@ -4,6 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 
+Tempt.Tempt_();
+return;
+
+////
+
 string currentUsername = "nobody";
 string choosenUser = "nobody";
 string choosenObject = "nothing";
@@ -38,7 +43,7 @@ users.Add("anya", anya);
 Person maks = new Person();
 users.Add("maks", maks);
 
-void StateLogin(string action){                     //логика обработки состояния "логин"
+void StateLogin(string action){
     if(users.ContainsKey(action)){
         currentUsername = action;
         Console.WriteLine("enter your password for login \n");
@@ -47,7 +52,15 @@ void StateLogin(string action){                     //логика обрабо�
     else Console.WriteLine("Undefined command\n");
 }
 
-void StatePassword(string action){                  //логика обработки состояния "пароль"
+void StateEdit(){
+    choosenUser = currentUsername;
+    states.Push("choose object");
+    Console.WriteLine("chose object");
+    Console.WriteLine("personal diary");
+    Console.WriteLine("bank account \n");
+}
+
+void StatePassword(string action){
     if(users[currentUsername].Password == action){
         states.Pop();
         states.Push("logined");
@@ -59,7 +72,7 @@ void StatePassword(string action){                  //логика обрабо�
     }
 }
 
-void StateChooseUser(string action){                  //логика обработки состояния "пароль"
+void StateChooseUser(string action){
     if(users.ContainsKey(action)){
         choosenUser = action;
         states.Push("choose object");
@@ -72,7 +85,17 @@ void StateChooseUser(string action){                  //логика обраб�
 }
 
 void StateChooseObject(string action){
-    choosenObject = action;
+    if(action == "personal diary" || action == "bank account"){
+        choosenObject = action;
+        ActionWithObject();
+    }
+    else{
+        Console.WriteLine("try again \n");
+    }
+}
+
+void ActionWithObject(){
+    Console.WriteLine(users[choosenUser].Password);
 }
 
 while(true){
@@ -80,7 +103,8 @@ while(true){
     var action = Console.ReadLine();
 
     if (string.IsNullOrWhiteSpace(action)) continue;
-    if (action == "exit") {                             //логика выхода
+    else if (action == "exit") break;
+    else if (action == "q") {
         if(states.Peek() == "start") break;
         else if(priorities[states.Peek()] == 3){
             while(states.Count() != 1){
@@ -99,12 +123,16 @@ while(true){
             Console.WriteLine("enter \"show users\" for get list of users \n");
             continue;
         }
-        else if(action == "show users"){        //логика вывода информации
+        else if(action == "show users"){
             foreach(string name in users.Keys){
                 Console.WriteLine(name);
             }
             states.Push("choose user");
             Console.WriteLine("");
+            continue;
+        }
+        else if(action == "edit" && states.Peek() == "logined"){
+            StateEdit();
             continue;
         }
 
