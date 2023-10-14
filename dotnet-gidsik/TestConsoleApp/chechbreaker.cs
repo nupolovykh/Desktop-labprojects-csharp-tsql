@@ -12,29 +12,23 @@ namespace TestConsoleApp
         public static bool Check(string tempt)
         {
             char[] charArray = tempt.ToCharArray();
-            List<char> vec = new List<char>();
+            Stack<char> vec = new Stack<char>();
 
             foreach (char c in charArray)
             {
                 if (c == '{' || c == '[' || c == '(')
                 {
-                    if (c == '{') vec.Add('}');
-                    else if (c == '[') vec.Add(']');
-                    else vec.Add(')');
+                    if (c == '{') vec.Push('}');
+                    else if (c == '[') vec.Push(']');
+                    else vec.Push(')');
                 }
                 else
                 {
-                    if (vec[vec.Count - 1] != c)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        vec.RemoveAt(vec.Count - 1);
-                    }
+                    if (vec.Count() != 0) if (vec.Peek() != c) return false;
+                    else vec.Pop();
                 }
             }
-            return true;
+            return vec.Count == 0 ? true : false;
         }
     }
 }
