@@ -38,8 +38,10 @@ public static class ArrayMethodsLibrary
         double answer = 1;
         for(int i = 0; i < array.Length; i++){
             if(array[i] <= 0) throw new ArgumentException("Error");
-            answer *= array[i];
+            answer *= Math.Pow(array[i], 1.0 / array.Length);
         }
-        return Math.Pow(answer, 1.0 / array.Length);
+        return answer;
     }
+
+    
 }
