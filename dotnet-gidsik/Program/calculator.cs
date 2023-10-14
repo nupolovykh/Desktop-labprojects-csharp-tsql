@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
@@ -28,8 +29,8 @@ public class Calculator{
             else if (it == ')')
             {
                 quotes--;
-                if(prev == '*' || prev == '/' || prev == '-' || prev == '+' || quotes < 0 || figures < 2) throw new ArgumentException("Error");
-                if(quotes == 0)  figures = 0;
+                if (prev == '*' || prev == '/' || prev == '-' || prev == '+') throw new ArgumentException("Error");
+                if (quotes == 0)  figures = 0;
             }
             else if(it == '*' || it == '/' || it == '-' || it == '+') if(prev == '*' || prev == '/' || prev == '-' || prev == '+') throw new ArgumentException("Error");
             else if(quotes > 0 && char.IsDigit(it) && !char.IsDigit(prev)) figures++;
@@ -107,11 +108,13 @@ public class Calculator{
     {
         Stack<double> stack = new Stack<double>();
         string current_number = "";
+        bool one_digit = true;
 
         for (int i = 0; i < s.Length; i++)
         {
             if (s[i] == ' ')
             {
+                one_digit = false;
                 if (!string.IsNullOrEmpty(current_number))
                 {
                     stack.Push(double.Parse(current_number));
@@ -126,6 +129,7 @@ public class Calculator{
             }
             else
             {
+                one_digit = false;
                 if (s[i] == '-' && (i < s.Length - 1))
                 {
                     if (s[i + 1] != ' ')
@@ -158,6 +162,11 @@ public class Calculator{
             }
         }
 
-        return stack.Pop();
+        return one_digit ? double.Parse(current_number) : stack.Pop();
+    }
+
+    public static double CalculatorMethod(string s)
+    {
+        return Decode(Dijkstra(s));
     }
 }

@@ -8,8 +8,6 @@ namespace CalculatorTests.Test
         [InlineData("(")]
         [InlineData("(2+-2")]
         [InlineData("()")]
-        [InlineData("(1)")]
-        [InlineData("(143243)")]
         [InlineData("(1 + 3)")]
         [InlineData("(1+(0-3))-")]
         [InlineData("-(1+(0-3))")]
@@ -21,6 +19,7 @@ namespace CalculatorTests.Test
         }
 
         [Theory]
+        [InlineData("1", "1")]
         [InlineData("1 3 +", "1+3")]
         public void RightExpressionDijkstra(string expected, string input) {
             string answer = Calculator.Dijkstra(input);
