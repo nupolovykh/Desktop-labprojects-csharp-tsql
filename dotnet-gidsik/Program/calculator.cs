@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-public class Calculator{
+public static class Calculator{
 
     public static void Tests(string s){
         if (s.Length < 3) throw new ArgumentException("Error");
@@ -165,8 +166,8 @@ public class Calculator{
         return one_digit ? double.Parse(current_number) : stack.Pop();
     }
 
-    public static double CalculatorMethod(string s)
+    public static double CalculatorMethod(string expression)
     {
-        return Decode(Dijkstra(s));
+        return Decode(Dijkstra(expression));
     }
 }
