@@ -24,7 +24,9 @@ namespace TestConsoleApp
                 }
                 else
                 {
-                    if (vec.Count() != 0) if (vec.Peek() != c) return false;
+                    if (vec.Count() == 0) return false;
+
+                    if (vec.Peek() != c) return false;
                     else vec.Pop();
                 }
             }
