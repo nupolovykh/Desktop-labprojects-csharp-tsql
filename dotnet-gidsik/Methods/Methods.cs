@@ -26,11 +26,12 @@ public static class ArrayMethodsLibrary
 
     public static double FindMedian(double[] array){
         if (array == null || array.Length == 0) throw new ArgumentException("Error");
-        double[] sort_array = array;
-        Array.Sort(sort_array);
+        double[] sorted_array = new double[array.Length];
+        for(int i = 0; i < array.Length; i++) sorted_array[i] = array[i];
+        Array.Sort(sorted_array);
         int middleIndex = array.Length / 2;
-        if (array.Length % 2 == 0) return (array[middleIndex - 1] + array[middleIndex]) / 2;
-        else return array[middleIndex];
+        if (array.Length % 2 == 0) return (sorted_array[middleIndex - 1] + sorted_array[middleIndex]) / 2;
+        else return sorted_array[middleIndex];
     }
 
     public static double FindGeometricAverage(double[] array){
