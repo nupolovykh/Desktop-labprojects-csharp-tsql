@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Xml.Linq;
+using System.Drawing;
 
-namespace lab4
+namespace Main
 {
     public static class TxtToJson
     {
-        public static void PeopleTxtToJson(string inputFilePath, string outputFilePath)
+        public static List<Person> PeopleTxtToJson(string inputFilePath, string outputFilePath)
         {
             using FileStream stream = new FileStream(inputFilePath, FileMode.Open);
             StreamReader reader = new StreamReader(stream);
@@ -33,13 +34,9 @@ namespace lab4
 
             FileStream stream1 = new FileStream(outputFilePath, FileMode.Create);
             JsonSerializer.Serialize(stream1, people, new JsonSerializerOptions() { WriteIndented = true });
-
             stream1.Close();
 
-
-            //string jsonString = JsonSerializer.Serialize(people);
-            //TextWriter writer = new TextWriter(stream1);
-
+            return people;
         }
     }
 }
