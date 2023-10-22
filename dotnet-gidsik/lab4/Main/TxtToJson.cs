@@ -22,12 +22,12 @@ namespace Main
             {
                 var p = new Person
                 {
-                    Id = Guid.Parse(reader.ReadLine()),
-                    Name = reader.ReadLine(),
-                    SurName = reader.ReadLine(),
-                    Age = int.Parse(reader.ReadLine()),
-                    Birthday = DateTime.Parse(reader.ReadLine()),
-                    IsAdmin = bool.Parse(reader.ReadLine()),
+                    Id = Guid.Parse(reader.ReadLine()!),
+                    Name = reader.ReadLine()!,
+                    SurName = reader.ReadLine()!,
+                    Age = int.Parse(reader.ReadLine()!),
+                    Birthday = DateTime.Parse(reader.ReadLine()!),
+                    IsAdmin = bool.Parse(reader.ReadLine()!),
                 };
                 people.Add(p);
             }
