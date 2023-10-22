@@ -3,13 +3,13 @@ using System.Text.Json;
 namespace UnitTests;
 using Main;
 
-public class UnitTest
+public class UnitTestFirst
 {
     [Fact]
     public void TestTxtToJson()
     {
-        string pathToInput = @"..\..\..\..\InputData.txt";  //@"..\..\..\..\InputData.txt"; || @"..\InputData.txt";
-        string pathToOutput = @"..\..\..\..\People.json";   //@"..\..\..\..\People.json"; || @"..\People.json";
+        string pathToInput = @"..\..\..\..\InputData.txt";
+        string pathToOutput = @"..\..\..\..\People.json";   
 
         List<Person> txtPeople = TxtToJson.PeopleTxtToJson(pathToInput, pathToOutput);
         string jsonString = File.ReadAllText(pathToOutput);
@@ -21,6 +21,6 @@ public class UnitTest
                 break;
         }
         Assert.Equal(true, true);
-    }
+    } 
     
 }

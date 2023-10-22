@@ -3,22 +3,9 @@ using System.Text.Json;
 
 namespace Main
 {
-    public static class Birthdays
+    public class Birthdays
     {
-        public static void CreateBirthdayFile(string input, string output){
-            using StreamReader reader = new StreamReader(input);
-            string jsonStr = reader.ReadToEnd();
-
-            List<Person> people = JsonSerializer.Deserialize<List<Person>>(jsonStr)!;
-
-            //List<Person> birthDaySort = new List<Person>(people);
-            foreach (var person in people){
-                DateTime fixtionBirthday = person.Birthday.AddYears(1000 - person.Birthday.Year);
-                person.Birthday = fixtionBirthday;
-            }
-            QSort(people, 0 , people.Count - 1);
-
-            Dictionary<int, string> mounth = new Dictionary<int, string>(){
+        public Dictionary<int, string> mounth = new Dictionary<int, string>(){
                 {1, "Января"},
                 {2, "Февраля"},
                 {3, "Марта"},
@@ -32,23 +19,40 @@ namespace Main
                 {11, "Ноября"},
                 {12, "Декабря"}
             };
+        
+        public static List<Person> CreateBirthdayFile(string input, string output){
+            using StreamReader reader = new StreamReader(input);
+            string jsonStr = reader.ReadToEnd();
+
+            List<Person> people = JsonSerializer.Deserialize<List<Person>>(jsonStr)!;
+
+            //List<Person> birthDaySort = new List<Person>(people);
+            foreach (var person in people){
+                DateTime fixtionBirthday = person.Birthday.AddYears(1000 - person.Birthday.Year);
+                person.Birthday = fixtionBirthday;
+            }
+            QSort(people, 0 , people.Count - 1);
             
             using FileStream stream = new FileStream(output, FileMode.Create);
-            StreamWriter writer = new StreamWriter(stream);
+            using StreamWriter writer = new StreamWriter(stream);
 
             DateTime currentTime = DateTime.Now;
+            //currentTime = currentTime.AddMonths(-7);
+
             foreach (var person in people)
             {
                 DateTime currentBirthday = person.Birthday.AddYears(currentTime.Year - person.Birthday.Year);
                 person.Birthday = currentBirthday;
                 //Console.WriteLine(person.Birthday);
 
+                Birthdays birthdays = new Birthdays();
+
                 if(currentBirthday > currentTime){
-                    writer.WriteLine($"{person.Birthday.Day} {mounth[person.Birthday.Month]}: {person.Name} {person.SurName} - исполнится {person.Age + 1}");
+                    writer.WriteLine($"{person.Birthday.Day} {birthdays.mounth[person.Birthday.Month]}: {person.Name} {person.SurName} - исполнится {person.Age + 1}");
                 }
-                else writer.WriteLine($"{person.Birthday.Day} {mounth[person.Birthday.Month]}: {person.Name} {person.SurName} - исполнится {person.Age}");
+                else writer.WriteLine($"{person.Birthday.Day} {birthdays.mounth[person.Birthday.Month]}: {person.Name} {person.SurName} - исполнится {person.Age}");
             }
-            writer.Dispose();
+            return people;
         }
 
         private static void QSort(List<Person> people, int start, int end)
