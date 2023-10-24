@@ -4,10 +4,10 @@ using Main;
 //#1 task
 
 // #dotnet run# use different start for finding path
-//@"..\..\..\..\InputData.txt"
-//@"..\..\..\..\People.json"
-//@"..\..\..\..\OfficeBirthdays.txt"
-//@"..\..\..\..\People.bin"
+//@"..\..\..\..\InputData.txt"          //@"..\People.json"
+//@"..\..\..\..\People.json"            //@"..\People.json"
+//@"..\..\..\..\OfficeBirthdays.txt"    //@"..\OfficeBirthdays.txt"
+//@"..\..\..\..\People.bin"             //@"..\People.bin"
 
 
 // string pathToInput = @"..\InputData.txt";
@@ -24,4 +24,5 @@ using Main;
 
 string pathToInput = @"..\People.json";
 string pathToOutput = @"..\People.bin";
-//PersonBinarySerializer.PeopleTxtToJson(pathToInput, pathToOutput);
+List<Person> people = PersonBinarySerializer.Deserialize(pathToInput);
+PersonBinarySerializer.Serialize(pathToOutput, people);
