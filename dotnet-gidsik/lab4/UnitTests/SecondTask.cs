@@ -56,7 +56,7 @@ public class UnitTestSecond
             if(!answer) break;
             indexOfPeople++;
         }
-        Assert.Equal(true, answer);
+        Assert.Equal(true!, answer);
     }
 
     [Theory]

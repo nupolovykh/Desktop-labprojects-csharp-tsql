@@ -68,7 +68,19 @@ namespace Main
                     writer.Write(person.Name!);
                     writer.Write("Surname:");
                     writer.Write(person.SurName!);
+                    writer.Write("Age:");
+                    writer.Write(person.Age);
                     writer.Write("Birthday:");
+                    // {
+                    //     writer.Write(person.Birthday.Year);
+                    //     writer.Write(person.Birthday.Month);
+                    //     writer.Write(person.Birthday.Day);
+                    //     writer.Write(person.Birthday.Hour);
+                    //     writer.Write(person.Birthday.Minute);
+                    //     writer.Write(person.Birthday.Second);
+                    //     writer.Write(person.Birthday.Millisecond);
+                    //     writer.Write((int)person.Birthday.Kind);
+                    // }
                     writer.Write(person.Birthday.ToString());
                     writer.Write("IsAdmin:");
                     writer.Write(person.IsAdmin!);
