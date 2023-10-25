@@ -24,5 +24,7 @@ using Main;
 
 string pathToInput = @"..\People.json";
 string pathToOutput = @"..\People.bin";
+// string pathToInput = @"..\..\..\..\People.json";
+// string pathToOutput = @"..\..\..\..\People.bin";
 List<Person> people = PersonBinarySerializer.Deserialize(pathToInput);
 PersonBinarySerializer.Serialize(pathToOutput, people);
