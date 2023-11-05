@@ -3,10 +3,7 @@ using System;
 using System.Threading;
 
 
-//SimpleThreadsExample.SyncingThreadsExample_Synced();
-
-
-//SimpleThreadsExample.SyncingThreadsExample_Synced();
+//SimpleThreadsExamples.SyncingThreadsExample_Synced();
 
 
 AdvancedThreadsExample threadsExample = new AdvancedThreadsExample();
