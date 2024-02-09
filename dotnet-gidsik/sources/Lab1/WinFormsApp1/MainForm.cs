@@ -12,13 +12,18 @@ namespace WinFormsApp1
 {
     public partial class MainForm : Form
     {
-        private List<PersonRecordUserControl> list = new List<PersonRecordUserControl>();
-
         [Category("Counter")]
         public int _AmountOfEntries
         {
             get => int.Parse(AmountOfEntries.Text);
             set => AmountOfEntries.Text = value.ToString();
+        }
+
+        [Category("Counter")]
+        public int _SumOfAges
+        {
+            get => int.Parse(SumOfAges.Text);
+            set => SumOfAges.Text = value.ToString();
         }
 
         public MainForm()
@@ -34,7 +39,6 @@ namespace WinFormsApp1
             newControl.DeleteClicked += Subtract_Event!;
 
             dataStorage.Controls.Add(newControl);
-            list.Add(newControl);
 
             _AmountOfEntries++;
             //Recalculate();
@@ -54,15 +58,11 @@ namespace WinFormsApp1
 
         private void Recalculate()
         {
-            int sum = 0;
-            foreach (var userControl in list)
+            _SumOfAges = 0;
+            foreach (PersonRecordUserControl ctrl in this.dataStorage.Controls)
             {
-                if(userControl.Age != null)
-                {
-                    sum += userControl.Age;
-                }
+                _SumOfAges += ctrl.Age;
             }
-            SumOfAges.Text = sum.ToString();
         }
     }
 }

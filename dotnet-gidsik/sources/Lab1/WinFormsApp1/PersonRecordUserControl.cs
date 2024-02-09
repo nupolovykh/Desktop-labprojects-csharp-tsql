@@ -48,7 +48,7 @@ namespace WinFormsApp1
                 txtBoxAge.Text = dialogForm.newUser.Age.ToString();
             }
             Age = int.Parse(txtBoxAge.Text);
-            
+
             EditClicked?.Invoke(this, EventArgs.Empty);
         }
 
