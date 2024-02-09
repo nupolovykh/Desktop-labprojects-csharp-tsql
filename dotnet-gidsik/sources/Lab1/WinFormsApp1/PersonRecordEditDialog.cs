@@ -35,12 +35,18 @@ namespace WinFormsApp1
 
         private void btnSaving_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
+            if (int.TryParse(txtBoxEditId.Text, out int idResult) && int.TryParse(txtBoxEditAge.Text, out int ageResult))
+            {
+                newUser = new UserData(idResult, txtBoxEditName.Text,
+                txtBoxEditLN.Text, txtBoxEditSN.Text, ageResult);
+                DialogResult = DialogResult.OK;
 
-            newUser = new UserData(int.Parse(txtBoxEditId.Text), txtBoxEditName.Text,
-                txtBoxEditLN.Text, txtBoxEditSN.Text, int.Parse(txtBoxEditAge.Text));
-
-            this.Close();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("пОпРоБУй ЗАноВа");
+            }
         }
     }
 }
