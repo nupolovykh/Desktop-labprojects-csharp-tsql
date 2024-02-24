@@ -31,7 +31,6 @@ namespace Lab2
                 {
                     _worker.Registration(login, password);
                     _worker.Entrance(login, password);
-
                     this.DialogResult = DialogResult.OK;
                 }
                 else this.DialogResult = DialogResult.Cancel;
