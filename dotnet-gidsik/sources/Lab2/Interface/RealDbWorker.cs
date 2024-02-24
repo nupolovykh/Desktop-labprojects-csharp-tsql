@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Lab2
     public class RealDbWorker : IDbWorker
     {
         private AppDbContext _appDbContext;
+        private static int id = 2;
 
         public RealDbWorker(AppDbContext appDbContext)
         {
@@ -16,20 +18,23 @@ namespace Lab2
         }
 
         public bool Entrance(string login, string password)
-        {
-            MessageBox.Show("entrance");
-            return false;
+        { 
+            var condition = _appDbContext.Users
+                .Where(u => u.Login == login && u.Password == password).Any();
+            return condition;
         }
 
         public void Registration(string login, string password)
         {
-            MessageBox.Show("registration");
+            _appDbContext.Users.Add(new User {Id = id++, Login = login, Password = password });
+            _appDbContext.SaveChanges();
         }
 
         public bool Validation(string login)
         {
-            MessageBox.Show("validation passed");
-            return false;
+            var condition = _appDbContext.Users
+                .Where(u => u.Login == login).Any();
+            return !condition;
         }
     }
 }
