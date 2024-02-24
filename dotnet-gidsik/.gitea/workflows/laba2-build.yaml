@@ -32,7 +32,7 @@ jobs:
           username: ci-nsu-uploader
           password: ***REDACTED-ROTATE-THIS-CREDENTIAL***
           server-dir: ${{ gitea.repository }}/${{ gitea.ref }}/
-          local-dir: "${{ gitea.workspace }}/sources/Lab2"
+          local-dir: "${{ gitea.workspace }}/sources/Lab2/"
 
       - name: status
         run: echo "🍏 This job's status is ${{ job.status }}."
