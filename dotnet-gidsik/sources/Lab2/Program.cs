@@ -19,11 +19,11 @@ namespace Lab2
             services.AddTransient<LoginDialog>();
             services.AddTransient<RegisterDialog>();
 
-            services.AddScoped<IDbWorker, ListDbWorker>();
+            services.AddScoped<IDbWorker, RealDbWorker>();
+
+            services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=./app.db"));
 
             _serviceProvider = services.BuildServiceProvider();
-
-            //services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=./app.db"));
 
             // To customize application configuration such as set high DPI settings or default font,
 

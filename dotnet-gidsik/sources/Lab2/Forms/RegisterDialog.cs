@@ -24,7 +24,7 @@ namespace Lab2
         {
             string login = txtBxLg.Text, password = txtBxPswd.Text, repeat_password = txtBxRPswd.Text;
 
-            if (!_worker.Validation(login))
+            if (_worker.Validation(login))
             {
 
                 if (password == repeat_password)
