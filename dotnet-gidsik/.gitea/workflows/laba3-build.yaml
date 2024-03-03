@@ -1,0 +1,38 @@
+name: Build & Upload dotnet app
+run-name: ${{ gitea.actor }} dotnet workflow
+on: [push]
+
+jobs:
+  Build:
+    runs-on: dotnet-sdk
+    steps:
+      - name: echo info
+        run: |
+          echo "💡 The ${{ gitea.repository }} repository has been cloned to the runner." 
+          echo "🐧 This job is now running on a ${{ runner.os }} server hosted by Gitea!" 
+          echo "🔎 The name of your branch is ${{ gitea.ref }} and your repository is ${{ gitea.repository }}."           
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: List files in the repository
+        run: |
+          tree -a -I .git -I obj -I bin          
+
+      - name: build apps
+        run: dotnet build ${{ gitea.workspace }}/sources/Lab3/Lab3.sln -c Release
+
+      - name: publish apps
+        run: dotnet publish --os win -a x64 -c Release -o "${{ gitea.workspace }}/publish/Lab3" "${{ gitea.workspace }}/sources/Lab3/Lab3.csproj" 
+
+      - name: deploy apps
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ftp.gidsik-dev.ru
+          username: ci-nsu-uploader
+          password: f92055f16d062d13880246f720a9dbdf270f605892ee71b57b4a02bf1bce91aa
+          server-dir: ${{ gitea.repository }}/${{ gitea.ref }}/
+          local-dir: "${{ gitea.workspace }}/publish/Lab3/"
+
+      - name: status
+        run: echo "🍏 This job's status is ${{ job.status }}."
