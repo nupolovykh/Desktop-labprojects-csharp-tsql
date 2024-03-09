@@ -62,6 +62,7 @@
             btn_somethg1.TabIndex = 2;
             btn_somethg1.Text = "products custom";
             btn_somethg1.UseVisualStyleBackColor = true;
+            btn_somethg1.Click += btn_somethg1_Click;
             // 
             // btn_somethng2
             // 
@@ -71,6 +72,7 @@
             btn_somethng2.TabIndex = 3;
             btn_somethng2.Text = "materials custom";
             btn_somethng2.UseVisualStyleBackColor = true;
+            btn_somethng2.Click += btn_somethng2_Click;
             // 
             // Main
             // 

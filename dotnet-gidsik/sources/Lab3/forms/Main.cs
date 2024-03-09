@@ -1,3 +1,4 @@
+using Lab3.forms;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Lab3
@@ -23,6 +24,18 @@ namespace Lab3
         {
             MaterialForm materialForm = _serviceProvider.GetService<MaterialForm>()!;
             materialForm.ShowDialog();
+        }
+
+        private void btn_somethg1_Click(object sender, EventArgs e)
+        {
+            CustomProductForm customProductForm = _serviceProvider.GetService<CustomProductForm>()!;
+            customProductForm.ShowDialog();
+        }
+
+        private void btn_somethng2_Click(object sender, EventArgs e)
+        {
+            CustomMaterialForm customMaterialForm = _serviceProvider.GetService<CustomMaterialForm>()!;
+            customMaterialForm.ShowDialog();
         }
     }
 }
