@@ -19,7 +19,7 @@ namespace Lab3
             InitializeComponent();
 
             _db = db;
-            dataGridView.DataSource = _db.Products;
+            dataGridView.DataSource = _db.Materials;
         }
 
         private void btn_save_Click(object sender, EventArgs e)
