@@ -1,4 +1,6 @@
+using Lab3.customControls;
 using Lab3.database;
+using Lab3.forms;
 using Lab3.Services.Implementations;
 using Lab3.Services.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +26,10 @@ namespace Lab3
             services.AddTransient<Main>();
             services.AddTransient<MaterialForm>();
             services.AddTransient<ProductForm>();
+            services.AddTransient<CustomMaterialForm>();
+            services.AddTransient<CustomProductForm>();
+            //services.AddTransient<MaterialView>();
+            //services.AddTransient<ProductView>();
 
             services.AddScoped<IDbWorker, DbWorker>();
 
