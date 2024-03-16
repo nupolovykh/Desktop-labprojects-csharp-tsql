@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
+﻿
 namespace application_win_form_db
 {
     public partial class Main : Form
     {
-        public Main()
-        {
-            InitializeComponent();
-        }
-    }
+		private IServiceProvider _serviceProvider;
+		private IDbWorker _worker;
+
+		public Main(IServiceProvider serviceProvider, IDbWorker worker)
+		{
+			InitializeComponent();
+			_serviceProvider = serviceProvider;
+			_worker = worker;
+
+			
+
+		}
+	}
 }
