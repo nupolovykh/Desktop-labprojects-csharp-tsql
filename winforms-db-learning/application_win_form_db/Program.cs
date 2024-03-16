@@ -1,4 +1,6 @@
 using application_win_form_db.Models;
+using application_win_form_db.Services.Implementations;
+using application_win_form_db.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,7 +27,7 @@ namespace application_win_form_db
 			_serviceProvider = services.BuildServiceProvider();
 
 			ApplicationConfiguration.Initialize();
-			Application.Run(new Analytics());
+			Application.Run(_serviceProvider.GetService<Entrance>());
 		}
     }
 
@@ -47,7 +49,8 @@ namespace application_win_form_db
 
 		private static void AddServices(this ServiceCollection services)
 		{
-			services.AddDbContext<_107g2_PolovykhNA2Context>();
+			services.AddDbContext<AppDbContext>();
+            services.AddScoped<IDbWorker, RealDbWorker>();
 		}
 	}
 }

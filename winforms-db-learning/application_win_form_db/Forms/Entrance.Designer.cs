@@ -30,8 +30,8 @@
 		{
 			btn_entrance = new Button();
 			txtBx_db = new TextBox();
-			textBox1 = new TextBox();
-			textBox2 = new TextBox();
+			txtBx_login = new TextBox();
+			txtBx_password = new TextBox();
 			lbl_desc_1 = new Label();
 			label1 = new Label();
 			label2 = new Label();
@@ -47,6 +47,7 @@
 			btn_entrance.TabIndex = 0;
 			btn_entrance.Text = "Enter";
 			btn_entrance.UseVisualStyleBackColor = true;
+			btn_entrance.Click += btn_entrance_Click;
 			// 
 			// txtBx_db
 			// 
@@ -54,26 +55,27 @@
 			txtBx_db.Location = new Point(164, 73);
 			txtBx_db.Margin = new Padding(3, 2, 3, 2);
 			txtBx_db.Name = "txtBx_db";
+			txtBx_db.ReadOnly = true;
 			txtBx_db.Size = new Size(335, 32);
 			txtBx_db.TabIndex = 1;
 			// 
-			// textBox1
+			// txtBx_login
 			// 
-			textBox1.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
-			textBox1.Location = new Point(164, 148);
-			textBox1.Margin = new Padding(3, 2, 3, 2);
-			textBox1.Name = "textBox1";
-			textBox1.Size = new Size(335, 32);
-			textBox1.TabIndex = 2;
+			txtBx_login.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+			txtBx_login.Location = new Point(164, 148);
+			txtBx_login.Margin = new Padding(3, 2, 3, 2);
+			txtBx_login.Name = "txtBx_login";
+			txtBx_login.Size = new Size(335, 32);
+			txtBx_login.TabIndex = 2;
 			// 
-			// textBox2
+			// txtBx_password
 			// 
-			textBox2.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
-			textBox2.Location = new Point(164, 223);
-			textBox2.Margin = new Padding(3, 2, 3, 2);
-			textBox2.Name = "textBox2";
-			textBox2.Size = new Size(335, 32);
-			textBox2.TabIndex = 3;
+			txtBx_password.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+			txtBx_password.Location = new Point(164, 223);
+			txtBx_password.Margin = new Padding(3, 2, 3, 2);
+			txtBx_password.Name = "txtBx_password";
+			txtBx_password.Size = new Size(335, 32);
+			txtBx_password.TabIndex = 3;
 			// 
 			// lbl_desc_1
 			// 
@@ -113,8 +115,8 @@
 			Controls.Add(label2);
 			Controls.Add(label1);
 			Controls.Add(lbl_desc_1);
-			Controls.Add(textBox2);
-			Controls.Add(textBox1);
+			Controls.Add(txtBx_password);
+			Controls.Add(txtBx_login);
 			Controls.Add(txtBx_db);
 			Controls.Add(btn_entrance);
 			Margin = new Padding(3, 2, 3, 2);
@@ -128,8 +130,8 @@
 
 		private Button btn_entrance;
         private TextBox txtBx_db;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private TextBox txtBx_login;
+        private TextBox txtBx_password;
         private Label lbl_desc_1;
         private Label label1;
         private Label label2;
