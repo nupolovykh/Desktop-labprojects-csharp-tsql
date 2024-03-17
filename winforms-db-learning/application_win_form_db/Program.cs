@@ -26,6 +26,8 @@ namespace application_win_form_db
 
 			_serviceProvider = services.BuildServiceProvider();
 
+            //using (var db = new AppDbContext()) { };  ///????
+
 			ApplicationConfiguration.Initialize();
 			Application.Run(_serviceProvider.GetService<Entrance>());
 		}
@@ -51,6 +53,7 @@ namespace application_win_form_db
 		{
 			services.AddDbContext<AppDbContext>();
             services.AddScoped<IDbWorker, RealDbWorker>();
+			services.AddSingleton<IUserIdentity, UserIdentity>(); ///????
 		}
 	}
 }

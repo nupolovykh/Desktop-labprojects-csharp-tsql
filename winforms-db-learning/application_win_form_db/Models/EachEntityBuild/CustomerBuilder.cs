@@ -9,7 +9,7 @@ namespace application_win_form_db.Models.EachEntityBuild
 			{
 				entity.Property(e => e.CustomerId)
 					.ValueGeneratedNever()
-					.HasColumnName("customer_id ");
+					.HasColumnName("customer_id");
 
 				entity.Property(e => e.Address)
 					.HasMaxLength(100)

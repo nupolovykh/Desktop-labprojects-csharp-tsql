@@ -1,13 +1,4 @@
-﻿using application_win_form_db.Models;
-using application_win_form_db.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace application_win_form_db.Services.Implementations
 {
 	internal class RealDbWorker : IDbWorker

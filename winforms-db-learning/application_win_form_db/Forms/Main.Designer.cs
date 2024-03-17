@@ -29,19 +29,18 @@
 		private void InitializeComponent()
 		{
 			btn_anlytc = new Button();
-			btn_scient = new Button();
-			btn_read_db = new Button();
 			btn_crud_db = new Button();
 			lbl_role1 = new Label();
 			lbl_role2 = new Label();
 			listBox_notes = new ListBox();
 			lbl_notes = new Label();
+			btn_logOut = new Button();
 			SuspendLayout();
 			// 
 			// btn_anlytc
 			// 
 			btn_anlytc.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_anlytc.Location = new Point(26, 69);
+			btn_anlytc.Location = new Point(26, 138);
 			btn_anlytc.Margin = new Padding(3, 2, 3, 2);
 			btn_anlytc.Name = "btn_anlytc";
 			btn_anlytc.Size = new Size(175, 56);
@@ -49,38 +48,17 @@
 			btn_anlytc.Text = "Analytics Page";
 			btn_anlytc.UseVisualStyleBackColor = true;
 			// 
-			// btn_scient
-			// 
-			btn_scient.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_scient.Location = new Point(26, 144);
-			btn_scient.Margin = new Padding(3, 2, 3, 2);
-			btn_scient.Name = "btn_scient";
-			btn_scient.Size = new Size(175, 56);
-			btn_scient.TabIndex = 4;
-			btn_scient.Text = "Scientist Page";
-			btn_scient.UseVisualStyleBackColor = true;
-			// 
-			// btn_read_db
-			// 
-			btn_read_db.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_read_db.Location = new Point(26, 219);
-			btn_read_db.Margin = new Padding(3, 2, 3, 2);
-			btn_read_db.Name = "btn_read_db";
-			btn_read_db.Size = new Size(175, 56);
-			btn_read_db.TabIndex = 5;
-			btn_read_db.Text = "Read-db Page";
-			btn_read_db.UseVisualStyleBackColor = true;
-			// 
 			// btn_crud_db
 			// 
 			btn_crud_db.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_crud_db.Location = new Point(26, 294);
+			btn_crud_db.Location = new Point(26, 69);
 			btn_crud_db.Margin = new Padding(3, 2, 3, 2);
 			btn_crud_db.Name = "btn_crud_db";
 			btn_crud_db.Size = new Size(175, 56);
 			btn_crud_db.TabIndex = 6;
 			btn_crud_db.Text = "CRUD-db Page";
 			btn_crud_db.UseVisualStyleBackColor = true;
+			btn_crud_db.Click += btn_crud_db_Click;
 			// 
 			// lbl_role1
 			// 
@@ -123,18 +101,29 @@
 			lbl_notes.TabIndex = 10;
 			lbl_notes.Text = "Your own notes";
 			// 
+			// btn_logOut
+			// 
+			btn_logOut.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			btn_logOut.Location = new Point(26, 521);
+			btn_logOut.Margin = new Padding(3, 2, 3, 2);
+			btn_logOut.Name = "btn_logOut";
+			btn_logOut.Size = new Size(175, 56);
+			btn_logOut.TabIndex = 11;
+			btn_logOut.Text = "Log Out";
+			btn_logOut.UseVisualStyleBackColor = true;
+			btn_logOut.Click += btn_logOut_Click;
+			// 
 			// Main
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(1108, 598);
+			Controls.Add(btn_logOut);
 			Controls.Add(lbl_notes);
 			Controls.Add(listBox_notes);
 			Controls.Add(lbl_role2);
 			Controls.Add(lbl_role1);
 			Controls.Add(btn_crud_db);
-			Controls.Add(btn_read_db);
-			Controls.Add(btn_scient);
 			Controls.Add(btn_anlytc);
 			Margin = new Padding(3, 2, 3, 2);
 			Name = "Main";
@@ -146,12 +135,11 @@
 		#endregion
 
 		private Button btn_anlytc;
-        private Button btn_scient;
-        private Button btn_read_db;
         private Button btn_crud_db;
         private Label lbl_role1;
         private Label lbl_role2;
         private ListBox listBox_notes;
         private Label lbl_notes;
-    }
+		private Button btn_logOut;
+	}
 }
