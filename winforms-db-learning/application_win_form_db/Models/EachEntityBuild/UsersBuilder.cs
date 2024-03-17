@@ -25,13 +25,17 @@ namespace application_win_form_db.Models.EachEntityBuild
 				entity.Property(e => e.Role)
 					.HasMaxLength(50)
 					.HasColumnName("role");
+
+				entity.Property(e => e.Notes)
+					.HasMaxLength(1000)
+					.HasColumnName("notes");
 			});
 
 			modelBuilder.Entity<User>().HasData(
-				new User { UserId = 1, Login = "admin_user", Password = "admin@123", Role = "Admin" },
-				new User { UserId = 2, Login = "geologist_user", Password = "geo@456", Role = "Geologist" },
-				new User { UserId = 3, Login = "archaeologist_user", Password = "arch@789", Role = "Archaeologist" },
-				new User { UserId = 4, Login = "environmentalist_user", Password = "enviro@321", Role = "Environmentalist" }
+				new User { UserId = 1, Login = "admin", Password = "123", Role = "Admin", Notes="Edit yout Notes" },
+				new User { UserId = 2, Login = "analyst", Password = "456", Role = "Analyst", Notes = "Edit yout Notes" },
+				new User { UserId = 3, Login = "application_operator", Password = "789", Role = "Application Operator", Notes = "Edit yout Notes" },
+				new User { UserId = 4, Login = "survey_operator", Password = "910", Role = "Survey Operator", Notes = "Edit yout Notes" }
 			);
 		}
 	}

@@ -9,7 +9,8 @@ namespace application_win_form_db.Models
         public string? Login { get; set; }
         public string? Password { get; set; }
         public string? Role { get; set; }
+		public string? Notes { get; set; }
 
-        public virtual Operator? Operator { get; set; }
+		public virtual Operator? Operator { get; set; }
     }
 }

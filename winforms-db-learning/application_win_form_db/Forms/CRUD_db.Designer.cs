@@ -63,6 +63,7 @@
 			cmbBx_tables.Name = "cmbBx_tables";
 			cmbBx_tables.Size = new Size(175, 29);
 			cmbBx_tables.TabIndex = 9;
+			cmbBx_tables.SelectedValueChanged += cmbBx_tables_SelectedValueChanged;
 			// 
 			// dgv
 			// 
