@@ -5,7 +5,7 @@ namespace application_win_form_db.Models
 	{
 		public AppDbContext()
 		{
-			//Database.EnsureDeleted();
+			Database.EnsureDeleted();
 			Database.EnsureCreated();
 		}
 
