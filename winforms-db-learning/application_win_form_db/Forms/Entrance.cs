@@ -20,6 +20,10 @@ namespace application_win_form_db
 				.Database.GetDbConnection().Database;
 		}
 
+		//main logic
+
+		// logic of those buttons
+
 		private void btn_entrance_Click(object sender, EventArgs e)
 		{
 			if(txtBx_login.Text != "" && txtBx_login.Text != "") 
@@ -27,15 +31,20 @@ namespace application_win_form_db
 				var current = _worker.Users.
 					Where(u => u.Login == txtBx_login.Text && u.Password == txtBx_password.Text).FirstOrDefault()!;
 
-				if(current != null) 
+				if (current != null)
 				{
 					_identity.Login(current);
-					var main = _serviceProvider.GetService<Main>();
 
+					var main = _serviceProvider.GetService<Main>();
 					main!.Show();
+
 					this.Hide();
 				}
+
+				else MessageBox.Show("Retry input the info");
 			}
 		}
+
+		//another logic of the form
 	}
 }

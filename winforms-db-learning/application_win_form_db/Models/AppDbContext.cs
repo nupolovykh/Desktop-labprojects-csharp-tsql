@@ -1,4 +1,6 @@
 ﻿
+using application_win_form_db.Services;
+
 namespace application_win_form_db.Models
 {
 	public partial class AppDbContext : DbContext
@@ -7,6 +9,9 @@ namespace application_win_form_db.Models
 		{
 			Database.EnsureDeleted();
 			Database.EnsureCreated();
+
+			DatabaseInspector inspector = new(this);
+			inspector.InspectDatabase();
 		}
 
 		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)	{}
@@ -27,10 +32,10 @@ namespace application_win_form_db.Models
 			if (!optionsBuilder.IsConfigured)
 			{
                 //home data source
-                //optionsBuilder.UseSqlServer("Server=.\\;Database=107g2_PolovykhNA2;Trusted_Connection=True;TrustServerCertificate=true;");
+                optionsBuilder.UseSqlServer("Server=.\\;Database=107g2_PolovykhNA2;Trusted_Connection=True;TrustServerCertificate=true;");
 
                 //college data source
-                optionsBuilder.UseSqlServer("Server=DBSRV\\AG2022;Initial Catalog=107g2_PolovykhNA2;Integrated Security=True");
+                //optionsBuilder.UseSqlServer("Server=DBSRV\\AG2022;Initial Catalog=107g2_PolovykhNA2;Integrated Security=True");
 			}
 		}
 

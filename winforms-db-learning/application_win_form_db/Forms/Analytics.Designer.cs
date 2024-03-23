@@ -44,7 +44,7 @@
 			// 
 			// btn_retrn
 			// 
-			btn_retrn.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+			btn_retrn.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
 			btn_retrn.Location = new Point(921, 546);
 			btn_retrn.Margin = new Padding(3, 2, 3, 2);
 			btn_retrn.Name = "btn_retrn";
@@ -52,24 +52,25 @@
 			btn_retrn.TabIndex = 2;
 			btn_retrn.Text = "Return to Main";
 			btn_retrn.UseVisualStyleBackColor = true;
+			btn_retrn.Click += btn_retrn_Click;
 			// 
 			// cmbBx_date
 			// 
-			cmbBx_date.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			cmbBx_date.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
 			cmbBx_date.FormattingEnabled = true;
-			cmbBx_date.Location = new Point(197, 554);
+			cmbBx_date.Location = new Point(199, 553);
 			cmbBx_date.Margin = new Padding(3, 2, 3, 2);
 			cmbBx_date.Name = "cmbBx_date";
-			cmbBx_date.Size = new Size(148, 29);
+			cmbBx_date.Size = new Size(148, 27);
 			cmbBx_date.TabIndex = 3;
 			// 
 			// lbl_choose
 			// 
 			lbl_choose.AutoSize = true;
-			lbl_choose.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			lbl_choose.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
 			lbl_choose.Location = new Point(12, 556);
 			lbl_choose.Name = "lbl_choose";
-			lbl_choose.Size = new Size(179, 21);
+			lbl_choose.Size = new Size(181, 19);
 			lbl_choose.TabIndex = 4;
 			lbl_choose.Text = "Choose the time interval";
 			// 
@@ -77,6 +78,7 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
+			BackColor = SystemColors.ButtonShadow;
 			ClientSize = new Size(1108, 598);
 			Controls.Add(lbl_choose);
 			Controls.Add(cmbBx_date);
@@ -85,6 +87,7 @@
 			Margin = new Padding(3, 2, 3, 2);
 			Name = "Analytics";
 			Text = "Analytics";
+			FormClosing += Analytics_FormClosing;
 			ResumeLayout(false);
 			PerformLayout();
 		}
