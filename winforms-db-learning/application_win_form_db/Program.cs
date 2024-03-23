@@ -26,7 +26,7 @@ namespace application_win_form_db
 
 			_serviceProvider = services.BuildServiceProvider();
 
-            //using (var db = new AppDbContext()) { };  ///????
+			//using (var db = new AppDbContext()) { };  //check this for understanding
 
 			ApplicationConfiguration.Initialize();
 			Application.Run(_serviceProvider.GetService<Entrance>());
@@ -43,7 +43,7 @@ namespace application_win_form_db
         
         private static void AddForms(this ServiceCollection services)
 		{
-            services.AddTransient<Entrance>();
+            services.AddSingleton<Entrance>();
 			services.AddTransient<Main>();
 			services.AddTransient<CRUD_db>();
 			services.AddTransient<Analytics>();
@@ -51,9 +51,9 @@ namespace application_win_form_db
 
 		private static void AddServices(this ServiceCollection services)
 		{
-			services.AddDbContext<AppDbContext>();
+			services.AddDbContext<AppDbContext>();  //check this for understanding 
             services.AddScoped<IDbWorker, RealDbWorker>();
-			services.AddSingleton<IUserIdentity, UserIdentity>(); ///????
+			services.AddSingleton<IUserIdentity, UserIdentity>();
 		}
 	}
 }

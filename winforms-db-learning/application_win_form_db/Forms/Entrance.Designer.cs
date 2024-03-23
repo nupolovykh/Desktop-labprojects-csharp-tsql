@@ -39,7 +39,7 @@
 			// 
 			// btn_entrance
 			// 
-			btn_entrance.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+			btn_entrance.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
 			btn_entrance.Location = new Point(244, 279);
 			btn_entrance.Margin = new Padding(3, 2, 3, 2);
 			btn_entrance.Name = "btn_entrance";
@@ -51,59 +51,62 @@
 			// 
 			// txtBx_db
 			// 
-			txtBx_db.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+			txtBx_db.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
 			txtBx_db.Location = new Point(164, 73);
 			txtBx_db.Margin = new Padding(3, 2, 3, 2);
 			txtBx_db.Name = "txtBx_db";
 			txtBx_db.ReadOnly = true;
-			txtBx_db.Size = new Size(335, 32);
+			txtBx_db.Size = new Size(335, 30);
 			txtBx_db.TabIndex = 1;
+			txtBx_db.TextAlign = HorizontalAlignment.Center;
 			// 
 			// txtBx_login
 			// 
-			txtBx_login.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+			txtBx_login.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
 			txtBx_login.Location = new Point(164, 148);
 			txtBx_login.Margin = new Padding(3, 2, 3, 2);
 			txtBx_login.Name = "txtBx_login";
-			txtBx_login.Size = new Size(335, 32);
+			txtBx_login.Size = new Size(335, 30);
 			txtBx_login.TabIndex = 2;
+			txtBx_login.TextAlign = HorizontalAlignment.Center;
 			// 
 			// txtBx_password
 			// 
-			txtBx_password.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+			txtBx_password.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
 			txtBx_password.Location = new Point(164, 223);
 			txtBx_password.Margin = new Padding(3, 2, 3, 2);
 			txtBx_password.Name = "txtBx_password";
-			txtBx_password.Size = new Size(335, 32);
+			txtBx_password.Size = new Size(335, 30);
 			txtBx_password.TabIndex = 3;
+			txtBx_password.TextAlign = HorizontalAlignment.Center;
 			// 
 			// lbl_desc_1
 			// 
 			lbl_desc_1.AutoSize = true;
-			lbl_desc_1.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+			lbl_desc_1.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
 			lbl_desc_1.Location = new Point(253, 47);
 			lbl_desc_1.Name = "lbl_desc_1";
-			lbl_desc_1.Size = new Size(157, 25);
+			lbl_desc_1.Size = new Size(155, 23);
 			lbl_desc_1.TabIndex = 4;
 			lbl_desc_1.Text = "Current database";
 			// 
 			// label1
 			// 
 			label1.AutoSize = true;
-			label1.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+			label1.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
 			label1.Location = new Point(250, 123);
 			label1.Name = "label1";
-			label1.Size = new Size(162, 25);
+			label1.Size = new Size(159, 23);
 			label1.TabIndex = 5;
 			label1.Text = "Inscribe you login";
 			// 
 			// label2
 			// 
 			label2.AutoSize = true;
-			label2.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point);
+			label2.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
 			label2.Location = new Point(234, 197);
 			label2.Name = "label2";
-			label2.Size = new Size(195, 25);
+			label2.Size = new Size(195, 23);
 			label2.TabIndex = 6;
 			label2.Text = "Inscribe the password";
 			// 
@@ -111,6 +114,7 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
+			BackColor = SystemColors.ButtonShadow;
 			ClientSize = new Size(684, 361);
 			Controls.Add(label2);
 			Controls.Add(label1);
@@ -121,7 +125,7 @@
 			Controls.Add(btn_entrance);
 			Margin = new Padding(3, 2, 3, 2);
 			Name = "Entrance";
-			Text = "Form1";
+			Text = "Authorization";
 			ResumeLayout(false);
 			PerformLayout();
 		}
