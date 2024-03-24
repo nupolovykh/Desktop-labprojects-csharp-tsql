@@ -48,7 +48,7 @@ namespace application_win_form_db
 			}
 		}
 
-		// logic of those buttons
+		// logic of navigation buttons
 
 		private void btn_logOut_Click(object sender, EventArgs e)
 		{
@@ -87,7 +87,7 @@ namespace application_win_form_db
 			if (e.CloseReason == CloseReason.UserClosing && !state_for_closing)
 			{
 				var entrance = _serviceProvider.GetService<Entrance>();
-				entrance!.Show();
+				Entrance.ReopenForm(entrance!); // maybe it is good
 			}
 		}
 	}

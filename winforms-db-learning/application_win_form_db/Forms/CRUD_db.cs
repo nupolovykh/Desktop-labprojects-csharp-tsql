@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.Extensions.DependencyInjection;
+
 namespace application_win_form_db
 {
 	public partial class CRUD_db : Form
@@ -15,16 +17,29 @@ namespace application_win_form_db
 			_serviceProvider = serviceProvider;
 			_worker = worker;
 
-			dgv.DataSource = _worker.Users;
+			PopulationOfTheTablesComboBox();
 
 		}
 
 		//main logic
 
+		private void PopulationOfTheTablesComboBox()
+		{
+			var tables = _serviceProvider.GetService<AppDbContext>()!
+				.Model.GetEntityTypes().ToList();
+
+			cmbBx_tables.DataSource = tables;
+			//cmbBx_tables.DisplayMember = "Name";
+			//cmbBx_tables.ValueMember = "Id";
+
+			//foreach (var tableName in tables)
+			//{
+			//	cmbBx_tables.Items.Add(tableName.GetTableName());
+			//}
+		}
+
 		private void cmbBx_tables_SelectedValueChanged(object sender, EventArgs e)
 		{
-
-
 			//var tableName = cmbBx_tables.SelectedItem as string;
 			//dgv.DataSource = ;
 		}
@@ -34,7 +49,7 @@ namespace application_win_form_db
 			
 		}
 
-		// logic of those buttons
+		// logic of navigation buttons
 
 		private void btn_retrn_Click(object sender, EventArgs e)
 		{
