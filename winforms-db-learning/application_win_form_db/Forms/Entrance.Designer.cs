@@ -84,7 +84,7 @@
 			// 
 			lbl_desc_1.AutoSize = true;
 			lbl_desc_1.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-			lbl_desc_1.Location = new Point(253, 47);
+			lbl_desc_1.Location = new Point(254, 47);
 			lbl_desc_1.Name = "lbl_desc_1";
 			lbl_desc_1.Size = new Size(155, 23);
 			lbl_desc_1.TabIndex = 4;
@@ -94,7 +94,7 @@
 			// 
 			label1.AutoSize = true;
 			label1.Font = new Font("Tahoma", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-			label1.Location = new Point(250, 123);
+			label1.Location = new Point(252, 123);
 			label1.Name = "label1";
 			label1.Size = new Size(159, 23);
 			label1.TabIndex = 5;

@@ -7,11 +7,16 @@ namespace application_win_form_db.Models
 	{
 		public AppDbContext()
 		{
-			Database.EnsureDeleted();
 			Database.EnsureCreated();
+		}
 
-			DatabaseInspector inspector = new(this);
-			inspector.InspectDatabase();
+		public AppDbContext(bool test)
+		{
+			if(test)
+			{
+				Database.EnsureDeleted();
+				Database.EnsureCreated();
+			}
 		}
 
 		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)	{}

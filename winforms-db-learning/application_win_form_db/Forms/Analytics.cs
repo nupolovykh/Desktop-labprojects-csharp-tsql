@@ -28,7 +28,7 @@ namespace application_win_form_db
 
 		//main logic
 
-		// logic of those buttons
+		// logic of navigation buttons
 
 		private void btn_retrn_Click(object sender, EventArgs e)
 		{
