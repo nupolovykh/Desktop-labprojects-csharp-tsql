@@ -1,5 +1,7 @@
 using application_win_form_db.Services.Implementations;
 using application_win_form_db.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.CompilerServices;
 
 namespace application_win_form_db
 {
@@ -22,29 +24,36 @@ namespace application_win_form_db
 
 		//main logic
 
-		// logic of those buttons
+		private User Authorization(string login, string password) => _worker.Users.
+			Where(u => u.Login == login && u.Password == password).FirstOrDefault()!;
+
+		// logic of navigation buttons
 
 		private void btn_entrance_Click(object sender, EventArgs e)
 		{
-			if(txtBx_login.Text != "" && txtBx_login.Text != "") 
+			var current = Authorization(txtBx_login.Text, txtBx_password.Text);
+
+			if (current is not null)
 			{
-				var current = _worker.Users.
-					Where(u => u.Login == txtBx_login.Text && u.Password == txtBx_password.Text).FirstOrDefault()!;
+				_identity.Login(current);
 
-				if (current != null)
-				{
-					_identity.Login(current);
+				var main = _serviceProvider.GetService<Main>();
+				main!.Show();
 
-					var main = _serviceProvider.GetService<Main>();
-					main!.Show();
-
-					this.Hide();
-				}
-
-				else MessageBox.Show("Retry input the info");
+				this.Hide();
 			}
+
+			else MessageBox.Show("Retry input the data");
 		}
 
 		//another logic of the form
+
+		public static void ReopenForm(Entrance entr)
+		{
+			entr.Show();
+			entr.txtBx_login.Text = "";
+			entr.txtBx_password.Text = "";
+		}
+
 	}
 }

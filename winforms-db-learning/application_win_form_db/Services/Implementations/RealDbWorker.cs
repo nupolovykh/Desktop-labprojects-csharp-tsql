@@ -67,14 +67,23 @@ namespace application_win_form_db.Services.Implementations
 		}
 
 		public IEnumerable<User> Users => _users;
+
 		public IEnumerable<Operator> Operators => _operators;
+
 		public IEnumerable<SurveyLine> SurveyLines => _surveyLines;
+
 		public IEnumerable<Terrain> Terrains => _terrains;
+
 		public IEnumerable<Equipment> Equipment => _equipment;
+
 		public IEnumerable<Picket> Pickets => _pickets;
+
 		public IEnumerable<Project> Projects => _projects;
+
 		public IEnumerable<Customer> Customers => _customers;
+
 		public IEnumerable<Measurement> Measurements => _measurements;
+
 		public IEnumerable<Datum> Datum => _data;
 
 		public void SaveChanges() => _context.SaveChanges();
