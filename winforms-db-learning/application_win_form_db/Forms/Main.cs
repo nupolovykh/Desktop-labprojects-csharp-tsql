@@ -16,6 +16,9 @@ namespace application_win_form_db
 			_identity = identity;
 			_worker = worker;
 
+			this.MaximumSize = this.Size;
+			this.MinimumSize = this.Size;
+
 			var current = _identity.GetUser();
 
 			lbl_role2.Text = current.Role;

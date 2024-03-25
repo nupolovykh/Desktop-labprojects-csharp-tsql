@@ -1,10 +1,3 @@
-using application_win_form_db.Models;
-using application_win_form_db.Services;
-using application_win_form_db.Services.Implementations;
-using application_win_form_db.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace application_win_form_db
 {
     internal static class Program

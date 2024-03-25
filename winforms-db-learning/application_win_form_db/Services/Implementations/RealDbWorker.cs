@@ -52,6 +52,11 @@ namespace application_win_form_db.Services.Implementations
 				.Include(x => x.Measurements)
 					.ToList();
 
+			_projects = _context.Projects
+				.Include(x => x.Customer)
+				.Include(x => x.Terrains)
+					.ToList();
+
 			_customers = _context.Customers
 				.Include(x => x.Projects)
 					.ToList();
