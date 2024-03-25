@@ -1,7 +1,4 @@
-﻿
-using application_win_form_db.Services;
-
-namespace application_win_form_db.Models
+﻿namespace application_win_form_db.Models
 {
 	public partial class AppDbContext : DbContext
 	{

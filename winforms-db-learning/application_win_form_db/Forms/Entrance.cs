@@ -18,6 +18,9 @@ namespace application_win_form_db
 			_worker = worker;
 			_identity = identity;
 
+			this.MaximumSize = this.Size;
+			this.MinimumSize = this.Size;
+
 			txtBx_db.Text = serviceProvider.GetService<AppDbContext>()!
 				.Database.GetDbConnection().Database;
 		}

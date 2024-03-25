@@ -33,7 +33,6 @@
 			dgv = new DataGridView();
 			btn_retrn = new Button();
 			btn_c = new Button();
-			button_u = new Button();
 			button_d = new Button();
 			btn_sort_desc = new Button();
 			btn_sort_asc = new Button();
@@ -93,24 +92,14 @@
 			// btn_c
 			// 
 			btn_c.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_c.Location = new Point(921, 327);
+			btn_c.Location = new Point(921, 369);
 			btn_c.Margin = new Padding(3, 2, 3, 2);
 			btn_c.Name = "btn_c";
 			btn_c.Size = new Size(109, 38);
 			btn_c.TabIndex = 11;
 			btn_c.Text = "Create";
 			btn_c.UseVisualStyleBackColor = true;
-			// 
-			// button_u
-			// 
-			button_u.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			button_u.Location = new Point(921, 369);
-			button_u.Margin = new Padding(3, 2, 3, 2);
-			button_u.Name = "button_u";
-			button_u.Size = new Size(109, 38);
-			button_u.TabIndex = 12;
-			button_u.Text = "Update";
-			button_u.UseVisualStyleBackColor = true;
+			btn_c.Click += btn_c_Click;
 			// 
 			// button_d
 			// 
@@ -122,6 +111,7 @@
 			button_d.TabIndex = 13;
 			button_d.Text = "Delete";
 			button_d.UseVisualStyleBackColor = true;
+			button_d.Click += button_d_Click;
 			// 
 			// btn_sort_desc
 			// 
@@ -187,7 +177,7 @@
 			// btn_save
 			// 
 			btn_save.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_save.Location = new Point(963, 478);
+			btn_save.Location = new Point(922, 327);
 			btn_save.Margin = new Padding(3, 2, 3, 2);
 			btn_save.Name = "btn_save";
 			btn_save.Size = new Size(109, 38);
@@ -210,7 +200,6 @@
 			Controls.Add(lbl_search);
 			Controls.Add(txtBx_search);
 			Controls.Add(button_d);
-			Controls.Add(button_u);
 			Controls.Add(btn_c);
 			Controls.Add(lbl_choose);
 			Controls.Add(cmbBx_tables);
@@ -232,7 +221,6 @@
         private DataGridView dgv;
         private Button btn_retrn;
         private Button btn_c;
-        private Button button_u;
         private Button button_d;
         private Button btn_sort_desc;
         private Button btn_sort_asc;
