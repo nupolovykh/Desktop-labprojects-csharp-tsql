@@ -14,3 +14,5 @@ global using Microsoft.EntityFrameworkCore;
 global using System.Xml;
 global using application_win_form_db.Services;
 global using System.ComponentModel;
+global using System.Collections.ObjectModel;
+global using System.Collections.Specialized;
