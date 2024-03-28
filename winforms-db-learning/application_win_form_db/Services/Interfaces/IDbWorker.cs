@@ -1,29 +1,35 @@
 ﻿using application_win_form_db.Models;
+using System;
+using System.Collections.ObjectModel;
 using System.Xml.Linq;
 
 namespace application_win_form_db.Services.Interfaces
 {
 	public interface IDbWorker
 	{
-		IEnumerable<User> Users { get; }
+		public Dictionary<string, ObservableCollection<object>> EntityDictionary { get; set; }
 
-		IEnumerable<Operator> Operators { get; }
+		public Dictionary<string, Type> TypeToId { get; }
 
-		IEnumerable<SurveyLine> SurveyLines { get; }
+		public IEnumerable<User> Users { get; }
 
-		IEnumerable<Terrain> Terrains { get; }
+		public IEnumerable<Operator> Operators { get; }
 
-		IEnumerable<Equipment> Equipment { get; }
+		public IEnumerable<SurveyLine> SurveyLines { get; }
 
-		IEnumerable<Picket> Pickets { get; }
+		public IEnumerable<Terrain> Terrains { get; }
 
-		IEnumerable<Project> Projects { get; }
+		public IEnumerable<Equipment> Equipment { get; }
 
-		IEnumerable<Customer> Customers { get; }
+		public IEnumerable<Picket> Pickets { get; }
 
-		IEnumerable<Measurement> Measurements { get; }
+		public IEnumerable<Project> Projects { get; }
 
-		IEnumerable<Datum> Datum { get; }
+		public IEnumerable<Customer> Customers { get; }
+
+		public IEnumerable<Measurement> Measurements { get; }
+
+		public IEnumerable<Datum> Datum { get; }
 
 		public void SaveChanges();
 	}
