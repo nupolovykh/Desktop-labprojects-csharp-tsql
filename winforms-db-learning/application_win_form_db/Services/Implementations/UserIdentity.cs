@@ -1,5 +1,4 @@
 ﻿
-
 namespace application_win_form_db.Services.Implementations
 {
 	internal class UserIdentity : IUserIdentity
