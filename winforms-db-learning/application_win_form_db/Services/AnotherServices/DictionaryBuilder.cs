@@ -1,5 +1,4 @@
-﻿
-namespace application_win_form_db.Services
+﻿namespace application_win_form_db.Services
 {
 	internal static class DictionaryBuilder
 	{

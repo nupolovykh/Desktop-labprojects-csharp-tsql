@@ -1,5 +1,4 @@
-﻿
-namespace application_win_form_db.Services.Interfaces
+﻿namespace application_win_form_db.Services.Interfaces
 {
 	public interface IUserIdentity
 	{

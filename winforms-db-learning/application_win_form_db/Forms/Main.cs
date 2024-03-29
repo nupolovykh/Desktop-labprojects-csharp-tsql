@@ -1,5 +1,4 @@
-﻿
-namespace application_win_form_db
+﻿namespace application_win_form_db
 {
 	public partial class Main : Form
 	{
@@ -7,7 +6,7 @@ namespace application_win_form_db
 		private IUserIdentity _identity;
 		private IDbWorker _worker;
 
-		private bool state_for_closing = false;
+		private statesForClosingWindow states_for_closing_window = statesForClosingWindow.ClosingByTheShutDownWindow;
 
 		public Main(IServiceProvider serviceProvider, IUserIdentity identity, IDbWorker worker)
 		{
@@ -64,7 +63,7 @@ namespace application_win_form_db
 		{
 			var crud = _serviceProvider.GetService<CRUD_db>();
 			crud!.Show();
-			state_for_closing = true;
+			states_for_closing_window = statesForClosingWindow.PassingToAnotherPage;
 
 			this.Close();
 		}
@@ -73,7 +72,7 @@ namespace application_win_form_db
 		{
 			var anlt = _serviceProvider.GetService<Analytics>();
 			anlt!.Show();
-			state_for_closing = true;
+			states_for_closing_window = statesForClosingWindow.PassingToAnotherPage;
 
 			this.Close();
 		}
@@ -88,10 +87,10 @@ namespace application_win_form_db
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (e.CloseReason == CloseReason.UserClosing && !state_for_closing)
+			if (e.CloseReason == CloseReason.UserClosing && states_for_closing_window == statesForClosingWindow.ClosingByTheShutDownWindow)
 			{
 				var entrance = _serviceProvider.GetService<Entrance>();
-				Entrance.ReopenForm(entrance!); // maybe it is good
+				Entrance.ReopenForm(entrance!);
 			}
 		}
 	}

@@ -1,22 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace application_win_form_db
+﻿namespace application_win_form_db
 {
 	public partial class Analytics : Form
 	{
 		private IServiceProvider _serviceProvider;
 		private IDbWorker _worker;
 
-		private bool state_for_closing = false;
+		private statesForClosingWindow states_for_closing_window = statesForClosingWindow.ClosingByTheShutDownWindow;
 
 		public Analytics(IServiceProvider serviceProvider, IDbWorker worker)
 		{
@@ -34,7 +23,7 @@ namespace application_win_form_db
 		{
 			var main = _serviceProvider.GetService<Main>();
 			main!.Show();
-			state_for_closing = true;
+			states_for_closing_window = statesForClosingWindow.ClosingByTheReturn;
 
 			this.Close();
 		}
@@ -43,10 +32,10 @@ namespace application_win_form_db
 
 		private void Analytics_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (e.CloseReason == CloseReason.UserClosing && !state_for_closing)
+			if (e.CloseReason == CloseReason.UserClosing && states_for_closing_window == statesForClosingWindow.ClosingByTheShutDownWindow)
 			{
 				var entrance = _serviceProvider.GetService<Entrance>();
-				entrance!.Show();
+				Entrance.ReopenForm(entrance!);
 			}
 		}
 	}
