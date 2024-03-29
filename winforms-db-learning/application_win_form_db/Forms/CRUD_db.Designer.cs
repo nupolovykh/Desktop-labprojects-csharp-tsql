@@ -41,7 +41,8 @@
 			lbl_search = new Label();
 			txtBx_search = new TextBox();
 			btn_save = new Button();
-			((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
+			rtn_cancel = new Button();
+			((ISupportInitialize)dgv).BeginInit();
 			SuspendLayout();
 			// 
 			// lbl_choose
@@ -92,10 +93,10 @@
 			// btn_c
 			// 
 			btn_c.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_c.Location = new Point(921, 369);
+			btn_c.Location = new Point(921, 325);
 			btn_c.Margin = new Padding(3, 2, 3, 2);
 			btn_c.Name = "btn_c";
-			btn_c.Size = new Size(109, 38);
+			btn_c.Size = new Size(84, 38);
 			btn_c.TabIndex = 11;
 			btn_c.Text = "Create";
 			btn_c.UseVisualStyleBackColor = true;
@@ -104,10 +105,10 @@
 			// button_d
 			// 
 			button_d.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			button_d.Location = new Point(921, 411);
+			button_d.Location = new Point(1011, 325);
 			button_d.Margin = new Padding(3, 2, 3, 2);
 			button_d.Name = "button_d";
-			button_d.Size = new Size(109, 38);
+			button_d.Size = new Size(85, 38);
 			button_d.TabIndex = 13;
 			button_d.Text = "Delete";
 			button_d.UseVisualStyleBackColor = true;
@@ -116,24 +117,26 @@
 			// btn_sort_desc
 			// 
 			btn_sort_desc.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_sort_desc.Location = new Point(985, 133);
+			btn_sort_desc.Location = new Point(1011, 131);
 			btn_sort_desc.Margin = new Padding(3, 2, 3, 2);
 			btn_sort_desc.Name = "btn_sort_desc";
-			btn_sort_desc.Size = new Size(76, 38);
+			btn_sort_desc.Size = new Size(85, 38);
 			btn_sort_desc.TabIndex = 20;
 			btn_sort_desc.Text = "DESC";
 			btn_sort_desc.UseVisualStyleBackColor = true;
+			btn_sort_desc.Click += btn_sort_desc_Click;
 			// 
 			// btn_sort_asc
 			// 
 			btn_sort_asc.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_sort_asc.Location = new Point(922, 133);
+			btn_sort_asc.Location = new Point(922, 131);
 			btn_sort_asc.Margin = new Padding(3, 2, 3, 2);
 			btn_sort_asc.Name = "btn_sort_asc";
-			btn_sort_asc.Size = new Size(58, 38);
+			btn_sort_asc.Size = new Size(83, 38);
 			btn_sort_asc.TabIndex = 19;
 			btn_sort_asc.Text = "ASC";
 			btn_sort_asc.UseVisualStyleBackColor = true;
+			btn_sort_asc.Click += btn_sort_asc_Click;
 			// 
 			// lbl_sort
 			// 
@@ -168,23 +171,35 @@
 			// txtBx_search
 			// 
 			txtBx_search.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			txtBx_search.Location = new Point(921, 31);
+			txtBx_search.Location = new Point(922, 31);
 			txtBx_search.Margin = new Padding(3, 2, 3, 2);
 			txtBx_search.Name = "txtBx_search";
-			txtBx_search.Size = new Size(175, 27);
+			txtBx_search.Size = new Size(174, 27);
 			txtBx_search.TabIndex = 15;
 			// 
 			// btn_save
 			// 
 			btn_save.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_save.Location = new Point(922, 327);
+			btn_save.Location = new Point(922, 367);
 			btn_save.Margin = new Padding(3, 2, 3, 2);
 			btn_save.Name = "btn_save";
-			btn_save.Size = new Size(109, 38);
+			btn_save.Size = new Size(83, 38);
 			btn_save.TabIndex = 21;
 			btn_save.Text = "Save";
 			btn_save.UseVisualStyleBackColor = true;
 			btn_save.Click += btn_save_Click;
+			// 
+			// rtn_cancel
+			// 
+			rtn_cancel.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			rtn_cancel.Location = new Point(1011, 367);
+			rtn_cancel.Margin = new Padding(3, 2, 3, 2);
+			rtn_cancel.Name = "rtn_cancel";
+			rtn_cancel.Size = new Size(85, 38);
+			rtn_cancel.TabIndex = 22;
+			rtn_cancel.Text = "Cancel";
+			rtn_cancel.UseVisualStyleBackColor = true;
+			rtn_cancel.Click += rtn_cancel_Click;
 			// 
 			// CRUD_db
 			// 
@@ -192,6 +207,7 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = SystemColors.ButtonShadow;
 			ClientSize = new Size(1108, 598);
+			Controls.Add(rtn_cancel);
 			Controls.Add(btn_save);
 			Controls.Add(btn_sort_desc);
 			Controls.Add(btn_sort_asc);
@@ -209,7 +225,7 @@
 			Name = "CRUD_db";
 			Text = "CRUD_db";
 			FormClosing += CRUD_db_FormClosing;
-			((System.ComponentModel.ISupportInitialize)dgv).EndInit();
+			((ISupportInitialize)dgv).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -229,5 +245,6 @@
         private Label lbl_search;
         private TextBox txtBx_search;
 		private Button btn_save;
+		private Button rtn_cancel;
 	}
 }
