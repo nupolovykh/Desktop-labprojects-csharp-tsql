@@ -82,7 +82,8 @@ namespace application_win_form_db
 
 		private void txtBx_notes_TextChanged(object sender, EventArgs e)
 		{
-			_worker.SaveChanges();
+			//Interaction.InputBox("Are you sure to save changes? Yeah or No", "Confirm message", "Yeah");
+			//if (input == "Yes") _worker.SaveChanges();
 		}
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e)
