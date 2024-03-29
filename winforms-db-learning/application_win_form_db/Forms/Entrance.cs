@@ -1,8 +1,3 @@
-using application_win_form_db.Services.Implementations;
-using application_win_form_db.Services.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using System.Runtime.CompilerServices;
-
 namespace application_win_form_db
 {
 	public partial class Entrance : Form
@@ -54,8 +49,8 @@ namespace application_win_form_db
 		public static void ReopenForm(Entrance entr)
 		{
 			entr.Show();
-			entr.txtBx_login.Text = "";
-			entr.txtBx_password.Text = "";
+			entr.txtBx_login.Text = string.Empty;
+			entr.txtBx_password.Text = string.Empty;
 		}
 
 	}
