@@ -1,35 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.DirectoryServices.ActiveDirectory;
-using System.Reflection;
-
+﻿
 namespace application_win_form_db.Services
 {
 	internal static class DictionaryBuilder
 	{
-
+		
 		public static void SubscribeToCollectionChangesInDictionary(this Dictionary<string, ObservableCollection<object>> dict, AppDbContext context)
 		{
-
 			foreach (var key in dict.Keys)
 			{
 				dict[key].CollectionChanged += (sender, e) =>
 				{
 					if (e.Action == NotifyCollectionChangedAction.Add)
 					{
-						//MessageBox.Show("add");
 						foreach (var item in e.NewItems!)
 						{
-							//MessageBox.Show(item.ToString());
 							AddToAnyCollection(context, (dynamic)item);
 						}
 					}
 
 					if (e.Action == NotifyCollectionChangedAction.Remove)
 					{
-						//MessageBox.Show("remove");
 						foreach (var item in e.OldItems!)
 						{
-							//MessageBox.Show(item.ToString());
 							RemoveFromAnyCollection(context, (dynamic)item);
 						}
 					}

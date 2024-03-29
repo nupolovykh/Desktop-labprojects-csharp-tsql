@@ -111,7 +111,7 @@
 			button_d.TabIndex = 13;
 			button_d.Text = "Delete";
 			button_d.UseVisualStyleBackColor = true;
-			button_d.Click += button_d_Click;
+			button_d.Click += btn_d_Click;
 			// 
 			// btn_sort_desc
 			// 

@@ -1,8 +1,4 @@
-﻿using application_win_form_db.Models;
-using System;
-using System.Collections.ObjectModel;
-using System.Xml.Linq;
-
+﻿
 namespace application_win_form_db.Services.Interfaces
 {
 	public interface IDbWorker

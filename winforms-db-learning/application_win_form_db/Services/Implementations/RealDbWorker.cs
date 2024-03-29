@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Collections.ObjectModel;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Xml.Linq;
-
+﻿
 namespace application_win_form_db.Services.Implementations
 {
 	internal class RealDbWorker : IDbWorker
@@ -94,7 +88,7 @@ namespace application_win_form_db.Services.Implementations
 		public Dictionary<string, ObservableCollection<object>> EntityDictionary
 		{
 			get { return _entityDictionary; }
-			set {  _entityDictionary = value; }
+			set { _entityDictionary = value; }
 		}
 
 		public Dictionary<string, Type> TypeToId => _typeToId;
