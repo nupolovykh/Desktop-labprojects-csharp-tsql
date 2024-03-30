@@ -1,8 +1,7 @@
 ﻿namespace application_win_form_db.Services
 {
-	internal static class DictionaryBuilder
+	internal static class RealDictionaryBuilder
 	{
-		
 		public static void SubscribeToCollectionChangesInDictionary(this Dictionary<string, ObservableCollection<object>> dict, AppDbContext context)
 		{
 			foreach (var key in dict.Keys)
@@ -34,7 +33,7 @@
 			dbSet.Add(item);
 		}
 
-		private static void RemoveFromAnyCollection<T>(AppDbContext context, T item) where T : class
+        private static void RemoveFromAnyCollection<T>(AppDbContext context, T item) where T : class
 		{
 			var dbSet = context.Set<T>();
 			dbSet.Remove(item);
