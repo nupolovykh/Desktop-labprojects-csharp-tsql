@@ -2,11 +2,6 @@
 {
 	public partial class AppDbContext : DbContext
 	{
-		public AppDbContext()
-		{
-            Database.EnsureCreated();
-		}
-
 		public AppDbContext(bool test)
 		{
 			if(test)
@@ -16,11 +11,7 @@
 			}
 		}
 
-		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-		{
-			Database.EnsureDeleted();
-			Database.EnsureCreated();
-		}
+		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)	{}
 
 		public virtual DbSet<Customer> Customers { get; set; } = null!;
 		public virtual DbSet<Datum> Data { get; set; } = null!;
@@ -37,14 +28,16 @@
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
-				//home data source
-				//optionsBuilder.UseSqlServer("Server=.\\;Database=107g2_PolovykhNA2;Trusted_Connection=True;TrustServerCertificate=true;");
-				optionsBuilder.UseSqlite("Data source=./app.db");
+				//home MS sql database source
+				optionsBuilder.UseSqlServer("Server=.\\;Database=107g2_PolovykhNA2;Trusted_Connection=True;TrustServerCertificate=true;");
 
-				//college data source
+				//college MS sql database source
 				//optionsBuilder.UseSqlServer("Server=DBSRV\\AG2022;Initial Catalog=107g2_PolovykhNA2;Integrated Security=True");
+
+				//mobile sqlite database source
+				//optionsBuilder.UseSqlite("Data source=./app.db");
 			}
-        }
+		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

@@ -17,3 +17,4 @@ global using System.ComponentModel;
 global using System.Collections.ObjectModel;
 global using System.Collections.Specialized;
 global using Microsoft.VisualBasic;
+global using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
