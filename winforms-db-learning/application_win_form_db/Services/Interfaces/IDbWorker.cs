@@ -27,5 +27,7 @@
 		public IEnumerable<Datum> Datum { get; }
 
 		public void SaveChanges();
-	}
+
+        public void DiscardChanges();
+    }
 }
