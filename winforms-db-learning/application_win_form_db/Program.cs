@@ -20,13 +20,13 @@ namespace application_win_form_db
 
 			_serviceProvider = services.BuildServiceProvider();
 
-			//using (var db = new AppDbContext())  //check this for understanding
-			//{
-			//	DatabaseInspector inspector = new(db);
-			//	inspector.InspectDatabase();
-			//};
+            using (var db = new AppDbContext(false))
+            {
+                DatabaseInspector inspector = new(db);
+                inspector.InspectDatabase();
+            };
 
-			ApplicationConfiguration.Initialize();
+            ApplicationConfiguration.Initialize();
 			Application.Run(_serviceProvider.GetService<Entrance>());
 		}
     }
@@ -49,10 +49,12 @@ namespace application_win_form_db
 
 		private static void AddServices(this ServiceCollection services)
 		{
-			services.AddDbContext<AppDbContext>();  //check this for understanding
+			services.AddDbContext<AppDbContext>();
 
-            services.AddScoped<IDbWorker, RealDbWorker>(); //RealDbWorker
-            services.AddSingleton<IUserIdentity, UserIdentity>();
+            //services.AddScoped<IDbWorker, FakeDbWorker>(); 
+			services.AddScoped<IDbWorker, RealDbWorker>();
+
+			services.AddSingleton<IUserIdentity, UserIdentity>();
 		}
 	}
 }
