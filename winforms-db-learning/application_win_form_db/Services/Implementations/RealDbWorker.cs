@@ -18,7 +18,7 @@
 		private Dictionary<string, ObservableCollection<object>> _entityDictionary = new();
 		private Dictionary<string, Type> _typeToId = new();
 
-		public RealDbWorker(AppDbContext context)
+        public RealDbWorker(AppDbContext context)
 		{
 			_context = context;
 
@@ -113,5 +113,7 @@
 		public IEnumerable<Datum> Datum => _data;
 
 		public void SaveChanges() => _context.SaveChanges();
-	}
+
+		public void DiscardChanges() => _context.ChangeTracker.Clear();
+    }
 }

@@ -193,5 +193,7 @@
         public IEnumerable<Datum> Datum => _data;
 
         public void SaveChanges() {}
+
+        public void DiscardChanges() { }
     }
 }
