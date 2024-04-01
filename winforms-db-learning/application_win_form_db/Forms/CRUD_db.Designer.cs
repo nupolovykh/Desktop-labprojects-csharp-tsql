@@ -42,6 +42,7 @@
 			txtBx_search = new TextBox();
 			btn_save = new Button();
 			rtn_cancel = new Button();
+			btn_search = new Button();
 			((ISupportInitialize)dgv).BeginInit();
 			SuspendLayout();
 			// 
@@ -117,7 +118,7 @@
 			// btn_sort_desc
 			// 
 			btn_sort_desc.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_sort_desc.Location = new Point(1011, 131);
+			btn_sort_desc.Location = new Point(1011, 188);
 			btn_sort_desc.Margin = new Padding(3, 2, 3, 2);
 			btn_sort_desc.Name = "btn_sort_desc";
 			btn_sort_desc.Size = new Size(85, 38);
@@ -129,7 +130,7 @@
 			// btn_sort_asc
 			// 
 			btn_sort_asc.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_sort_asc.Location = new Point(922, 131);
+			btn_sort_asc.Location = new Point(922, 188);
 			btn_sort_asc.Margin = new Padding(3, 2, 3, 2);
 			btn_sort_asc.Name = "btn_sort_asc";
 			btn_sort_asc.Size = new Size(83, 38);
@@ -142,7 +143,7 @@
 			// 
 			lbl_sort.AutoSize = true;
 			lbl_sort.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			lbl_sort.Location = new Point(945, 77);
+			lbl_sort.Location = new Point(945, 134);
 			lbl_sort.Name = "lbl_sort";
 			lbl_sort.Size = new Size(60, 19);
 			lbl_sort.TabIndex = 18;
@@ -152,7 +153,7 @@
 			// 
 			cmbBx_columns.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
 			cmbBx_columns.FormattingEnabled = true;
-			cmbBx_columns.Location = new Point(921, 100);
+			cmbBx_columns.Location = new Point(921, 157);
 			cmbBx_columns.Margin = new Padding(3, 2, 3, 2);
 			cmbBx_columns.Name = "cmbBx_columns";
 			cmbBx_columns.Size = new Size(175, 27);
@@ -201,12 +202,25 @@
 			rtn_cancel.UseVisualStyleBackColor = true;
 			rtn_cancel.Click += rtn_cancel_Click;
 			// 
+			// btn_search
+			// 
+			btn_search.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			btn_search.Location = new Point(922, 62);
+			btn_search.Margin = new Padding(3, 2, 3, 2);
+			btn_search.Name = "btn_search";
+			btn_search.Size = new Size(174, 38);
+			btn_search.TabIndex = 23;
+			btn_search.Text = "Search";
+			btn_search.UseVisualStyleBackColor = true;
+			btn_search.Click += btn_search_Click;
+			// 
 			// CRUD_db
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = SystemColors.ButtonShadow;
 			ClientSize = new Size(1108, 598);
+			Controls.Add(btn_search);
 			Controls.Add(rtn_cancel);
 			Controls.Add(btn_save);
 			Controls.Add(btn_sort_desc);
@@ -246,5 +260,6 @@
         private TextBox txtBx_search;
 		private Button btn_save;
 		private Button rtn_cancel;
+		private Button btn_search;
 	}
 }
