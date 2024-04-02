@@ -8,47 +8,23 @@
 
 		private statesForClosingWindow states_for_closing_window = statesForClosingWindow.ClosingByTheShutDownWindow;
 
-		public Main(IServiceProvider serviceProvider, IUserIdentity identity, IDbWorker worker)
+		public Main(IServiceProvider serviceProvider, IDbWorker worker)
 		{
 			InitializeComponent();
+
 			_serviceProvider = serviceProvider;
-			_identity = identity;
 			_worker = worker;
+			_identity = _serviceProvider.GetService<IUserIdentity>()!;
 
 			this.MaximumSize = this.Size;
 			this.MinimumSize = this.Size;
 
-			var current = _identity.GetUser();
-
-			lbl_role2.Text = current.Role;
-			txtBx_notes.DataBindings.Add("Text", current, "Notes");
-
-			Hidings(current.Role!);
+			lbl_role2.Text = _identity.GetRole();
+			txtBx_notes.DataBindings.Add("Text", _identity.GetUser(), "Notes");
+			Personalization();
 		}
 
 		//main logic
-
-		private void Hidings(string rolename)
-		{
-			switch (rolename)
-			{
-				case "Survey Operator":
-					btn_anlytc.Visible = false;
-					goto case "Analyst";
-
-				case "Application Operator":
-					btn_anlytc.Visible = false;
-					btn_crud_db.Text = "Tables";
-					break;
-
-				case "Analyst":
-					btn_crud_db.Text = "Page for surveys";
-					break;
-
-				default:
-					break;
-			}
-		}
 
 		// logic of navigation buttons
 
@@ -79,10 +55,9 @@
 
 		//another logic of the form
 
-		private void txtBx_notes_TextChanged(object sender, EventArgs e)
+		private void btn_save_Click(object sender, EventArgs e)
 		{
-			//Interaction.InputBox("Are you sure to save changes? Yeah or No", "Confirm message", "Yeah");
-			//if (input == "Yes") _worker.SaveChanges();
+			_worker.SaveChanges();
 		}
 
 		private void Main_FormClosing(object sender, FormClosingEventArgs e)

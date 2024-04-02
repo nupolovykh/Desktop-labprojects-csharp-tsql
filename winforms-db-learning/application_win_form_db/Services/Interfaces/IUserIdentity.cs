@@ -6,6 +6,8 @@
 
 		public User GetUser();
 
+		public string GetRole();
+
 		public void LogOut();
 	}
 }

@@ -9,7 +9,9 @@
 			_currentUser = user;
 		}
 
-		public User GetUser() => _currentUser!;
+		public User GetUser() => _currentUser ?? null!;
+
+		public string GetRole() => _currentUser?.Role ?? string.Empty;
 
 		public void LogOut()
 		{

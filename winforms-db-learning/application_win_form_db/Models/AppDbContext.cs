@@ -29,13 +29,13 @@
 			if (!optionsBuilder.IsConfigured)
 			{
 				//home MS sql database source
-				//optionsBuilder.UseSqlServer("Server=.\\;Database=107g2_PolovykhNA2;Trusted_Connection=True;TrustServerCertificate=true;");
+				optionsBuilder.UseSqlServer("Server=.\\;Database=107g2_PolovykhNA2;Trusted_Connection=True;TrustServerCertificate=true;");
 
 				//college MS sql database source
 				//optionsBuilder.UseSqlServer("Server=DBSRV\\AG2022;Initial Catalog=107g2_PolovykhNA2;Integrated Security=True");
 
 				//mobile sqlite database source
-				optionsBuilder.UseSqlite("Data source=./app.db");
+				//optionsBuilder.UseSqlite("Data source=./app.db");
 			}
 		}
 

@@ -6,6 +6,8 @@ namespace application_win_form_db
 		private IDbWorker _worker;
 		private IUserIdentity _identity;
 
+		public IUserIdentity Identity => _identity;
+
 		public Entrance(IServiceProvider serviceProvider, IDbWorker worker, IUserIdentity identity)
 		{
 			InitializeComponent();
@@ -37,7 +39,6 @@ namespace application_win_form_db
 
 				var main = _serviceProvider.GetService<Main>();
 				main!.Show();
-
 				this.Hide();
 			}
 
@@ -48,9 +49,11 @@ namespace application_win_form_db
 
 		public static void ReopenForm(Entrance entr)
 		{
-			entr.Show();
+			entr.Identity.LogOut();
 			entr.txtBx_login.Text = string.Empty;
 			entr.txtBx_password.Text = string.Empty;
+
+			entr.Show();
 		}
 
 	}

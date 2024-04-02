@@ -35,12 +35,13 @@
 			lbl_notes = new Label();
 			btn_logOut = new Button();
 			txtBx_notes = new TextBox();
+			btn_save = new Button();
 			SuspendLayout();
 			// 
 			// btn_anlytc
 			// 
 			btn_anlytc.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			btn_anlytc.Location = new Point(26, 138);
+			btn_anlytc.Location = new Point(26, 129);
 			btn_anlytc.Margin = new Padding(3, 2, 3, 2);
 			btn_anlytc.Name = "btn_anlytc";
 			btn_anlytc.Size = new Size(175, 56);
@@ -67,9 +68,9 @@
 			lbl_role1.Font = new Font("Tahoma", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
 			lbl_role1.Location = new Point(47, 9);
 			lbl_role1.Name = "lbl_role1";
-			lbl_role1.Size = new Size(130, 25);
+			lbl_role1.Size = new Size(123, 25);
 			lbl_role1.TabIndex = 7;
-			lbl_role1.Text = "Your Role is:";
+			lbl_role1.Text = "your role is:";
 			// 
 			// lbl_role2
 			// 
@@ -87,9 +88,9 @@
 			lbl_notes.Font = new Font("Tahoma", 14F, FontStyle.Regular, GraphicsUnit.Point);
 			lbl_notes.Location = new Point(607, 35);
 			lbl_notes.Name = "lbl_notes";
-			lbl_notes.Size = new Size(141, 23);
+			lbl_notes.Size = new Size(139, 23);
 			lbl_notes.TabIndex = 10;
-			lbl_notes.Text = "Your own notes";
+			lbl_notes.Text = "your own notes";
 			// 
 			// btn_logOut
 			// 
@@ -113,7 +114,18 @@
 			txtBx_notes.ScrollBars = ScrollBars.Vertical;
 			txtBx_notes.Size = new Size(825, 517);
 			txtBx_notes.TabIndex = 12;
-			txtBx_notes.TextChanged += txtBx_notes_TextChanged;
+			// 
+			// btn_save
+			// 
+			btn_save.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			btn_save.Location = new Point(26, 189);
+			btn_save.Margin = new Padding(3, 2, 3, 2);
+			btn_save.Name = "btn_save";
+			btn_save.Size = new Size(175, 56);
+			btn_save.TabIndex = 13;
+			btn_save.Text = "Save";
+			btn_save.UseVisualStyleBackColor = true;
+			btn_save.Click += btn_save_Click;
 			// 
 			// Main
 			// 
@@ -121,6 +133,7 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = SystemColors.ButtonShadow;
 			ClientSize = new Size(1108, 598);
+			Controls.Add(btn_save);
 			Controls.Add(txtBx_notes);
 			Controls.Add(btn_logOut);
 			Controls.Add(lbl_notes);
@@ -138,6 +151,31 @@
 
 		#endregion
 
+		private void Personalization()
+		{
+			switch (_identity.GetRole())
+			{
+				// Actions for scientist role
+				case "scientist":
+					goto case "analyst";
+
+				// Actions for operator role
+				case "operator":
+					btn_anlytc.Visible = false;
+					btn_crud_db.Text = "Tables";
+					break;
+
+				// Actions for analyst role
+				case "analyst":
+					btn_crud_db.Text = "Page for surveys";
+					break;
+
+				// Default case
+				default:
+					break;
+			}
+		}
+
 		private Button btn_anlytc;
         private Button btn_crud_db;
         private Label lbl_role1;
@@ -145,5 +183,6 @@
         private Label lbl_notes;
 		private Button btn_logOut;
 		private TextBox txtBx_notes;
+		private Button btn_save;
 	}
 }

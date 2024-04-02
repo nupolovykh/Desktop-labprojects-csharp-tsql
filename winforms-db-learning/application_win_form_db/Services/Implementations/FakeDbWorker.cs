@@ -167,7 +167,6 @@
         public Dictionary<string, ObservableCollection<object>> EntityDictionary
         {
             get { return _entityDictionary; }
-            set { _entityDictionary = value; }
         }
 
         public Dictionary<string, Type> TypeToId => _typeToId;
@@ -192,8 +191,8 @@
 
         public IEnumerable<Datum> Datum => _data;
 
-        public void SaveChanges() {}
+        public void SaveChanges() { }
 
-        public void DiscardChanges() { }
+		public void DiscardChanges() { }
     }
 }
