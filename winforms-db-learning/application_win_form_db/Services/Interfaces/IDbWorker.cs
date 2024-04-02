@@ -2,7 +2,7 @@
 {
 	public interface IDbWorker
 	{
-		public Dictionary<string, ObservableCollection<object>> EntityDictionary { get; set; }
+		public Dictionary<string, ObservableCollection<object>> EntityDictionary { get; }
 
 		public Dictionary<string, Type> TypeToId { get; }
 
@@ -28,6 +28,6 @@
 
 		public void SaveChanges();
 
-        public void DiscardChanges();
+		public void DiscardChanges();
     }
 }
