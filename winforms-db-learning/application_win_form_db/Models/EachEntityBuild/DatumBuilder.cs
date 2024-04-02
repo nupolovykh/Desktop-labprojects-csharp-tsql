@@ -1,5 +1,4 @@
-﻿
-namespace application_win_form_db.Models.EachEntityBuild
+﻿namespace application_win_form_db.Models.EachEntityBuild
 {
 	internal static class DatumBuilder
 	{

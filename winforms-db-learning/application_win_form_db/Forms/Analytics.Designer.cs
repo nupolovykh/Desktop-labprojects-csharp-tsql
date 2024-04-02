@@ -70,9 +70,9 @@
 			lbl_choose.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
 			lbl_choose.Location = new Point(12, 556);
 			lbl_choose.Name = "lbl_choose";
-			lbl_choose.Size = new Size(181, 19);
+			lbl_choose.Size = new Size(178, 19);
 			lbl_choose.TabIndex = 4;
-			lbl_choose.Text = "Choose the time interval";
+			lbl_choose.Text = "choose the time interval";
 			// 
 			// Analytics
 			// 

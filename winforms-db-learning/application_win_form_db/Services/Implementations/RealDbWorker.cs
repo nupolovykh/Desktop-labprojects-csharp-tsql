@@ -87,7 +87,6 @@
 		public Dictionary<string, ObservableCollection<object>> EntityDictionary
 		{
 			get { return _entityDictionary; }
-			set { _entityDictionary = value; }
 		}
 
 		public Dictionary<string, Type> TypeToId => _typeToId;

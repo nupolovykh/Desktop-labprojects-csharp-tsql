@@ -32,10 +32,10 @@ namespace application_win_form_db.Models.EachEntityBuild
 			});
 
 			modelBuilder.Entity<User>().HasData(
-				new User { UserId = 1, Login = "admin", Password = "123", Role = "Admin", Notes="Edit yout Notes" },
-				new User { UserId = 2, Login = "analyst", Password = "456", Role = "Analyst", Notes = "Edit yout Notes" },
-				new User { UserId = 3, Login = "application_operator", Password = "789", Role = "Application Operator", Notes = "Edit yout Notes" },
-				new User { UserId = 4, Login = "survey_operator", Password = "910", Role = "Survey Operator", Notes = "Edit yout Notes" }
+				new User { UserId = 1, Login = "admin", Password = "123", Role = "admin", Notes="edit yout notes" },
+				new User { UserId = 2, Login = "analyst", Password = "456", Role = "analyst", Notes = "edit yout notes" },
+				new User { UserId = 3, Login = "operator", Password = "789", Role = "operator", Notes = "edit yout notes" },
+				new User { UserId = 4, Login = "scientist", Password = "910", Role = "scientist", Notes = "edit yout notes" }
 			);
 		}
 	}
