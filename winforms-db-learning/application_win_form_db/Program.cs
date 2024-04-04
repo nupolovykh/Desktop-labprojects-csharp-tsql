@@ -20,7 +20,7 @@ namespace application_win_form_db
 
 			_serviceProvider = services.BuildServiceProvider();
 
-            using (var db = new AppDbContext(false))
+            using (var db = new AppDbContext(true))
             {
                 DatabaseInspector inspector = new(db);
                 inspector.InspectDatabase();

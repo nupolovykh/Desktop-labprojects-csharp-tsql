@@ -274,7 +274,11 @@
 			}
 
 			DiscardTheChangesFromBoofer();
-			await UpdataTheDataGrid(key!);
+
+			if (!states_for_closing_window.Equals(statesForClosingWindow.ClosingByTheReturn))
+			{
+				await UpdataTheDataGrid(key!);
+			}
 
 			state_for_saving = statesForSaving.AllReadySaved;
 		}

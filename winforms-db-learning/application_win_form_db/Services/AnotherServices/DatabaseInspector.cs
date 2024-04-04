@@ -11,11 +11,19 @@
 
 		public void InspectDatabase()
 		{
-			if (!_context.Database.CanConnect()) MessageBox.Show("App has no bound with db");
+			if (!_context.Database.CanConnect())
+			{
+				MessageBox.Show("App has no bound with db");
+				return;
+			}
 
 			_context.Users.Load();
 
-			if (_context.Users.Count() == 0) MessageBox.Show("Db has no items inside");
+			if (_context.Users.Count() == 0)
+            {
+                MessageBox.Show("Db has no items inside");
+                return;
+            }
 		}
 	}
 }
