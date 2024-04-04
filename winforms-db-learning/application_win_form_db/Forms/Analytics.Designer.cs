@@ -1,4 +1,6 @@
-﻿namespace application_win_form_db
+﻿using System.Windows.Forms.DataVisualization.Charting;
+
+namespace application_win_form_db
 {
     partial class Analytics
     {
@@ -28,19 +30,12 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			panel1 = new Panel();
 			btn_retrn = new Button();
-			cmbBx_date = new ComboBox();
+			cmbBx_msrt = new ComboBox();
 			lbl_choose = new Label();
+			chrt_main = new Chart();
+			((ISupportInitialize)chrt_main).BeginInit();
 			SuspendLayout();
-			// 
-			// panel1
-			// 
-			panel1.Location = new Point(12, 11);
-			panel1.Margin = new Padding(3, 2, 3, 2);
-			panel1.Name = "panel1";
-			panel1.Size = new Size(1084, 521);
-			panel1.TabIndex = 0;
 			// 
 			// btn_retrn
 			// 
@@ -54,15 +49,16 @@
 			btn_retrn.UseVisualStyleBackColor = true;
 			btn_retrn.Click += btn_retrn_Click;
 			// 
-			// cmbBx_date
+			// cmbBx_msrt
 			// 
-			cmbBx_date.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
-			cmbBx_date.FormattingEnabled = true;
-			cmbBx_date.Location = new Point(199, 553);
-			cmbBx_date.Margin = new Padding(3, 2, 3, 2);
-			cmbBx_date.Name = "cmbBx_date";
-			cmbBx_date.Size = new Size(148, 27);
-			cmbBx_date.TabIndex = 3;
+			cmbBx_msrt.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
+			cmbBx_msrt.FormattingEnabled = true;
+			cmbBx_msrt.Location = new Point(149, 553);
+			cmbBx_msrt.Margin = new Padding(3, 2, 3, 2);
+			cmbBx_msrt.Name = "cmbBx_msrt";
+			cmbBx_msrt.Size = new Size(281, 27);
+			cmbBx_msrt.TabIndex = 3;
+			cmbBx_msrt.SelectedValueChanged += cmbBx_msrt_SelectedValueChanged;
 			// 
 			// lbl_choose
 			// 
@@ -70,9 +66,17 @@
 			lbl_choose.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point);
 			lbl_choose.Location = new Point(12, 556);
 			lbl_choose.Name = "lbl_choose";
-			lbl_choose.Size = new Size(178, 19);
+			lbl_choose.Size = new Size(131, 19);
 			lbl_choose.TabIndex = 4;
-			lbl_choose.Text = "choose the time interval";
+			lbl_choose.Text = "choose the picket";
+			// 
+			// chrt_main
+			// 
+			chrt_main.Location = new Point(12, 12);
+			chrt_main.Name = "chrt_main";
+			chrt_main.Size = new Size(1084, 529);
+			chrt_main.TabIndex = 5;
+			chrt_main.Text = "MainChart";
 			// 
 			// Analytics
 			// 
@@ -80,23 +84,23 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = SystemColors.ButtonShadow;
 			ClientSize = new Size(1108, 598);
+			Controls.Add(chrt_main);
 			Controls.Add(lbl_choose);
-			Controls.Add(cmbBx_date);
+			Controls.Add(cmbBx_msrt);
 			Controls.Add(btn_retrn);
-			Controls.Add(panel1);
 			Margin = new Padding(3, 2, 3, 2);
 			Name = "Analytics";
 			Text = "Analytics";
 			FormClosing += Analytics_FormClosing;
+			((ISupportInitialize)chrt_main).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
 
 		#endregion
-
-		private Panel panel1;
-        private Button btn_retrn;
-        private ComboBox cmbBx_date;
+		private Button btn_retrn;
+        private ComboBox cmbBx_msrt;
         private Label lbl_choose;
-    }
+		private System.Windows.Forms.DataVisualization.Charting.Chart chrt_main;
+	}
 }

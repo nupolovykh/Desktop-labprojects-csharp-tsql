@@ -1,9 +1,17 @@
-﻿namespace application_win_form_db
+﻿using System.Windows.Forms.DataVisualization.Charting;
+
+namespace application_win_form_db
 {
 	public partial class Analytics : Form
 	{
 		private IServiceProvider _serviceProvider;
 		private IDbWorker _worker;
+
+		private string defaultChartArea = "MainArea";
+		private string defaultLegend = "MainLegend";
+		private string nameOfAxisY = "Ultimate Value";
+
+		private const decimal coefficient = 1.5m;
 
 		private statesForClosingWindow states_for_closing_window = statesForClosingWindow.ClosingByTheShutDownWindow;
 
@@ -13,9 +21,75 @@
 
 			_serviceProvider = serviceProvider;
 			_worker = worker;
+
+			PopulationOfTheMeasurementsComboBox();
 		}
 
 		//main logic
+
+		private void PopulationOfTheMeasurementsComboBox()
+		{
+			foreach (var survayLine in _worker.SurveyLines)
+			{
+				if (!survayLine.Pickets.Any()) continue;
+				cmbBx_msrt.Items.Add(survayLine.Name + $" - {survayLine.SurveyLineId}");
+			}
+			cmbBx_msrt.SelectedIndex = 0;
+		}
+
+		private decimal? MainFormula(decimal? a, decimal? b) => (a + b) / coefficient / 2;
+
+		private void FillingOfTheChart(List<Picket> pickets)
+		{
+			try
+			{
+				var obj = chrt_main.ChartAreas[0];
+				double minAxisX = (double)pickets.Min(p => p.Latitude)!;
+				double maxAxisX = (double)pickets.Max(p => p.Latitude)!;
+
+				obj.AxisX.IntervalType = DateTimeIntervalType.Number;
+				obj.AxisX.Minimum = minAxisX - 2;
+				obj.AxisX.Maximum = maxAxisX + 2;
+
+				obj.AxisY.IntervalType = DateTimeIntervalType.Number;
+				obj.AxisY.Minimum = -10000;
+				obj.AxisY.Maximum = 10000;
+
+				chrt_main.Series.Clear();
+
+				Random rand = new Random();
+
+				foreach (var picket in pickets)
+				{
+					var chartKey = picket.PicketId.ToString();
+					chrt_main.Series.Add(chartKey);
+					chrt_main.Series[chartKey].Color = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
+
+					chrt_main.Series[chartKey].ChartArea = defaultChartArea;
+					chrt_main.Series[chartKey].Legend = defaultLegend;
+
+					chrt_main.Series[chartKey].ChartType = SeriesChartType.Column;
+
+					var last = picket.Measurements.MaxBy(m => m.MeasurementDate);
+
+					foreach (var data in last!.Data)
+					{
+						var point = MainFormula(data.ApparentResistivity, data.ApparentResistivity);
+						chrt_main.Series[chartKey].Points.AddXY(picket.Latitude, point);
+					}
+
+				}
+
+				var anyPicket = _worker.Pickets.FirstOrDefault();
+				chrt_main.ChartAreas[0].AxisX.Title = nameof(anyPicket.Latitude);
+				chrt_main.ChartAreas[0].AxisY.Title = nameOfAxisY;
+			}
+			catch (Exception ex) 
+			{
+				MessageBox.Show(ex.Message);
+				chrt_main.Visible = false;
+			}
+		}
 
 		// logic of navigation buttons
 
@@ -29,6 +103,23 @@
 		}
 
 		//another logic of the form
+
+		private void cmbBx_msrt_SelectedValueChanged(object sender, EventArgs e)
+		{
+			var key = cmbBx_msrt.SelectedItem as string;
+			string stringId = key!.Split('-').LastOrDefault()?.Trim()!;
+			if (!int.TryParse(stringId, out int intId)) return;
+
+			chrt_main.Visible = true;
+			chrt_main.ChartAreas.Clear();
+			chrt_main.Legends.Clear();
+			chrt_main.ChartAreas.Add(defaultChartArea);
+			chrt_main.Legends.Add(defaultLegend);
+
+			var pickets = _worker.Pickets.Where(m => m.SurveyLineId == intId).ToList();
+
+			FillingOfTheChart(pickets);
+		}
 
 		private void Analytics_FormClosing(object sender, FormClosingEventArgs e)
 		{

@@ -18,3 +18,4 @@ global using System.Collections.ObjectModel;
 global using System.Collections.Specialized;
 global using Microsoft.VisualBasic;
 global using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+global using System.Windows.Forms.DataVisualization.Charting;
