@@ -20,11 +20,18 @@ namespace application_win_form_db
 
 			_serviceProvider = services.BuildServiceProvider();
 
-            using (var db = new AppDbContext(true))
+            try {
+				using (var db = new AppDbContext(false))
+				{
+					DatabaseInspector inspector = new(db);
+					inspector.InspectDatabase();
+				};
+			}
+            catch (Exception ex) 
             {
-                DatabaseInspector inspector = new(db);
-                inspector.InspectDatabase();
-            };
+                MessageBox.Show(ex.ToString());
+                return;
+            }
 
             ApplicationConfiguration.Initialize();
 			Application.Run(_serviceProvider.GetService<Entrance>());
