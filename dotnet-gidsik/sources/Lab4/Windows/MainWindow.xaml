@@ -34,8 +34,8 @@
         <Button Grid.Column="0" Grid.Row="1" Click="ProductsCustom_Click" Content="Products Custom"/>
         <Button Grid.Column="1" Grid.Row="1" Click="MaterialsCustom_Click" Content="Materials Custom"/>
 
-        <Button Grid.Column="0" Grid.Row="2" Click="FirstWay_Click" Content="FirstWay"/>
-        <Button Grid.Column="1" Grid.Row="2" Click="SecondWay_Click" Content="SecondWay"/>
+        <Button Grid.Column="0" Grid.Row="2" Click="FirstWay_Click" Content="OneGridProducts"/>
+        <Button Grid.Column="1" Grid.Row="2" Click="SecondWay_Click" Content="OneGridMaterials"/>
     </Grid>
     
     

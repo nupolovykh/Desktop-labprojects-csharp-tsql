@@ -51,6 +51,7 @@ namespace Lab4
 			services.AddTransient<MaterialsGrid>();
 			services.AddTransient<ProductsCustom>();
 			services.AddTransient<MaterialsCustom>();
+			services.AddTransient<OneGrid>();
 
 			services.AddScoped<IDbWorker, DbWorker>();
 

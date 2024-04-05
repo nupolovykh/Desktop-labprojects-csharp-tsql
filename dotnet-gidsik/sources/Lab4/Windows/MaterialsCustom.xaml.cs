@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lab4.CustomControls;
+using Lab4.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,27 @@ namespace Lab4.Windows
 	/// </summary>
 	public partial class MaterialsCustom : Window
 	{
-		public MaterialsCustom()
+		private readonly IDbWorker _worker;
+
+		public MaterialsCustom(IDbWorker worker)
 		{
+			_worker = worker;
 			InitializeComponent();
+
+			PopulationOfStackPanel();
+		}
+
+		private void PopulationOfStackPanel()
+		{
+			foreach (var material in _worker.Materials)
+			{
+				pane.Children.Add(new MaterialView(material, _worker));
+			}
+		}
+
+		private void Saving_Click(object sender, RoutedEventArgs e)
+		{
+			_worker.SaveChanges();
 		}
 	}
 }
