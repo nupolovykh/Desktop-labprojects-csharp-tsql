@@ -14,7 +14,7 @@
 			if (!_context.Database.CanConnect())
 			{
 				MessageBox.Show("App has no bound with db");
-				return;
+				Application.Exit();
 			}
 
 			_context.Users.Load();
