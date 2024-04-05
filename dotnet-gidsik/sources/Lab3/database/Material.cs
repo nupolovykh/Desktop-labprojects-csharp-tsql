@@ -10,7 +10,7 @@ namespace Lab3.database
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public IEnumerable<Product> Products { get; set;}
+        public IEnumerable<Product>? Products { get; set;}
 
     }
 }
