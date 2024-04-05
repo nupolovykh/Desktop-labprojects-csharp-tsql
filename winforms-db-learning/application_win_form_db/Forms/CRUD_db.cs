@@ -1,14 +1,16 @@
-﻿namespace application_win_form_db
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
+namespace application_win_form_db
 {
 	public partial class CRUD_db : Form
 	{
-		private IServiceProvider _serviceProvider;
-		private IDbWorker _worker;
-		private IUserIdentity _identity;
+		private readonly IServiceProvider _serviceProvider;
+		private readonly IDbWorker _worker;
+		private readonly IUserIdentity _identity;
 
-		private enum statesForSaving { AllReadySaved, YouHaveSomeUnappliedChanges }
+		private enum StatesForSaving { AllReadySaved, YouHaveSomeUnappliedChanges }
 
-		private enum statesForCancelEditting { DataBaseError, SimpleCancel }
+		private enum StatesForCancelEditting { DataBaseError, SimpleCancel }
 
 		private enum Actions
 		{
@@ -17,12 +19,12 @@
 			AddElement
 		}
 
-		private statesForSaving state_for_saving = statesForSaving.AllReadySaved;
+		private StatesForSaving state_for_saving = StatesForSaving.AllReadySaved;
 		private statesForClosingWindow states_for_closing_window = statesForClosingWindow.ClosingByTheShutDownWindow;
-		private statesForCancelEditting states_for_cancel = statesForCancelEditting.SimpleCancel;
+		private StatesForCancelEditting states_for_cancel = StatesForCancelEditting.SimpleCancel;
 
-		private Dictionary<string, ObservableCollection<object>> _dictionaryEntity;
-		private Dictionary<string, Type> _dictionaryType;
+		private readonly Dictionary<string, ObservableCollection<object>> _dictionaryEntity;
+		private readonly Dictionary<string, Type> _dictionaryType;
 
 		private Dictionary<string, Dictionary<Actions, List<object>>> _booferDictionary = new();
 
@@ -98,55 +100,28 @@
 			dgv.CurrentCell = null;
 		}
 
-		private object CreateInstanceWithId(string key, int nextId)
+		private async Task UpdataTheDataGrid(string? key = null, List<object>? list = null)
 		{
-			var type = _dictionaryType[key];
-			var property = type.GetProperties().FirstOrDefault(p => p.Name.Equals(cmbBx_columns.Items[0]));
+			ObservableCollection<object> source = null!;
 
-			if (property is null) return null!;
-
-			if (property is not null && property.PropertyType == typeof(int))
-			{
-				var instance = Activator.CreateInstance(type);
-				property.SetValue(instance, nextId);
-				return instance!;
-			}
-			return null!;
-		}
-
-		private async Task UpdataTheDataGrid(string key)
-		{
-			ObservableCollection<object> source = await UpdateDataAsync(new ObservableCollection<object>(_dictionaryEntity[key]));
+			if (list is null && key is not null) source = await UpdateDataAsync<ObservableCollection<object>, object>
+				(new ObservableCollection<object>(_dictionaryEntity[key]));
 
 			dgv.DataSource = null;
-			dgv.DataSource = source;
+			dgv.DataSource = source is null ? list : source;
 
 			HidingOfNavigationFields();
 			PopulationOfTheColumnsComboBox();
 		}
 
-		private void UpdataTheDataGridAfterOrderBy(List<object> source)
-		{
-			var key = cmbBx_tables.SelectedItem as string;
-			if (key == null) return;
-
-			foreach (var item in _booferDictionary[key!][Actions.AddElement]) source.Add(item);
-			foreach (var item in _booferDictionary[key!][Actions.RemoveElement]) source.Remove(item);
-
-			dgv.DataSource = null;
-			dgv.DataSource = source;
-
-			HidingOfNavigationFields();
-		}
-
-		private async Task<ObservableCollection<object>> UpdateDataAsync(ObservableCollection<object> source)
+		private async Task<TCollection> UpdateDataAsync<TCollection, TObject>(TCollection source) where TCollection : ICollection<TObject>
 		{
 			var key = cmbBx_tables.SelectedItem as string;
 
 			await Task.Run(() =>
 			{
-				foreach (var item in _booferDictionary[key!][Actions.RemoveElement]) source.Remove(item);
-				foreach (var item in _booferDictionary[key!][Actions.AddElement]) source.Add(item);
+				foreach (var item in _booferDictionary[key!][Actions.RemoveElement]) source.Remove((TObject)item);
+				foreach (var item in _booferDictionary[key!][Actions.AddElement]) source.Add((TObject)item);
 			});
 
 			return source;
@@ -156,14 +131,14 @@
 		{
 			await Task.Run(() =>
 			{
-				foreach (CustomCell cell in _booferDictionary[key][Actions.EditElement])
+				foreach (CustomCell cell in _booferDictionary[key][Actions.EditElement].Cast<CustomCell>())
 				{
 					int index = cell.ItemIndex;
 
 					string? columnName = cell.ColumnName, id = cmbBx_columns.Items[0] as string;
 					object obj;
 
-					if (states_for_cancel.Equals(statesForCancelEditting.DataBaseError)
+					if (states_for_cancel.Equals(StatesForCancelEditting.DataBaseError)
 						&& !columnName.EndsWith("Id")) continue;
 
 					try { obj = _dictionaryEntity[key].FirstOrDefault(obj => 
@@ -174,7 +149,7 @@
 
 					obj.GetType().GetProperty(columnName)!.SetValue(obj, cell.PreviousValue);
 
-					if(states_for_cancel.Equals(statesForCancelEditting.DataBaseError))
+					if(states_for_cancel.Equals(StatesForCancelEditting.DataBaseError))
 					{
 						if (!TryToSaveChanges()) continue;
 						else break;
@@ -187,7 +162,7 @@
 		{
 			try {
 				_worker.SaveChanges();
-				states_for_cancel = statesForCancelEditting.SimpleCancel;
+				states_for_cancel = StatesForCancelEditting.SimpleCancel;
 				return true;
 			}
 			catch { return false; }
@@ -203,21 +178,19 @@
 			}
 		}
 
-		private List<object> LogicOrderByASC(string key, string column, Type type) =>
-			_dictionaryEntity[key].ToList().OrderBy(obj =>
-				type.GetProperties().FirstOrDefault(p => p.Name.Equals(column))
-					!.GetValue(obj, null)).ToList();
+		private static List<object> LogicOrderByASC(List<object> list, string column, Type type) =>
+			list.OrderBy(obj => type.GetProperties().FirstOrDefault(p => p.Name.Equals(column))
+				!.GetValue(obj, null)).ToList();
 
-		private List<object> LogicOrderByDESC(string key, string column, Type type) =>
-			_dictionaryEntity[key].ToList().OrderByDescending(obj =>
-				type.GetProperties().FirstOrDefault(p => p.Name.Equals(column))
-					!.GetValue(obj, null)).ToList();
+		private static List<object> LogicOrderByDESC(List<object> list, string column, Type type) =>
+			list.OrderByDescending(obj => type.GetProperties().FirstOrDefault(p => p.Name.Equals(column))
+				!.GetValue(obj, null)).ToList();
 
 		private object FindLastId(Type type, ObservableCollection<object> source) => type.GetProperties().
 				FirstOrDefault(p => p.Name.Equals(cmbBx_columns.Items[0]))!.
 					GetValue(source.LastOrDefault())!;
 
-		private object FindTheObjectInAbstractObservableCollection(object obj, string column)
+		private static object FindTheObjectInAbstractObservableCollection(object obj, string column)
 			=> obj.GetType().GetProperty(column)!.GetValue(obj)!;
 
 		private List<int> SortedIndexexForDeleting(DataGridViewSelectedRowCollection objects)
@@ -249,11 +222,27 @@
 					is not null) && (obj.GetType().GetProperties().FirstOrDefault(p => p.GetValue(obj)?.ToString() == itemIndex.ToString())
 						is not null)));
 
+		private object CreateInstanceWithId(string key, int nextId)
+		{
+			var type = _dictionaryType[key];
+			var property = type.GetProperties().FirstOrDefault(p => p.Name.Equals(cmbBx_columns.Items[0]));
+
+			if (property is null) return null!;
+
+			if (property is not null && property.PropertyType == typeof(int))
+			{
+				var instance = Activator.CreateInstance(type);
+				property.SetValue(instance, nextId);
+				return instance!;
+			}
+			return null!;
+		}
+
 		//popUps for each accident
 
-		private void PopUpSaveOrCancelChanges() => MessageBox.Show($"Save or cancel changes", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+		private static void PopUpSaveOrCancelChanges() => MessageBox.Show($"Save or cancel changes", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-		private void PopUpErrorWithData() => MessageBox.Show("Try to input data in another format", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		private static void PopUpErrorWithData() => MessageBox.Show("Try to input data in another format", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 		//logic of crud_buttons
 
@@ -263,13 +252,13 @@
 			if (key is null) return;
 
 			try {
-				await UpdateDataAsync(_dictionaryEntity[key]!);
+				await UpdateDataAsync<ObservableCollection<object>, object>(_dictionaryEntity[key]!);
 				_worker.SaveChanges();
 			}
 			catch (Exception ex) 
 			{
 				MessageBox.Show(ex.Message + " Some data will had disposed");
-				states_for_cancel = statesForCancelEditting.DataBaseError;
+				states_for_cancel = StatesForCancelEditting.DataBaseError;
 				await EditTheMainDictionary(key!);
 			}
 
@@ -280,7 +269,7 @@
 				await UpdataTheDataGrid(key!);
 			}
 
-			state_for_saving = statesForSaving.AllReadySaved;
+			state_for_saving = StatesForSaving.AllReadySaved;
 		}
 
 		private async void btn_c_Click(object sender, EventArgs e)
@@ -290,7 +279,7 @@
 
 			ObservableCollection<object> source = new(_dictionaryEntity[key]);
 
-			await UpdateDataAsync(source);
+			await UpdateDataAsync<ObservableCollection<object>, object>(source);
 			var nextId = FindLastId(_dictionaryType[key], source);
 
 			if (nextId is null) return;
@@ -299,7 +288,7 @@
 
 			if (entity is not null) _booferDictionary[key][Actions.AddElement].Add(entity);
 
-			state_for_saving = statesForSaving.YouHaveSomeUnappliedChanges;
+			state_for_saving = StatesForSaving.YouHaveSomeUnappliedChanges;
 			await UpdataTheDataGrid(key);
 		}
 
@@ -310,7 +299,7 @@
 
 			var objects = dgv.SelectedRows;
 
-			if (key is null || state_for_saving == statesForSaving.YouHaveSomeUnappliedChanges)
+			if (key is null || state_for_saving == StatesForSaving.YouHaveSomeUnappliedChanges || column is null)
 			{
 				PopUpSaveOrCancelChanges();
 				return;
@@ -326,7 +315,7 @@
 
 				_booferDictionary[key][Actions.RemoveElement].Add(objForDelete!);
 			}
-			state_for_saving = statesForSaving.YouHaveSomeUnappliedChanges;
+			state_for_saving = StatesForSaving.YouHaveSomeUnappliedChanges;
 
 			await UpdataTheDataGrid(key);
 		}
@@ -335,15 +324,17 @@
 		{
 			var key = cmbBx_tables.SelectedItem as string;
 
+			if (key is null) return;
+
 			await EditTheMainDictionary(key!);
 			DiscardTheChangesFromBoofer();
 			_worker.DiscardChanges();
 
-			state_for_saving = statesForSaving.AllReadySaved;
+			state_for_saving = StatesForSaving.AllReadySaved;
 			await UpdataTheDataGrid(key!);
 		}
 
-		private void btn_sort_asc_Click(object sender, EventArgs e)
+		private async void btn_sort_asc_Click(object sender, EventArgs e)
 		{
 			var key = cmbBx_tables.SelectedItem as string;
 			var column = cmbBx_columns.SelectedItem as string;
@@ -354,12 +345,13 @@
 
 			var type = _dictionaryEntity[key].First().GetType();
 
-			var sortedASC = LogicOrderByASC(key, column, type);
+			List<object> allEntries = await UpdateDataAsync<List<object>, object>(new List<object>(_dictionaryEntity[key]));
+			var sortedASC = LogicOrderByASC(allEntries, column, type);
 
-			UpdataTheDataGridAfterOrderBy(sortedASC);
+			await UpdataTheDataGrid(null, sortedASC);
 		}
 
-		private void btn_sort_desc_Click(object sender, EventArgs e)
+		private async void btn_sort_desc_Click(object sender, EventArgs e)
 		{
 			var key = cmbBx_tables.SelectedItem as string;
 			var column = cmbBx_columns.SelectedItem as string;
@@ -370,16 +362,17 @@
 
 			var type = _dictionaryEntity[key].First().GetType();
 
-			var sortedDESC = LogicOrderByDESC(key, column, type);
+			List<object> allEntries = await UpdateDataAsync<List<object>, object>(new List<object>(_dictionaryEntity[key]));
+			var sortedDESC = LogicOrderByDESC(allEntries, column, type);
 
-			UpdataTheDataGridAfterOrderBy(sortedDESC);
+			await UpdataTheDataGrid(null, sortedDESC);
 		}
 
 		// logic of navigation buttons
 
 		private void btn_retrn_Click(object sender, EventArgs e)
 		{
-			if (state_for_saving == statesForSaving.YouHaveSomeUnappliedChanges)
+			if (state_for_saving == StatesForSaving.YouHaveSomeUnappliedChanges)
 			{
 				PopUpSaveOrCancelChanges();
 				return;
@@ -456,7 +449,7 @@
 
 			_booferDictionary[key!][Actions.EditElement].Add(customCell);
 
-			state_for_saving = statesForSaving.YouHaveSomeUnappliedChanges;
+			state_for_saving = StatesForSaving.YouHaveSomeUnappliedChanges;
 		}
 
 		//usefull class

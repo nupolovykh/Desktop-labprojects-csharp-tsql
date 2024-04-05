@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms.DataVisualization.Charting;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace application_win_form_db
 {
@@ -12,6 +13,7 @@ namespace application_win_form_db
 		private string nameOfAxisY = "Ultimate Value";
 
 		private const decimal coefficient = 1.5m;
+		private Random rand = new Random();
 
 		private statesForClosingWindow states_for_closing_window = statesForClosingWindow.ClosingByTheShutDownWindow;
 
@@ -37,7 +39,28 @@ namespace application_win_form_db
 			cmbBx_msrt.SelectedIndex = 0;
 		}
 
+		private void AttuneTheChart()
+		{
+			chrt_main.Visible = true;
+			chrt_main.ChartAreas.Clear();
+			chrt_main.Legends.Clear();
+			chrt_main.Series.Clear();
+
+			chrt_main.ChartAreas.Add(defaultChartArea);
+			chrt_main.Legends.Add(defaultLegend);
+		}
+
+		private void AttuneSerie(string key) 
+		{
+			chrt_main.Series[key].Color = RandomColor();
+			chrt_main.Series[key].ChartArea = defaultChartArea;
+			chrt_main.Series[key].Legend = defaultLegend;
+			chrt_main.Series[key].ChartType = SeriesChartType.Column;
+		}
+
 		private decimal? MainFormula(decimal? a, decimal? b) => (a + b) / coefficient / 2;
+
+		private Color RandomColor() => Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
 
 		private void FillingOfTheChart(List<Picket> pickets)
 		{
@@ -55,20 +78,12 @@ namespace application_win_form_db
 				obj.AxisY.Minimum = -10000;
 				obj.AxisY.Maximum = 10000;
 
-				chrt_main.Series.Clear();
-
-				Random rand = new Random();
-
 				foreach (var picket in pickets)
 				{
 					var chartKey = picket.PicketId.ToString();
 					chrt_main.Series.Add(chartKey);
-					chrt_main.Series[chartKey].Color = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
 
-					chrt_main.Series[chartKey].ChartArea = defaultChartArea;
-					chrt_main.Series[chartKey].Legend = defaultLegend;
-
-					chrt_main.Series[chartKey].ChartType = SeriesChartType.Column;
+					AttuneSerie(chartKey);
 
 					var last = picket.Measurements.MaxBy(m => m.MeasurementDate);
 
@@ -110,11 +125,7 @@ namespace application_win_form_db
 			string stringId = key!.Split('-').LastOrDefault()?.Trim()!;
 			if (!int.TryParse(stringId, out int intId)) return;
 
-			chrt_main.Visible = true;
-			chrt_main.ChartAreas.Clear();
-			chrt_main.Legends.Clear();
-			chrt_main.ChartAreas.Add(defaultChartArea);
-			chrt_main.Legends.Add(defaultLegend);
+			AttuneTheChart();
 
 			var pickets = _worker.Pickets.Where(m => m.SurveyLineId == intId).ToList();
 
