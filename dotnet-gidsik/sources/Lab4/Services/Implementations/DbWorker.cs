@@ -19,11 +19,11 @@ namespace Lab4.Services
 		{
 			_context = context;
 
-			_materials = context.Materials
-				.Include(m => m.Products).ToList();
+			_materials = context.Materials.ToList();
+			//.Include(m => m.Products).ToList();
 
-			_products = context.Products
-				.Include(p => p.Material).ToList();
+			_products = context.Products.ToList();
+			//.Include(p => p.Material).ToList();
 		}
 
 		public IEnumerable<Product> Products => _products;

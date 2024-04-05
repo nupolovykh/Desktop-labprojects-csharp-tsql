@@ -1,4 +1,5 @@
-﻿using Lab4.Windows;
+﻿using Lab4.Services;
+using Lab4.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
@@ -43,14 +44,16 @@ namespace Lab4
 
 		private void FirstWay_Click(object sender, RoutedEventArgs e)
 		{
-			//var productGrid = _serviceProvider.GetService<ProductsGrid>();
-			//productGrid!.ShowDialog();
+			var db = _serviceProvider.GetService<IDbWorker>()!;
+			var oneGrid = new OneGrid(db.Products);
+			oneGrid!.ShowDialog();
 		}
 
 		private void SecondWay_Click(object sender, RoutedEventArgs e)
 		{
-			//var productGrid = _serviceProvider.GetService<ProductsGrid>();
-			//productGrid!.ShowDialog();
+			var db = _serviceProvider.GetService<IDbWorker>()!;
+			var oneGrid = new OneGrid(db.Materials);
+			oneGrid.ShowDialog();
 		}
 	}
 }
