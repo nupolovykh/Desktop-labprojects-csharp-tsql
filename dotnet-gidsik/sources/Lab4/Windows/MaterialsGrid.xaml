@@ -18,7 +18,10 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.RowSpan="2" Grid.ColumnSpan="2" x:Name="dgv" AutoGenerateColumns="True"></DataGrid>
-        <Button Grid.Row="2" Grid.ColumnSpan="2" Width="200" Height="30" Content="Save" Click="Saving_Click"/>
+        <DataGrid Grid.RowSpan="2" Grid.ColumnSpan="2" x:Name="dgv"
+                  AutoGenerateColumns="True"/>
+        <Button Grid.Row="2" Grid.ColumnSpan="2" Width="200" Height="30"
+                Content="Save" Click="Saving_Click"/>
+        
     </Grid>
 </Window>
