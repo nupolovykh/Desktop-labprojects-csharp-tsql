@@ -20,7 +20,7 @@ jobs:
           tree -a -I .git -I obj -I bin          
 
       - name: build apps
-        run: dotnet build ${{ gitea.workspace }}/sources/Lab4/Lab4.sln -c Release
+        run: dotnet build ${{ gitea.workspace }}/sources/Lab6/Lab6.sln -c Release
 
       - name: publish apps
         run: dotnet publish --os win -a x64 -c Release -o "${{ gitea.workspace }}/publish/Lab6" "${{ gitea.workspace }}/sources/Lab6/Lab6.csproj" 
