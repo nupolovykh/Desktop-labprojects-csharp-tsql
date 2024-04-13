@@ -23,7 +23,7 @@ jobs:
         run: dotnet build ${{ gitea.workspace }}/sources/Lab4/Lab4.sln -c Release
 
       - name: publish apps
-        run: dotnet publish --os win -a x64 -c Release -o "${{ gitea.workspace }}/publish/Lab4" "${{ gitea.workspace }}/sources/Lab4/Lab4.csproj" 
+        run: dotnet publish --os win -a x64 -c Release -o "${{ gitea.workspace }}/publish/Lab6" "${{ gitea.workspace }}/sources/Lab6/Lab6.csproj" 
 
       - name: deploy apps
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -32,7 +32,7 @@ jobs:
           username: ci-nsu-uploader
           password: f92055f16d062d13880246f720a9dbdf270f605892ee71b57b4a02bf1bce91aa
           server-dir: ${{ gitea.repository }}/${{ gitea.ref }}/
-          local-dir: "${{ gitea.workspace }}/publish/Lab4/"
+          local-dir: "${{ gitea.workspace }}/publish/Lab6/"
 
       - name: status
         run: echo "🍏 This job's status is ${{ job.status }}."
