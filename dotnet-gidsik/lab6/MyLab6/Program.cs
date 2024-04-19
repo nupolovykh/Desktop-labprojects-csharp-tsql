@@ -64,7 +64,8 @@ public class ThreadWorker
     }
 
     private void ThreadMethod(){
-        while(true){
+        while(true)
+        {
             autoResetEvent.WaitOne();
             while(queue.Count > 1){
                 _mutex.WaitOne();

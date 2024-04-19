@@ -22,9 +22,9 @@ using Main;
 
 //#3 task
 
-string pathToInput = @"..\People.json";
-string pathToOutput = @"..\People.bin";
-// string pathToInput = @"..\..\..\..\People.json";
-// string pathToOutput = @"..\..\..\..\People.bin";
+//string pathToInput = @"..\People.json";
+//string pathToOutput = @"..\People.bin";
+string pathToInput = @"..\..\..\..\People.json";
+string pathToOutput = @"..\..\..\..\People.bin";
 List<Person> people = PersonBinarySerializer.Deserialize(pathToInput);
 PersonBinarySerializer.Serialize(pathToOutput, people);
