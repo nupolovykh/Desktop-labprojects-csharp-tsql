@@ -29,5 +29,5 @@
 		public void SaveChanges();
 
 		public void DiscardChanges();
-    }
+	}
 }
