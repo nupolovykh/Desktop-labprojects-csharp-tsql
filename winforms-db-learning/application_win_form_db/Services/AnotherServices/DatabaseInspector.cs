@@ -20,10 +20,10 @@
 			_context.Users.Load();
 
 			if (_context.Users.Count() == 0)
-            {
-                MessageBox.Show("Db has no items inside");
-                return;
-            }
+			{
+				MessageBox.Show("Db has no items inside");
+				return;
+			}
 		}
 	}
 }

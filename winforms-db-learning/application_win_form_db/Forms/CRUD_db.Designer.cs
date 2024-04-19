@@ -1,24 +1,24 @@
 ﻿namespace application_win_form_db
 {
-    partial class CRUD_db
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private IContainer components = null;
+	partial class CRUD_db
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
 		#region Windows Form Designer generated code
 
@@ -279,19 +279,19 @@
 		#endregion
 
 		private Label lbl_choose;
-        private ComboBox cmbBx_tables;
-        private DataGridView dgv;
-        private Button btn_retrn;
-        private Button btn_c;
-        private Button btn_d;
-        private Button btn_sort_desc;
-        private Button btn_sort_asc;
-        private Label lbl_sort;
-        private ComboBox cmbBx_columns;
-        private Label lbl_search;
-        private TextBox txtBx_search;
-        private Button btn_save;
-        private Button btn_cancel;
-        private Button btn_search;
-    }
+		private ComboBox cmbBx_tables;
+		private DataGridView dgv;
+		private Button btn_retrn;
+		private Button btn_c;
+		private Button btn_d;
+		private Button btn_sort_desc;
+		private Button btn_sort_asc;
+		private Label lbl_sort;
+		private ComboBox cmbBx_columns;
+		private Label lbl_search;
+		private TextBox txtBx_search;
+		private Button btn_save;
+		private Button btn_cancel;
+		private Button btn_search;
+	}
 }

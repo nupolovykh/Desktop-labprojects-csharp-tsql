@@ -33,7 +33,7 @@
 			dbSet.Add(item);
 		}
 
-        private static void RemoveFromAnyCollection<T>(AppDbContext context, T item) where T : class
+		private static void RemoveFromAnyCollection<T>(AppDbContext context, T item) where T : class
 		{
 			var dbSet = context.Set<T>();
 			dbSet.Remove(item);

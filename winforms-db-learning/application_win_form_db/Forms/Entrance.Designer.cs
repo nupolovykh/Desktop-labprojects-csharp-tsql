@@ -1,24 +1,24 @@
 ﻿namespace application_win_form_db
 {
-    partial class Entrance
-    {
-        /// <summary>
-        ///  Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+	partial class Entrance
+	{
+		/// <summary>
+		///  Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        ///  Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary>
+		///  Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
 		#region Windows Form Designer generated code
 
@@ -133,11 +133,11 @@
 		#endregion
 
 		private Button btn_entrance;
-        private TextBox txtBx_db;
-        private TextBox txtBx_login;
-        private TextBox txtBx_password;
-        private Label lbl_desc_1;
-        private Label label1;
-        private Label label2;
-    }
+		private TextBox txtBx_db;
+		private TextBox txtBx_login;
+		private TextBox txtBx_password;
+		private Label lbl_desc_1;
+		private Label label1;
+		private Label label2;
+	}
 }
