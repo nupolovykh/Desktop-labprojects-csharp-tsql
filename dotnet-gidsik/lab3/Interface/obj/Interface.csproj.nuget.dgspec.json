@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\polov\\Documents\\dotnet\\lab3\\Interface\\Interface.csproj": {}
+    "C:\\Users\\polov\\Desktop\\git\\laboratory_works_exp_git\\lab3\\Interface\\Interface.csproj": {}
   },
   "projects": {
-    "C:\\Users\\polov\\Documents\\dotnet\\lab3\\Interface\\Interface.csproj": {
+    "C:\\Users\\polov\\Desktop\\git\\laboratory_works_exp_git\\lab3\\Interface\\Interface.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\polov\\Documents\\dotnet\\lab3\\Interface\\Interface.csproj",
+        "projectUniqueName": "C:\\Users\\polov\\Desktop\\git\\laboratory_works_exp_git\\lab3\\Interface\\Interface.csproj",
         "projectName": "Interface",
-        "projectPath": "C:\\Users\\polov\\Documents\\dotnet\\lab3\\Interface\\Interface.csproj",
+        "projectPath": "C:\\Users\\polov\\Desktop\\git\\laboratory_works_exp_git\\lab3\\Interface\\Interface.csproj",
         "packagesPath": "C:\\Users\\polov\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\polov\\Documents\\dotnet\\lab3\\Interface\\obj\\",
+        "outputPath": "C:\\Users\\polov\\Desktop\\git\\laboratory_works_exp_git\\lab3\\Interface\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\polov\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\polov\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -53,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.415\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -22,6 +22,6 @@ var collection = new List<IHaveArea>
 //    Console.WriteLine(item.get_space());
 //}
 
-string tempt = Console.ReadLine(); //// = "(){[(})]";
+string tempt = Console.ReadLine()!; //// = "(){[(})]";
 Console.WriteLine(chechbreaker.Check(tempt));
 

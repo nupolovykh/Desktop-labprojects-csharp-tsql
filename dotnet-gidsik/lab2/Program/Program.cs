@@ -12,12 +12,12 @@ public static class Extensions
 
 internal class Program
 {
-    public static void methods()
+    public static void Methods()
     {
         double[] array = new double[10];
         for (int i = 0; i < array.Length; i++)
         {
-            string input = Console.ReadLine();
+            string input = Console.ReadLine()!;
             Extensions.TestTheInput(input);
             array[i] = double.Parse(input);
         }
@@ -29,9 +29,9 @@ internal class Program
         Console.WriteLine("GeometricAverage = " + ArrayMethodsLibrary.FindGeometricAverage(array));
     }
 
-    public static void calculator()
+    public static void CalculatorExe()
     {
-        string expression = Console.ReadLine(); //"(0-3)*(5+8-(1*5)+2)/2"
+        string expression = Console.ReadLine()!; //"(0-3)*(5+8-(1*5)+2)/2"
         Calculator.Tests(expression);
 
         //Calculator.CalculatorMethod(expression);
@@ -42,6 +42,6 @@ internal class Program
     private static void Main(string[] args)
     {
         //methods();
-        calculator();
+        CalculatorExe();
     }
 }

@@ -102,54 +102,54 @@ void ActionWithObject(){
     
 }
 
-while(true){
-    Console.Write(states.Peek() + " || ");
-    var action = Console.ReadLine();
+//while(true){
+//    Console.Write(states.Peek() + " || ");
+//    var action = Console.ReadLine();
 
-    if (string.IsNullOrWhiteSpace(action)) continue;
-    else if (action == "exit") break;
-    else if (action == "q") {
-        if(states.Peek() == "start") break;
-        else if(priorities[states.Peek()] == 3){
-            while(states.Count() != 1){
-                states.Pop();
-            }
-            currentUsername = "nobody";
-        }
-        else if(priorities[states.Peek()] == 2) states.Pop();
-        continue;
-    }
+//    if (string.IsNullOrWhiteSpace(action)) continue;
+//    else if (action == "exit") break;
+//    else if (action == "q") {
+//        if(states.Peek() == "start") break;
+//        else if(priorities[states.Peek()] == 3){
+//            while(states.Count() != 1){
+//                states.Pop();
+//            }
+//            currentUsername = "nobody";
+//        }
+//        else if(priorities[states.Peek()] == 2) states.Pop();
+//        continue;
+//    }
 
-    if(priorities[states.Peek()] != 2){
-        if(action == "help"){
-            Console.WriteLine("enter your username for login");
-            Console.WriteLine("enter \"exit\" for exit from current state");
-            Console.WriteLine("enter \"show users\" for get list of users \n");
-            continue;
-        }
-        else if(action == "show users"){
-            foreach(string name in users.Keys){
-                Console.WriteLine(name);
-            }
-            states.Push("choose user");
-            Console.WriteLine("");
-            continue;
-        }
-        else if(action == "edit" && states.Peek() == "logined"){
-            StateEdit();
-            continue;
-        }
+//    if(priorities[states.Peek()] != 2){
+//        if(action == "help"){
+//            Console.WriteLine("enter your username for login");
+//            Console.WriteLine("enter \"exit\" for exit from current state");
+//            Console.WriteLine("enter \"show users\" for get list of users \n");
+//            continue;
+//        }
+//        else if(action == "show users"){
+//            foreach(string name in users.Keys){
+//                Console.WriteLine(name);
+//            }
+//            states.Push("choose user");
+//            Console.WriteLine("");
+//            continue;
+//        }
+//        else if(action == "edit" && states.Peek() == "logined"){
+//            StateEdit();
+//            continue;
+//        }
 
-        if(states.Peek() == "start") StateLogin(action);
-        continue;
-    }
+//        if(states.Peek() == "start") StateLogin(action);
+//        continue;
+//    }
 
-    if(priorities[states.Peek()] == 2){
-        if(states.Peek() == "password") StatePassword(action);
-        else if(states.Peek() == "choose user") StateChooseUser(action);
-        else if(states.Peek() == "choose object") StateChooseObject(action);
-        continue;
-    }
+//    if(priorities[states.Peek()] == 2){
+//        if(states.Peek() == "password") StatePassword(action);
+//        else if(states.Peek() == "choose user") StateChooseUser(action);
+//        else if(states.Peek() == "choose object") StateChooseObject(action);
+//        continue;
+//    }
    
-}
+//}
 

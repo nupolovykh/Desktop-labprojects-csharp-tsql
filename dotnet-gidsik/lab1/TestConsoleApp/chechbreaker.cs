@@ -16,6 +16,7 @@ namespace TestConsoleApp
 
             foreach (char c in charArray)
             {
+                if (c == ' ') continue;
                 if (c == '{' || c == '[' || c == '(')
                 {
                     if (c == '{') vec.Push('}');

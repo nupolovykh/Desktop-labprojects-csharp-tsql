@@ -34,3 +34,15 @@ C:\Users\polov\Documents\dotnet\lab3\Interface\obj\Debug\net6.0\Interface.dll
 C:\Users\polov\Documents\dotnet\lab3\Interface\obj\Debug\net6.0\refint\Interface.dll
 C:\Users\polov\Documents\dotnet\lab3\Interface\obj\Debug\net6.0\Interface.pdb
 C:\Users\polov\Documents\dotnet\lab3\Interface\obj\Debug\net6.0\ref\Interface.dll
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\bin\Debug\net6.0\Interface.deps.json
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\bin\Debug\net6.0\Interface.dll
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\bin\Debug\net6.0\Interface.pdb
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\obj\Debug\net6.0\Interface.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\obj\Debug\net6.0\Interface.AssemblyInfoInputs.cache
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\obj\Debug\net6.0\Interface.AssemblyInfo.cs
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\obj\Debug\net6.0\Interface.csproj.CoreCompileInputs.cache
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\obj\Debug\net6.0\Interface.sourcelink.json
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\obj\Debug\net6.0\Interface.dll
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\obj\Debug\net6.0\refint\Interface.dll
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\obj\Debug\net6.0\Interface.pdb
+C:\Users\polov\Desktop\git\laboratory_works_exp_git\lab3\Interface\obj\Debug\net6.0\ref\Interface.dll
