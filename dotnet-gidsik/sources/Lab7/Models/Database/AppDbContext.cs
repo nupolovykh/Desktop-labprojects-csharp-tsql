@@ -1,4 +1,6 @@
 ﻿using Lab7.Models.Database.Entity;
+using Lab7.Services;
+using Lab7.Services.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +12,8 @@ namespace Lab7.Models.Database
 	{
 		public AppDbContext(DbContextOptions options) :base(options) 
 		{
-			Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            Database.EnsureCreated();
 		}
 
 		public DbSet<User> Users { get; set; } = null!;
@@ -30,9 +33,9 @@ namespace Lab7.Models.Database
 			   new Role { Id = 2, Name = "Employee" });
 
 			modelBuilder.Entity<User>().HasData(
-				new User { Id = 1, RoleId = 1, Login = "NikitaSuperCool", Password = "123" },
-				new User { Id = 2, RoleId = 2, Login = "GrishaSenior", Password = "lolol" },
-				new User { Id = 3, RoleId = 2, Login = "LenaPoleno", Password = "sapogi" });
+				new User { Id = 1, RoleId = 1, Login = "NikitaSuperCool", Password = "123".Hash_MD5() },
+				new User { Id = 2, RoleId = 2, Login = "GrishaSenior", Password = "lolol".Hash_MD5() },
+				new User { Id = 3, RoleId = 2, Login = "LenaPoleno", Password = "sapogi".Hash_MD5() });
 
 		}
 	}

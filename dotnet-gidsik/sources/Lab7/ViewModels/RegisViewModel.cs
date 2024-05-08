@@ -1,5 +1,8 @@
 ﻿using Lab7.Commands;
 using Lab7.Services.Authorization;
+using Lab7.Services.ViewManager;
+using Lab7.Views;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +14,11 @@ namespace Lab7.ViewModels
 {
 	internal class RegisViewModel : ViewModelBase
 	{
-		private string _login;
+        private readonly IAuthorization _authorization;
+        private readonly IViewsManager _viewsManager;
+        private readonly IServiceProvider _provider;
+
+        private string _login;
 		public string Login
 		{
 			get => _login;
@@ -22,7 +29,6 @@ namespace Lab7.ViewModels
 			}
 		}
 
-
 		private string _password;
 		public string Password
 		{
@@ -31,7 +37,8 @@ namespace Lab7.ViewModels
 			{
 				_password = value;
 				OnPropertyChanged(nameof(_password));
-			}
+                MyStateChanged!.Invoke();
+            }
 		}
 
 		private string _password2;
@@ -42,23 +49,61 @@ namespace Lab7.ViewModels
 			{
 				_password2 = value;
 				OnPropertyChanged(nameof(_password2));
-			}
+            }
 		}
 
-		public ICommand RegisCommand { get; set; }
+        public event Action? MyStateChanged;
 
-		public RegisViewModel(IAuthorization authorization)
+        public ICommand RegisCommand { get; set; }
+        public ICommand GeneratePassword { get; set; }
+        public ICommand OpenLoginCommand { get; set; }
+
+		public RegisViewModel() { }
+
+        public RegisViewModel(IServiceProvider provider, IAuthorization authorization, IViewsManager viewsManager)
 		{
-			RegisCommand = new DelegateCommand(
+            _authorization = authorization;
+            _viewsManager = viewsManager;
+            _provider = provider;
+
+            MyStateChanged += () => OnPropertyChanged(nameof(Password));
+
+            RegisCommand = new DelegateCommand(
 				action: (_) =>
 				{
 					authorization.SignIn(_login!, _password!);
 				},
 				condition: (_) =>
 				{
-					return !string.IsNullOrEmpty(_login) && !string.IsNullOrEmpty(_password);
+					return !string.IsNullOrEmpty(_login) && !string.IsNullOrEmpty(_password) && !string.IsNullOrEmpty(_password2);
 				},
 				vmb: (this));
-		}
-	}
+
+            GeneratePassword = new DelegateCommand(
+               action: (_) =>
+               {
+				   Password = _authorization.RandomString();
+               },
+               condition: (_) =>
+               {
+                   return string.IsNullOrEmpty(_password) && string.IsNullOrEmpty(_password2);
+               },
+               vmb: (this));
+
+            OpenLoginCommand = new DelegateCommand(
+                action: (_) =>
+                {
+                    var context = _provider.GetRequiredService<LoginViewModel>();
+                    _viewsManager.Open<Login>(context);
+                },
+                condition: (_) => true,
+                vmb: this);
+        }
+
+        public override void Dispose()
+        {
+            MyStateChanged -= () => OnPropertyChanged(nameof(Password));
+            base.Dispose();
+        }
+    }
 }

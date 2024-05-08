@@ -1,12 +1,16 @@
 ﻿using Lab7.Models.Database.Entity;
 using Lab7.Services.DbWorker;
+using Lab7.ViewModels;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows;
+using System.Windows.Markup;
 
 namespace Lab7.Services.Authorization
 {
 	public class Authorization : IAuthorization
 	{
-		private User _currentUser { get; set; }
+        private User _currentUser { get; set; }
 
 		private readonly IDbWorker _worker;
 
@@ -17,18 +21,18 @@ namespace Lab7.Services.Authorization
 
 		public void Login(string login, string password)
 		{
-			var user = _worker.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+			var user = _worker.Users.FirstOrDefault(u => u.Login == login && u.Password == password.Hash_MD5());
 
 			if (user is null) return;
 
 			_currentUser = user;
-			MessageBox.Show("success");
-			MessageBox.Show($"{user}");
-		}
+
+            MessangeLog(user);
+        }
 
 		public void SignIn(string login, string password)
 		{
-			var user = _worker.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+			var user = _worker.Users.FirstOrDefault(u => u.Login == login && u.Password == password.Hash_MD5());
 
 			if (user is not null) return;
 
@@ -36,7 +40,7 @@ namespace Lab7.Services.Authorization
 			{
 				Id = _worker.Users.Count() + 1,
 				Login = login,
-				Password = password,
+				Password = password.Hash_MD5(),
 				RoleId = 2
 			};
 
@@ -44,9 +48,8 @@ namespace Lab7.Services.Authorization
 			_worker.Context.Users.Add(user);
 			_worker.SaveChanges();
 
-			MessageBox.Show("success");
-			MessageBox.Show($"{user}");
-		}
+			MessangeLog(user);
+        }
 
 		public void LogOut()
 		{
@@ -55,5 +58,21 @@ namespace Lab7.Services.Authorization
 
 		public User CurrentUser => _currentUser;
 
-	}
+        private void MessangeLog(User user)
+        {
+            MessageBox.Show("success");
+            MessageBox.Show($"{user.Login}");
+        }
+
+        public string RandomString()
+        {
+			var random = new Random();
+			int length = random.Next(10) + 10;
+
+			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+			return new string(Enumerable.Repeat(chars, length)
+				.Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+    }
 }
