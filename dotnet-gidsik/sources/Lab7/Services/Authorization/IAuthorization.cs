@@ -8,6 +8,7 @@ namespace Lab7.Services.Authorization
 		void Login(string login, string password);
 		void SignIn(string login, string password);
 		void LogOut();
-		User CurrentUser { get; }
+        string RandomString();
+        User CurrentUser { get; }
 	}
 }
