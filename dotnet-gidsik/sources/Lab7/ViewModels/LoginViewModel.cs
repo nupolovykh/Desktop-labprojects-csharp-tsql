@@ -1,14 +1,8 @@
 ﻿using Lab7.Commands;
 using Lab7.Services.Authorization;
-using Lab7.Services.DbWorker;
 using Lab7.Services.ViewManager;
 using Lab7.Views;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Lab7.ViewModels
@@ -16,10 +10,10 @@ namespace Lab7.ViewModels
 	internal class LoginViewModel : ViewModelBase
 	{
 		private readonly IAuthorization _authorization;
-        private readonly IViewsManager _viewsManager;
-        private readonly IServiceProvider _provider;
+		private readonly IViewsManager _viewsManager;
+		private readonly IServiceProvider _provider;
 
-        private string _login = string.Empty;
+		private string _login = string.Empty;
 		public string Login
 		{
 			get => _login;
@@ -29,7 +23,6 @@ namespace Lab7.ViewModels
 				OnPropertyChanged(nameof(Login));
 			}
 		}
-
 
 		private string _password = string.Empty;
 		public string Password
@@ -43,10 +36,10 @@ namespace Lab7.ViewModels
 		}
 
 		public ICommand LoginCommand { get; set; }
+		public ICommand OpenRegisCommand { get; set; }
 
-        public ICommand OpenRegisCommand { get; set; }
+		public LoginViewModel() { }
 
-        public LoginViewModel() { }
 		public LoginViewModel(IServiceProvider provider, IAuthorization authorization, IViewsManager viewsManager)
 		{
 			_authorization = authorization;
@@ -56,11 +49,17 @@ namespace Lab7.ViewModels
 			LoginCommand = new DelegateCommand(
 				action: (_) =>
 				{
-					_authorization.Login(_login, _password);
+					_authorization.Login(Login, Password);
+
+					if(_authorization.CurrentUser is not null)
+					{
+						var context = _provider.GetRequiredService<UserInfoViewModel>();
+						_viewsManager.Open<UserInfoView>(context);
+					}
 				},
 				condition: (_) =>
 				{
-					return !string.IsNullOrEmpty(_login) && !string.IsNullOrEmpty(_password);
+					return !string.IsNullOrEmpty(Login) && !string.IsNullOrEmpty(Password);
 				},
 				vmb: this);
 
@@ -73,10 +72,5 @@ namespace Lab7.ViewModels
 				condition: (_) => true,
 				vmb: this);
 		}
-
-		public override void Dispose()
-        {
-            base.Dispose();
-        }
-    }
+	}
 }
