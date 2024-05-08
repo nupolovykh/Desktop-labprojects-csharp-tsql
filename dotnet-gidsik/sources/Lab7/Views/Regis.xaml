@@ -6,7 +6,7 @@
         xmlns:viewmodels="clr-namespace:Lab7.ViewModels"
         xmlns:local="clr-namespace:Lab7.Views"
         mc:Ignorable="d"
-        Title="Regis" Height="450" Width="800">
+        Title="Regis" Height="500" Width="800">
     
     <Window.DataContext>
         <viewmodels:RegisViewModel/>

@@ -58,9 +58,13 @@ namespace Lab7
 		{
 			services.AddTransient<Login>();
 			services.AddTransient<Regis>();
+			services.AddTransient<UserInfoView>();
+			services.AddTransient<UsersListView>();
 
-			services.AddScoped<LoginViewModel>();
-			services.AddScoped<RegisViewModel>();
+			services.AddTransient<LoginViewModel>();
+			services.AddTransient<RegisViewModel>();
+			services.AddTransient<UserInfoViewModel>();
+			services.AddTransient<UsersListViewModel>();
 
 			services.AddScoped<IDbWorker, DbWorker>();
 			services.AddSingleton<IAuthorization, Authorization>();
