@@ -8,6 +8,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsGid", "..\WinFormsG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeFirstExistingDatabaseSample", "..\CodeFirstExistingDatabaseSample\CodeFirstExistingDatabaseSample.csproj", "{A0CFA123-BF72-432D-BF06-5FA41C23CBD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormAppDbFirstSem", "..\WinForm-app-db-first-sem\WinFormAppDbFirstSem.csproj", "{23DB8CD0-AD4B-4DE4-8EDA-4A637770B1BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{A0CFA123-BF72-432D-BF06-5FA41C23CBD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0CFA123-BF72-432D-BF06-5FA41C23CBD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0CFA123-BF72-432D-BF06-5FA41C23CBD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23DB8CD0-AD4B-4DE4-8EDA-4A637770B1BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23DB8CD0-AD4B-4DE4-8EDA-4A637770B1BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23DB8CD0-AD4B-4DE4-8EDA-4A637770B1BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23DB8CD0-AD4B-4DE4-8EDA-4A637770B1BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
