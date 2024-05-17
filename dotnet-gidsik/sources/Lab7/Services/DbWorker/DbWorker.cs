@@ -1,12 +1,6 @@
 ﻿using Lab7.Models.Database;
 using Lab7.Models.Database.Entity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
 
 namespace Lab7.Services.DbWorker
 {
@@ -26,8 +20,8 @@ namespace Lab7.Services.DbWorker
 			_roles = context.Roles.Include(r => r.Users).ToList();
 		}
 
-		public IEnumerable<User> Users => _users;
-		public IEnumerable<Role> Roles => _roles;
+		public List<User> Users => _users;
+		public List<Role> Roles => _roles;
 
 		public AppDbContext Context => _context;
 
