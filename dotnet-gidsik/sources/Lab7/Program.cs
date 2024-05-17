@@ -5,7 +5,6 @@ using Lab7.Services.ViewManager;
 using Lab7.ViewModels;
 using Lab7.Views;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Configuration;
@@ -14,12 +13,12 @@ using System.Windows;
 
 namespace Lab7
 {
-	class Program
+	class Program //just for second case
 	{
 		private static IServiceProvider _serviceProvider = null!;
 
 		[STAThread]
-		private static void Main()
+		private static void Main2()
 		{
 			var services = new ServiceCollection();
 			services.Init();
@@ -35,9 +34,9 @@ namespace Lab7
 	public class MyApplication : Application
 	{
 		private readonly IServiceProvider _serviceProvider = null!;
-        private readonly IViewsManager _manager = null!;
+		private readonly IViewsManager _manager = null!;
 
-        public MyApplication(IServiceProvider serviceProvider, IViewsManager manager) 
+		public MyApplication(IServiceProvider serviceProvider, IViewsManager manager)
 		{
 			_serviceProvider = serviceProvider;
 			_manager = manager;
@@ -68,9 +67,9 @@ namespace Lab7
 
 			services.AddScoped<IDbWorker, DbWorker>();
 			services.AddSingleton<IAuthorization, Authorization>();
-            services.AddSingleton<IViewsManager, ViewsManager>();
+			services.AddSingleton<IViewsManager, ViewsManager>();
 
-            services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=./app.db"));
+			services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=./app.db"));
 		}
 	}
 }

@@ -29,12 +29,12 @@ namespace Lab7.Services.Authorization
 
 			_currentUser = user;
 
-            MessangeLog(user);
-        }
+			MessangeLog(user);
+		}
 
 		public void SignIn(string login, string password)
 		{
-			var user = _worker.Users.FirstOrDefault(u => u.Login == login && u.Password == password.Hash_MD5());
+			var user = _worker.Users.FirstOrDefault(u => u.Login == login);
 
 			if (user is not null) return;
 
@@ -43,15 +43,18 @@ namespace Lab7.Services.Authorization
 				Id = _worker.Users.Count() + 1,
 				Login = login,
 				Password = password.Hash_MD5(),
+				Role = _worker.Roles[1],
 				RoleId = 2
 			};
 
 			_currentUser = user;
+			_worker.Users.Add(user);
+
 			_worker.Context.Users.Add(user);
 			_worker.SaveChanges();
 
 			MessangeLog(user);
-        }
+		}
 
 		public void LogOut()
 		{
@@ -59,14 +62,14 @@ namespace Lab7.Services.Authorization
 			MessageBox.Show("success");
 		}
 
-        private void MessangeLog(User user)
-        {
-            MessageBox.Show("success");
-            MessageBox.Show($"{user.Login}");
-        }
+		private void MessangeLog(User user)
+		{
+			MessageBox.Show("success");
+			MessageBox.Show($"{user.Login}");
+		}
 
-        public string RandomString()
-        {
+		public string RandomString()
+		{
 			var random = new Random();
 			int length = random.Next(10) + 10;
 
@@ -74,7 +77,7 @@ namespace Lab7.Services.Authorization
 
 			IEnumerable<string> repeated = Enumerable.Repeat(chars, length);
 			return new string(repeated.Select(s => s[random.Next(s.Length)]).ToArray());
-        }
+		}
 
-    }
+	}
 }
