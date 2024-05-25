@@ -1,0 +1,4 @@
+curl -X POST https://api.dropboxapi.com/2/check/app ^
+    --header "Authorization: Basic ***REMOVED-BASIC-AUTH***" ^
+    --header "Content-Type: application/json" ^
+    --data "{\"query\":\"foo\"}"
