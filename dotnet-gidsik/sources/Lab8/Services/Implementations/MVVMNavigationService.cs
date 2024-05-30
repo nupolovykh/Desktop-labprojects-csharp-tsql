@@ -1,4 +1,5 @@
-﻿using Lab8.ViewModels;
+﻿using Lab8.Services.Interfaces;
+using Lab8.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -7,12 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab8.Services
+namespace Lab8.Services.Implementations
 {
     public class MVVMNavigationService : IMVVMNavigationService
     {
         private readonly IServiceProvider _provider;
-        public MVVMNavigationService(IServiceProvider provider) 
+        public MVVMNavigationService(IServiceProvider provider)
         {
             _provider = provider;
         }
@@ -38,7 +39,7 @@ namespace Lab8.Services
             int oldAmount = History.Count;
             int newAmount = ++_currentViewIndex + 1;
 
-            if(oldAmount >= newAmount)
+            if (oldAmount >= newAmount)
             {
                 History.RemoveRange(_currentViewIndex, oldAmount - newAmount + 1);
             }
