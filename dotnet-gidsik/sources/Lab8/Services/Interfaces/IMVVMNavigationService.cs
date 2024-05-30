@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab8.Services
+namespace Lab8.Services.Interfaces
 {
     public interface IMVVMNavigationService
     {

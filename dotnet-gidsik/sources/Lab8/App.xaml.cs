@@ -1,4 +1,5 @@
-﻿using Lab8.Services;
+﻿using Lab8.Services.Implementations;
+using Lab8.Services.Interfaces;
 using Lab8.ViewModels;
 using Lab8.Views;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace Lab8
 
             services.Init();
             services.AddSetting();
+            services.AddHttpClient();
 
             _serviceProvider = services.BuildServiceProvider();
         }
@@ -40,13 +42,16 @@ namespace Lab8
         {
             services.AddTransient<MainViewModel>();
             services.AddTransient<LoginViewModel>();
+            services.AddTransient<ExplorerViewModel>();
 
             services.AddTransient<MainWindow>(
                 (provider) => new MainWindow(provider.GetRequiredService<MainViewModel>())
             );
             services.AddTransient<LoginView>();
+            services.AddTransient<ExplorerView>();
 
             services.AddSingleton<IMVVMNavigationService, MVVMNavigationService>();
+            services.AddSingleton<IDropBoxReferModule, DropBoxReferModule>();
         }
 
         public static void AddSetting(this ServiceCollection services)

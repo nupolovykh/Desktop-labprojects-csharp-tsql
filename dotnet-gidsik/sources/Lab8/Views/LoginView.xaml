@@ -8,8 +8,60 @@
              d:DesignHeight="450" d:DesignWidth="800">
     
     <Grid>
-        <Button Content="Login" Margin="5, 5"
-		    Command="{Binding Login}"/>
+
+        <Grid.Resources>
+            <Style TargetType="TextBox">
+                <Setter Property="Width" Value="300px"/>
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="Height" Value="30px"/>
+                <Setter Property="Width" Value="200px"/>
+                <Setter Property="Margin" Value="5 25 5 5"/>
+            </Style>
+            
+            <Style TargetType="TextBlock" x:Key="PlaceholderStyle" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                <Setter Property="IsHitTestVisible" Value="False"/>
+                <Setter Property="Visibility" Value="Hidden"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontStyle" Value="Italic"/>
+                <Setter Property="Foreground" Value="Gray"/>
+                <Setter Property="Width" Value="300px"/>
+                <Setter Property="Margin" Value="4"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Tag.Text, RelativeSource={RelativeSource Self}}"
+                     Value="{x:Static sys:String.Empty}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+
+            <Grid>
+                <TextBox Text="{Binding Login}" x:Name="txtBoxLogin"/>
+                <TextBlock Text="Enter the login" Tag="{Binding ElementName=txtBoxLogin}" Style="{StaticResource PlaceholderStyle}"/>
+            </Grid>
+
+            <Grid>
+                <TextBox Text="{Binding Password}" x:Name="txtBoxPassword"/>
+                <TextBlock Text="Enter the password" Tag="{Binding ElementName=txtBoxPassword}" Style="{StaticResource PlaceholderStyle}"/>
+            </Grid>
+
+            <Button Content="Login to DropBox" Command="{Binding OAuth}"/>
+            
+        </StackPanel>
+    
     </Grid>
     
 </UserControl>
