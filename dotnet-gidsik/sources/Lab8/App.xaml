@@ -7,14 +7,14 @@
     <Application.Resources>
 
         <ResourceDictionary>
+            <!--kill the creator of wpf-->
 
             <DataTemplate DataType="{x:Type vm:LoginViewModel}">
                 <views:LoginView />
             </DataTemplate>
-
-            <!--kill the creator of wpf-->
-            <DataTemplate DataType="{x:Type vm:ViewModelBase}"> 
-                <views:LoginView />
+            
+            <DataTemplate DataType="{x:Type vm:ExplorerViewModel}"> 
+                <views:ExplorerView />
             </DataTemplate>
 
         </ResourceDictionary>
