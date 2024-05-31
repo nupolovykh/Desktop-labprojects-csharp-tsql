@@ -9,7 +9,8 @@
 
 
     <DockPanel LastChildFill="True">
-        <Button DockPanel.Dock="Top" Background="AliceBlue" Content="Верхняя кнопка" />
+		<TextBlock DockPanel.Dock="Top" Background="LightGreen" Text="{Binding ExhibittedToken}" />
+        <!--<Button DockPanel.Dock="Top" Background="AliceBlue" Content="Верхняя кнопка" />-->
         <Button DockPanel.Dock="Bottom" Background="BlanchedAlmond" Content="Нижняя кнопка" />
         <Button DockPanel.Dock="Left" Background="Aquamarine" Content="Левая кнопка" />
         <Button DockPanel.Dock="Right" Background="DarkGreen" Content="Правая кнопка" />

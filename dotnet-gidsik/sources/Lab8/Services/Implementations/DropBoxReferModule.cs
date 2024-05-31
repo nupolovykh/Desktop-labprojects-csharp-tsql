@@ -1,16 +1,9 @@
 ﻿using Lab8.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Text.Json.Nodes;
 
 namespace Lab8.Services.Implementations
 {
@@ -19,6 +12,7 @@ namespace Lab8.Services.Implementations
         private readonly IServiceProvider _provider;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _config;
+
         public DropBoxReferModule(IServiceProvider provider)
         {
             _provider = provider;
@@ -31,37 +25,39 @@ namespace Lab8.Services.Implementations
         public string Token
         {
             get { return _token; }
-            set { _token = value; }
+            private set { _token = value; }
         }
 
-        public bool GetAuth()
+        public string ReferToBrowser =>
+            $"https://www.dropbox.com/oauth2/authorize?client_id={_config.GetSection("app_key").Value}&response_type=code";
+
+        public async Task<bool> oAuth2Token(string key)
         {
-            var loginClient = _httpClientFactory?.CreateClient();
-            string appkey = _config.GetSection("app_key").Value;
+            var client = _httpClientFactory?.CreateClient();
             HttpStatusCode reply = HttpStatusCode.NotFound;
 
-            var task = Task.Run(async () =>
+			var content = new FormUrlEncodedContent(new[]
+			{
+				new KeyValuePair<string, string>("code", key),
+				new KeyValuePair<string, string>("grant_type", "authorization_code"),
+				new KeyValuePair<string, string>("client_id", _config.GetSection("app_key").Value),
+				new KeyValuePair<string, string>("client_secret",  _config.GetSection("app_secret").Value),
+			});
+
+			var response = await client!.PostAsync($"https://api.dropboxapi.com/oauth2/token", content);
+
+            if(response.StatusCode is not HttpStatusCode.OK)
             {
-                Trace.WriteLine($"https://www.dropbox.com/oauth2/authorize?client_id={appkey}&response_type=code");
-                var response = await loginClient!.GetAsync($"https://www.dropbox.com/oauth2/authorize?client_id={appkey}&response_type=code");
-                Trace.WriteLine(response);
+				return false;
+			}
 
-                //Token = response.Content.
+			string jsonstr = await response.Content.ReadAsStringAsync();
+            JsonObject finallyObj = JsonObject.Parse(jsonstr)!.AsObject();
+            _token = finallyObj["access_token"]!.GetValue<string>();
 
-                //var stringContent = new FormUrlEncodedContent(new[]
-                //{
-                //    new KeyValuePair<string, string>("field1", "value1"),
-                //    new KeyValuePair<string, string>("field2", "value2"),
-                //});
+			reply = response.StatusCode;
 
-                //await loginClient!.PostAsync($"https://api.dropboxapi.com/oauth2/token", stringContent);
-
-                reply = response.StatusCode;
-            });
-
-            if (reply == HttpStatusCode.OK) return true;
-
-            return false;
+            return true;
         }
     }
 }
