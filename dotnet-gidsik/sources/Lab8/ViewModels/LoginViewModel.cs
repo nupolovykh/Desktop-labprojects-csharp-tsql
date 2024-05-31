@@ -22,39 +22,39 @@ namespace Lab8.ViewModels
             _refer = refer;
         }
 
-        private string _login;
+        private string key;
 
-        public string Login
-        {
-            get { return _login; }
-            set { _login = value; }
+        public string Key
+		{
+            get { return key; }
+            set { key = value; }
         }
 
-        private string _password;
+        private ICommand getKey = null!;
 
-        public string Password
-        {
-            get { return _password; }
-            set { _password = value; }
-        }
-
-        private ICommand _OAuth = null!;
-        public ICommand OAuth => _OAuth ??= new DelegatedCommand(
+        public ICommand GetKey => getKey ??= new DelegatedCommand(
             action: _ => {
 
-                //Process.Start(new ProcessStartInfo()
-                //{
-                //    FileName = "",//_refer.AuthUrl,
-                //    UseShellExecute = true
-                //});
-
-                if (_refer.GetAuth())
+                Process.Start(new ProcessStartInfo()
                 {
-                    _navigation.NavigateTo<ExplorerViewModel>();
-                };
+                    FileName = _refer.ReferToBrowser,
+                    UseShellExecute = true
+                });
 
             },
             canExecute: _ => true
         );
-    }
+
+		private ICommand setKey = null!;
+
+		public ICommand SetKey => setKey ??= new DelegatedCommand(
+			action: async (_) => {
+
+                bool success = await _refer.oAuth2Token(Key);
+                if (success) _navigation.NavigateTo<ExplorerViewModel>();
+
+			},
+			canExecute: _ => true
+		);
+	}
 }
