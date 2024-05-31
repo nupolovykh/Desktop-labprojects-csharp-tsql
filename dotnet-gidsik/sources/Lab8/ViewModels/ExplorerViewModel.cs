@@ -11,12 +11,25 @@ namespace Lab8.ViewModels
 {
     internal class ExplorerViewModel : ViewModelBase
     {
-        private readonly IMVVMNavigationService _nav;
+        private readonly IMVVMNavigationService _navigation;
+		private readonly IDropBoxReferModule _refer;
 
-        public ExplorerViewModel(IMVVMNavigationService nav)
+		public ExplorerViewModel(IMVVMNavigationService navigation, IDropBoxReferModule refer)
         {
             Title = "Explorer";
-            _nav = nav;
-        }
-    }
+			_navigation = navigation;
+			_refer = refer;
+
+			exhibitted_token = _refer.Token;
+		}
+
+		private string exhibitted_token;
+
+		public string ExhibittedToken
+		{
+			get { return exhibitted_token; }
+			set { exhibitted_token = value; }
+		}
+
+	}
 }
