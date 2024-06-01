@@ -12,7 +12,7 @@
         <Grid.Resources>
             <Style TargetType="TextBox">
                 <Setter Property="Width" Value="300px"/>
-                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontSize" Value="18"/>
                 <Setter Property="Margin" Value="5"/>
             </Style>
 
@@ -25,7 +25,7 @@
             <Style TargetType="TextBlock" x:Key="PlaceholderStyle" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                 <Setter Property="IsHitTestVisible" Value="False"/>
                 <Setter Property="Visibility" Value="Hidden"/>
-                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontSize" Value="14"/>
                 <Setter Property="FontStyle" Value="Italic"/>
                 <Setter Property="Foreground" Value="Gray"/>
                 <Setter Property="Width" Value="300px"/>
@@ -50,7 +50,7 @@
 
 			<Grid>
                 <TextBox Text="{Binding Key}" x:Name="txtBoxPassword"/>
-                <TextBlock Text="Enter the password" Tag="{Binding ElementName=txtBoxPassword}" Style="{StaticResource PlaceholderStyle}"/>
+                <TextBlock Text="Enter the auth-key" Tag="{Binding ElementName=txtBoxPassword}" Style="{StaticResource PlaceholderStyle}"/>
             </Grid>
 
 			<Button Content="Get authkey for DropBox" Command="{Binding GetKey}"/>
