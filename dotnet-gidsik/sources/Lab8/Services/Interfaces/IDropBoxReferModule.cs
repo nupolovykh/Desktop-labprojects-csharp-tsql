@@ -11,12 +11,21 @@ namespace Lab8.Services.Interfaces
 {
     public interface IDropBoxReferModule
     {
-        public string ReferToBrowser { get; }
+        string ReferToBrowser { get; }
 
-		public string Token { get; }
+		string Token { get; }
 
-		public Task<bool> oAuth2Token(string key);
+		Task<bool> oAuth2Token(string key);
 
-		public Task<List<FolderModel>> GetFoldersTree();
+		Task<List<FileModel>> GetFoldersTreeIn(GetFoldersTreeInType navType, string? path = "");
+
+		bool CanGoPrev { get; }
+
+		Task<List<FileModel>> GoToThePrev();
+
+		bool CanGoNext { get; }
+
+		Task<List<FileModel>> GoToTheNext();
+
 	}
 }
