@@ -9,15 +9,19 @@ using System.Threading.Tasks;
 
 namespace Lab8.Services.Interfaces
 {
-    public interface IDropBoxReferModule
+    public interface IDropBoxGateway
     {
         string ReferToBrowser { get; }
 
 		string Token { get; }
 
+		string CurrentPath { get; }
+
+		Task<List<FileModel>> UpdateTheSnapshot();
+
 		Task<bool> oAuth2Token(string key);
 
-		Task<List<FileModel>> GetFoldersTreeIn(GetFoldersTreeInType navType, string? path = "");
+		Task<List<FileModel>> GetFoldersIn(GetFoldersInType navType, string? path = "");
 
 		bool CanGoPrev { get; }
 

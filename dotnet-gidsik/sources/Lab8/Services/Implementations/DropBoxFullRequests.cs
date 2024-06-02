@@ -1,22 +1,17 @@
 ﻿using Lab8.Models;
 using Lab8.Services.Interfaces;
-using Lab8.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using System.Windows.Automation.Provider;
 
-public enum GetFoldersTreeInType
+public enum GetFoldersInType
 {
 	newFolder,
 	navFolder
@@ -24,21 +19,27 @@ public enum GetFoldersTreeInType
 
 namespace Lab8.Services.Implementations
 {
-	internal class DropBoxReferModule : IDropBoxReferModule
+	internal class DropBoxFullRequests : IDropBoxGateway
 	{
 		private readonly IServiceProvider _provider;
 		private readonly IHttpClientFactory _httpClientFactory;
 		private readonly IConfiguration _config;
 
-		public DropBoxReferModule(IServiceProvider provider)
+		public DropBoxFullRequests(IServiceProvider provider)
 		{
 			_provider = provider;
 			_httpClientFactory = _provider.GetService<IHttpClientFactory>()!;
 			_config = _provider.GetService<IConfiguration>()!;
 		}
 
-		private string token;
+		private string currentPath;
+		public string CurrentPath
+		{
+			get { return currentPath; }
+			private set { currentPath = value; }
+		}
 
+		private string token;
 		public string Token
 		{
 			get { return token; }
@@ -118,20 +119,20 @@ namespace Lab8.Services.Implementations
 			}).ToList()!;
 		}
 
-		public async Task<List<FileModel>> GetFoldersTreeIn(GetFoldersTreeInType navType, string? path = "")
+		public async Task<List<FileModel>> GetFoldersIn(GetFoldersInType navType, string? path = "")
 		{
 			List<FileModel> files = null!;
 
 			switch (navType)
 			{
-				case GetFoldersTreeInType.newFolder:
+				case GetFoldersInType.newFolder:
 					if (path is "") ReturnToRoot();
 					else if (FileHistory.Count > ++currentFileHistoryIndex) CutBackTheList();
 					FileHistory.Add(path!);
 
 					goto default;
 
-				case GetFoldersTreeInType.navFolder:
+				case GetFoldersInType.navFolder:
 					goto default;
 
 				default:
@@ -140,13 +141,19 @@ namespace Lab8.Services.Implementations
 			}
 
 			//handler of server error => uninspected logic
-			if (files is null && navType == GetFoldersTreeInType.navFolder)
+			if (files is null && navType == GetFoldersInType.navFolder)
 			{
 				FileHistory.RemoveAt(currentFileHistoryIndex);
 				return await GoToThePrev();
 			}
 
+			CurrentPath = path!;
 			return files!;
+		}
+
+		public async Task<List<FileModel>> UpdateTheSnapshot()
+		{
+			return await GetFoldersIn(GetFoldersInType.navFolder, CurrentPath);
 		}
 
 		// navigation
@@ -155,27 +162,17 @@ namespace Lab8.Services.Implementations
 
 		public Task<List<FileModel>> GoToThePrev()
 		{
-			return GetFoldersTreeIn(GetFoldersTreeInType.navFolder, FileHistory[--currentFileHistoryIndex]);
+			return GetFoldersIn(GetFoldersInType.navFolder, FileHistory[--currentFileHistoryIndex]);
 		}
 
 		public bool CanGoNext => currentFileHistoryIndex < FileHistory.Count - 1;
 
 		public Task<List<FileModel>> GoToTheNext()
 		{
-			return GetFoldersTreeIn(GetFoldersTreeInType.navFolder, FileHistory[++currentFileHistoryIndex]);
+			return GetFoldersIn(GetFoldersInType.navFolder, FileHistory[++currentFileHistoryIndex]);
 		}
 
 		// implementation hidden logic
-
-		private IEnumerable<JsonNode?> FilterFiles(JsonArray array) => array.Where(e =>
-		{
-			var jobj = e as JsonObject;
-			if (jobj != null && jobj.TryGetPropertyValue(".tag", out var tagValue))
-			{
-				return tagValue!.ToString() == "folder";
-			}
-			return false;
-		});
 
 		private void ReturnToRoot()
 		{

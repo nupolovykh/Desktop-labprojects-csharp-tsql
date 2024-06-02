@@ -8,23 +8,26 @@ namespace Lab8.ViewModels
     internal class ExplorerViewModel : ViewModelBase
     {
         private readonly IMVVMNavigationService _navigation;
-		private readonly IDropBoxReferModule _refer;
+		private readonly IDropBoxGateway _gateway;
 
-		public ExplorerViewModel(IMVVMNavigationService navigation, IDropBoxReferModule refer)
+		public ExplorerViewModel(IMVVMNavigationService navigation, IDropBoxGateway gateway)
         {
             Title = "Explorer";
 			_navigation = navigation;
-			_refer = refer;
+			_gateway = gateway;
 
-			exhibitted_token = _refer.Token;
+			AnyData = string.Concat("Token: ", _gateway.Token);
 		}
 
-		private string exhibitted_token;
+		private string anyData;
 
-		public string ExhibittedToken
+		public string AnyData
 		{
-			get { return exhibitted_token; }
-			set { exhibitted_token = value; }
+			get { return anyData; }
+			set { 
+				anyData = value;
+				OnPropertyChanged();
+			}
 		}
 
 		private List<FileModel> filesList;
@@ -35,6 +38,10 @@ namespace Lab8.ViewModels
 			set 
 			{ 
 				filesList = value;
+
+				if (_gateway.CurrentPath == string.Empty) AnyData = "Token: " + _gateway.Token;
+				else AnyData = "CurrentPath: " + _gateway.CurrentPath;
+
 				OnPropertyChanged();
 			}
 		}
@@ -56,16 +63,26 @@ namespace Lab8.ViewModels
 		public ICommand GetRoot => getRoot ??= new DelegatedCommand(
 			action: async (_) =>
 			{
-				FilesList = await _refer.GetFoldersTreeIn(GetFoldersTreeInType.newFolder);
+				FilesList = await _gateway.GetFoldersIn(GetFoldersInType.newFolder);
 			},
 			canExecute: _ => true
+		);
+
+		private ICommand update = null!;
+
+		public ICommand Update => update ??= new DelegatedCommand(
+			action: async (_) =>
+			{
+				FilesList = await _gateway.UpdateTheSnapshot();
+			},
+			canExecute: _ => _gateway.CurrentPath is not null
 		);
 
 		private ICommand passToSelectedFolder = null!;
 
 		public ICommand PassToSelectedFolder => passToSelectedFolder ??= new DelegatedCommand(
 			action: async (_) => {
-				FilesList = await _refer.GetFoldersTreeIn(GetFoldersTreeInType.newFolder, SelectedFile.Path);
+				FilesList = await _gateway.GetFoldersIn(GetFoldersInType.newFolder, SelectedFile.Path);
 			},
 			canExecute: _ => SelectedFile.Type is "folder"
 		);
@@ -74,18 +91,18 @@ namespace Lab8.ViewModels
 
 		public ICommand Prev => prev ??= new DelegatedCommand(
 			action: async (_) => {
-				FilesList = await _refer.GoToThePrev();
+				FilesList = await _gateway.GoToThePrev();
 			},
-			canExecute: _ => _refer.CanGoPrev
+			canExecute: _ => _gateway.CanGoPrev
 		);
 
 		private ICommand next = null!;
 
 		public ICommand Next => next ??= new DelegatedCommand(
 			action: async (_) => {
-				FilesList = await _refer.GoToTheNext();
+				FilesList = await _gateway.GoToTheNext();
 			},
-			canExecute: _ => _refer.CanGoNext
+			canExecute: _ => _gateway.CanGoNext
 		);
 	}
 }

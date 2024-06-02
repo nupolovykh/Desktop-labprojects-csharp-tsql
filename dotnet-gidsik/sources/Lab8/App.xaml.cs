@@ -2,8 +2,6 @@
 using Lab8.Services.Interfaces;
 using Lab8.ViewModels;
 using Lab8.Views;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
@@ -51,8 +49,10 @@ namespace Lab8
             services.AddTransient<ExplorerView>();
 
             services.AddSingleton<IMVVMNavigationService, MVVMNavigationService>();
-            services.AddSingleton<IDropBoxReferModule, DropBoxReferModule>();
-        }
+
+            services.AddSingleton<IDropBoxGateway, DropBoxFullRequests>(); // case without recursion => same as plain-brother logic
+			//services.AddSingleton<IDropBoxGateway, DropBoxSnapshot>(); // case with recursion => full work + good job
+		}
 
         public static void AddSetting(this ServiceCollection services)
         {

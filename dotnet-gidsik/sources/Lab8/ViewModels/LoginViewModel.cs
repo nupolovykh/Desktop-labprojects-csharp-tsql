@@ -13,13 +13,13 @@ namespace Lab8.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         private readonly IMVVMNavigationService _navigation;
-        private readonly IDropBoxReferModule _refer;
+        private readonly IDropBoxGateway _gateway;
 
-        public LoginViewModel(IMVVMNavigationService navigation, IDropBoxReferModule refer)
+        public LoginViewModel(IMVVMNavigationService navigation, IDropBoxGateway gateway)
         {
             Title = "Login";
             _navigation = navigation;
-            _refer = refer;
+            _gateway = gateway;
         }
 
         private string key;
@@ -37,7 +37,7 @@ namespace Lab8.ViewModels
 
                 Process.Start(new ProcessStartInfo()
                 {
-                    FileName = _refer.ReferToBrowser,
+                    FileName = _gateway.ReferToBrowser,
                     UseShellExecute = true
                 });
 
@@ -50,7 +50,7 @@ namespace Lab8.ViewModels
 		public ICommand SetKey => setKey ??= new DelegatedCommand(
 			action: async (_) => {
 
-                bool success = await _refer.oAuth2Token(Key);
+                bool success = await _gateway.oAuth2Token(Key);
                 if (success) _navigation.NavigateTo<ExplorerViewModel>();
 
 			},
