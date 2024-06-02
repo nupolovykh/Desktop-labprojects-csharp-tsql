@@ -1,13 +1,6 @@
 ﻿using Lab8.Commands;
 using Lab8.Models;
 using Lab8.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Lab8.ViewModels
@@ -34,36 +27,65 @@ namespace Lab8.ViewModels
 			set { exhibitted_token = value; }
 		}
 
-		private List<FolderModel> foldersList;
+		private List<FileModel> filesList;
 
-		public List<FolderModel> FoldersList
+		public List<FileModel> FilesList
 		{
-			get => foldersList;
-			set { 
-				foldersList = value;
+			get => filesList;
+			set 
+			{ 
+				filesList = value;
 				OnPropertyChanged();
 			}
 		}
 
-		private FolderModel selectedFolder;
+		private FileModel selectedFile;
 
-		public FolderModel SelectedFolder
+		public FileModel SelectedFile
 		{
-			get => selectedFolder;
+			get => selectedFile;
 			set
 			{
-				selectedFolder = value;
+				selectedFile = value;
 				OnPropertyChanged();
 			}
 		}
 
-		private ICommand post = null!;
+		private ICommand getRoot = null!;
 
-		public ICommand Post => post ??= new DelegatedCommand(
-			action: async (_) => {
-				FoldersList = await _refer.GetFoldersTree();
+		public ICommand GetRoot => getRoot ??= new DelegatedCommand(
+			action: async (_) =>
+			{
+				FilesList = await _refer.GetFoldersTreeIn(GetFoldersTreeInType.newFolder);
 			},
 			canExecute: _ => true
+		);
+
+		private ICommand passToSelectedFolder = null!;
+
+		public ICommand PassToSelectedFolder => passToSelectedFolder ??= new DelegatedCommand(
+			action: async (_) => {
+				FilesList = await _refer.GetFoldersTreeIn(GetFoldersTreeInType.newFolder, SelectedFile.Path);
+			},
+			canExecute: _ => SelectedFile.Type is "folder"
+		);
+
+		private ICommand prev = null!;
+
+		public ICommand Prev => prev ??= new DelegatedCommand(
+			action: async (_) => {
+				FilesList = await _refer.GoToThePrev();
+			},
+			canExecute: _ => _refer.CanGoPrev
+		);
+
+		private ICommand next = null!;
+
+		public ICommand Next => next ??= new DelegatedCommand(
+			action: async (_) => {
+				FilesList = await _refer.GoToTheNext();
+			},
+			canExecute: _ => _refer.CanGoNext
 		);
 	}
 }
