@@ -12,22 +12,47 @@
 
 	<DockPanel LastChildFill="True">
 
+		<DockPanel.Resources>
+			<Style TargetType="Button">
+				<Setter Property="FontSize" Value="16"/>
+				<Setter Property="Width" Value="60"/>
+			</Style>
+		</DockPanel.Resources>
+
 		<ScrollViewer DockPanel.Dock="Top" Background="LightGray"
 			VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
 
 			<TextBlock Width="Auto" FontSize="18" Margin="5">
 				<TextBlock.Text>
-					<MultiBinding StringFormat="{}Token => {0}">
-						<Binding Path="ExhibittedToken"/>
+					<MultiBinding StringFormat="{}{0}">
+						<Binding Path="AnyData"/>
 					</MultiBinding>
 				</TextBlock.Text>
 			</TextBlock>
 
 		</ScrollViewer>
 
-		<Button DockPanel.Dock="Bottom" Background="LightGray" FontSize="18" Content="get the root" Command="{Binding GetRoot}"/>
-		<Button DockPanel.Dock="Left" Background="LightPink" Content="Prev folder" Command="{Binding Prev}"/>
-		<Button DockPanel.Dock="Right" Background="LightBlue" Content="Next folder" Command="{Binding Next}"/>
+		<Grid DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+
+			<Grid.Resources>
+				<Style TargetType="Button">
+					<Setter Property="FontSize" Value="16"/>
+					<Setter Property="Width" Value="200"/>
+				</Style>
+			</Grid.Resources>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+
+			<Button Grid.Column="0" Background="LightPink" Content="get the root" Command="{Binding GetRoot}"/>
+			<Button Grid.Column="1" Background="LightBlue" Content="update the data" Command="{Binding Update}"/>
+		</Grid>
+		
+		
+		<Button DockPanel.Dock="Left" Background="LightPink" Content="Prev" Command="{Binding Prev}"/>
+		<Button DockPanel.Dock="Right" Background="LightBlue" Content="Next" Command="{Binding Next}"/>
 
 		<ScrollViewer>
 			<ListBox ItemsSource="{Binding FilesList}" SelectedItem="{Binding SelectedFile}" Name="ListBox">
