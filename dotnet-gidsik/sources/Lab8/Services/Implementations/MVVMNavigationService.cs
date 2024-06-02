@@ -19,15 +19,15 @@ namespace Lab8.Services.Implementations
         }
 
         protected List<ViewModelBase> History { get; } = new List<ViewModelBase>();
-        protected int _currentViewIndex = -1;
+        protected int currentViewIndex = -1;
 
-        private ViewModelBase _currentViewModel;
+        private ViewModelBase currentViewModel;
         public ViewModelBase CurrentViewModel
         {
-            get => _currentViewModel;
+            get => currentViewModel;
             set
             {
-                _currentViewModel = value;
+                currentViewModel = value;
                 ViewModelChanged?.Invoke(this, value);
             }
         }
@@ -37,28 +37,28 @@ namespace Lab8.Services.Implementations
             var newViewModel = _provider.GetRequiredService<TViewModel>();
 
             int oldAmount = History.Count;
-            int newAmount = ++_currentViewIndex + 1;
+            int newAmount = ++currentViewIndex + 1;
 
             if (oldAmount >= newAmount)
             {
-                History.RemoveRange(_currentViewIndex, oldAmount - newAmount + 1);
+                History.RemoveRange(currentViewIndex, oldAmount - newAmount + 1);
             }
 
             CurrentViewModel = newViewModel;
             History.Add(newViewModel);
         }
 
-        public bool CanGoBack => _currentViewIndex > 0;
+        public bool CanGoBack => currentViewIndex > 0;
         public void GoBack()
         {
-            _currentViewIndex--;
-            CurrentViewModel = History[_currentViewIndex];
+            currentViewIndex--;
+            CurrentViewModel = History[currentViewIndex];
         }
-        public bool CanGoNext => _currentViewIndex < History.Count - 1;
+        public bool CanGoNext => currentViewIndex < History.Count - 1;
         public void GoNext()
         {
-            _currentViewIndex++;
-            CurrentViewModel = History[_currentViewIndex];
+            currentViewIndex++;
+            CurrentViewModel = History[currentViewIndex];
         }
 
         public event EventHandler<ViewModelBase> ViewModelChanged;

@@ -1,5 +1,6 @@
 ﻿using Lab8.Models;
 using Lab8.Services.Interfaces;
+using Lab8.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
@@ -14,6 +15,12 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Windows.Automation.Provider;
+
+public enum GetFoldersTreeInType
+{
+	newFolder,
+	navFolder
+}
 
 namespace Lab8.Services.Implementations
 {
@@ -38,6 +45,13 @@ namespace Lab8.Services.Implementations
 			private set { token = value; }
 		}
 
+		private List<string> FileHistory { get; } = new List<string>();
+		private int currentFileHistoryIndex = -1;
+
+		// inteface required logic
+
+		// http
+
 		public string ReferToBrowser =>
 			$"https://www.dropbox.com/oauth2/authorize?client_id={_config.GetSection("app_key").Value}&response_type=code";
 
@@ -55,7 +69,7 @@ namespace Lab8.Services.Implementations
 
 			var response = await client!.PostAsync($"https://api.dropboxapi.com/oauth2/token", content);
 
-			if(response.StatusCode is not HttpStatusCode.OK)
+			if (response.StatusCode is not HttpStatusCode.OK)
 			{
 				return false;
 			}
@@ -67,13 +81,8 @@ namespace Lab8.Services.Implementations
 			return true;
 		}
 
-		public async Task<List<FolderModel>> GetFoldersTree()
+		private async Task<List<FileModel>> PostRequestForListOfFiles(string source)
 		{
-			var client = _httpClientFactory?.CreateClient();
-
-			client!.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
-			client!.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
 			var data = new
 			{
 				include_deleted = false,
@@ -81,9 +90,14 @@ namespace Lab8.Services.Implementations
 				include_media_info = false,
 				include_mounted_folders = true,
 				include_non_downloadable_files = true,
-				path = "",
+				path = source,
 				recursive = false
 			};
+
+			var client = _httpClientFactory?.CreateClient();
+
+			client!.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+			client!.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 			var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 			HttpResponseMessage response = await client!.PostAsync("https://api.dropboxapi.com/2/files/list_folder", content);
@@ -91,32 +105,87 @@ namespace Lab8.Services.Implementations
 			Stream stream = await response.Content.ReadAsStreamAsync();
 			var jdata = JsonSerializer.Deserialize<JsonObject>(stream)!;
 
-			JsonArray entries = jdata["entries"]!.AsArray();
-
-			if (entries == null) return null!;
-
-			var filter = entries.Where(e =>
-			{
-				var jobj = e as JsonObject;
-				if (jobj != null && jobj.TryGetPropertyValue(".tag", out var tagValue))
-				{
-					return tagValue!.ToString() == "folder";
-				}
-				return false;
-			});
-
 			int numberId = 0;
-			List<FolderModel> folders = filter!.Select<JsonNode, FolderModel>(f =>
+			return jdata["entries"]!.AsArray()!.Select<JsonNode, FileModel>(f =>
 			{
-				return new FolderModel
+				return new FileModel
 				{
 					Id = numberId++,
 					Name = f["name"]!.ToString(),
+					Type = f[".tag"]!.ToString(),
 					Path = f["path_display"]!.ToString()
 				};
 			}).ToList()!;
+		}
 
-			return folders;
+		public async Task<List<FileModel>> GetFoldersTreeIn(GetFoldersTreeInType navType, string? path = "")
+		{
+			List<FileModel> files = null!;
+
+			switch (navType)
+			{
+				case GetFoldersTreeInType.newFolder:
+					if (path is "") ReturnToRoot();
+					else if (FileHistory.Count > ++currentFileHistoryIndex) CutBackTheList();
+					FileHistory.Add(path!);
+
+					goto default;
+
+				case GetFoldersTreeInType.navFolder:
+					goto default;
+
+				default:
+					files = await PostRequestForListOfFiles(path!);
+					break;
+			}
+
+			//handler of server error => uninspected logic
+			if (files is null && navType == GetFoldersTreeInType.navFolder)
+			{
+				FileHistory.RemoveAt(currentFileHistoryIndex);
+				return await GoToThePrev();
+			}
+
+			return files!;
+		}
+
+		// navigation
+
+		public bool CanGoPrev => currentFileHistoryIndex > 0;
+
+		public Task<List<FileModel>> GoToThePrev()
+		{
+			return GetFoldersTreeIn(GetFoldersTreeInType.navFolder, FileHistory[--currentFileHistoryIndex]);
+		}
+
+		public bool CanGoNext => currentFileHistoryIndex < FileHistory.Count - 1;
+
+		public Task<List<FileModel>> GoToTheNext()
+		{
+			return GetFoldersTreeIn(GetFoldersTreeInType.navFolder, FileHistory[++currentFileHistoryIndex]);
+		}
+
+		// implementation hidden logic
+
+		private IEnumerable<JsonNode?> FilterFiles(JsonArray array) => array.Where(e =>
+		{
+			var jobj = e as JsonObject;
+			if (jobj != null && jobj.TryGetPropertyValue(".tag", out var tagValue))
+			{
+				return tagValue!.ToString() == "folder";
+			}
+			return false;
+		});
+
+		private void ReturnToRoot()
+		{
+			currentFileHistoryIndex = 0;
+			FileHistory.Clear();
+		}
+
+		private void CutBackTheList()
+		{
+			FileHistory.RemoveRange(currentFileHistoryIndex, FileHistory.Count - currentFileHistoryIndex);
 		}
 	}
 }

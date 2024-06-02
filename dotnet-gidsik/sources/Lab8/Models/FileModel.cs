@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Lab8.Models
 {
-	public class FolderModel
+	public class FileModel
 	{
 		public int Id { get; set; }
 		public string? Name { get; set; }
+		public string? Type { get; set; }
 		public string? Path { get; set; }
 	}
 }
