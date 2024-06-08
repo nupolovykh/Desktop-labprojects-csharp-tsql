@@ -16,8 +16,8 @@ namespace Lab8.ViewModels
 			_navigation = navigation;
 			_gateway = gateway;
 
-			AnyData = string.Concat("Token: ", _gateway.Token);
-		}
+			AnyData = TokenLabel;
+        }
 
 		private string anyData;
 
@@ -30,7 +30,11 @@ namespace Lab8.ViewModels
 			}
 		}
 
-		private List<FileModel> filesList;
+		private string TokenLabel => string.Concat("Token: ", _gateway.Token);
+
+        private string PathLabel => string.Concat("CurrentPath: ", _gateway.CurrentPath);
+
+        private List<FileModel> filesList;
 
 		public List<FileModel> FilesList
 		{
@@ -39,8 +43,8 @@ namespace Lab8.ViewModels
 			{ 
 				filesList = value;
 
-				if (_gateway.CurrentPath == string.Empty) AnyData = "Token: " + _gateway.Token;
-				else AnyData = "CurrentPath: " + _gateway.CurrentPath;
+				if (_gateway.CurrentPath == string.Empty) AnyData = TokenLabel;
+				else AnyData = PathLabel;
 
 				OnPropertyChanged();
 			}

@@ -50,8 +50,8 @@ namespace Lab8
 
             services.AddSingleton<IMVVMNavigationService, MVVMNavigationService>();
 
-            services.AddSingleton<IDropBoxGateway, DropBoxFullRequests>(); // case without recursion => same as plain-brother logic
-			//services.AddSingleton<IDropBoxGateway, DropBoxSnapshot>(); // case with recursion => full work + good job
+            //services.AddSingleton<IDropBoxGateway, DropBoxFullRequests>(); // case without recursion => same as plain-brother logic
+			services.AddSingleton<IDropBoxGateway, DropBoxSnapshot>(); // case with recursion => full work + good job
 		}
 
         public static void AddSetting(this ServiceCollection services)

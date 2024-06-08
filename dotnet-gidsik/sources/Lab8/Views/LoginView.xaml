@@ -12,8 +12,8 @@
         <Grid.Resources>
             <Style TargetType="TextBox">
 				<Setter Property="Width" Value="Auto"/>
-				<Setter Property="Height" Value="30px"/>
-                <Setter Property="FontSize" Value="18"/>
+				<Setter Property="Height" Value="35px"/>
+                <Setter Property="FontSize" Value="20"/>
                 <Setter Property="Margin" Value="5"/>
             </Style>
 
@@ -31,11 +31,11 @@
 			<Style TargetType="TextBlock" x:Key="PlaceholderStyle" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                 <Setter Property="IsHitTestVisible" Value="False"/>
                 <Setter Property="Visibility" Value="Hidden"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="FontStyle" Value="Italic"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="18"/>
                 <Setter Property="Foreground" Value="Gray"/>
                 <Setter Property="Width" Value="Auto"/>
-                <Setter Property="Margin" Value="4"/>
+                <Setter Property="Margin" Value="10"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Tag.Text, RelativeSource={RelativeSource Self}}"
                         Value="{x:Static sys:String.Empty}">
@@ -57,7 +57,7 @@
 		<StackPanel Grid.Column="1" VerticalAlignment="Center">
 
 			<ScrollViewer DockPanel.Dock="Top" Background="LightGray" HorizontalAlignment="Stretch"
-                VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+                VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Margin="10 0">
 
 				<Grid HorizontalAlignment="Stretch">
 					<TextBox Text="{Binding Key}" x:Name="txtBoxKey"/>
