@@ -54,7 +54,7 @@ namespace Lab8.Services.Implementations
 		// http
 
 		public string ReferToBrowser =>
-			$"https://www.dropbox.com/oauth2/authorize?client_id={_config.GetSection("app_key").Value}&response_type=code";
+			$"https://www.dropbox.com/oauth2/authorize?client_id={_config["app_key"]}&response_type=code";
 
 		public async Task<bool> oAuth2Token(string key)
 		{
@@ -64,8 +64,8 @@ namespace Lab8.Services.Implementations
 			{
 				new KeyValuePair<string, string>("code", key),
 				new KeyValuePair<string, string>("grant_type", "authorization_code"),
-				new KeyValuePair<string, string>("client_id", _config.GetSection("app_key").Value),
-				new KeyValuePair<string, string>("client_secret",  _config.GetSection("app_secret").Value),
+				new KeyValuePair<string, string>("client_id", _config["app_key"]),
+				new KeyValuePair<string, string>("client_secret",  _config["app_secret"]),
 			});
 
 			var response = await client!.PostAsync($"https://api.dropboxapi.com/oauth2/token", content);
@@ -126,7 +126,7 @@ namespace Lab8.Services.Implementations
 			switch (navType)
 			{
 				case GetFoldersInType.newFolder:
-					if (path is "") ReturnToRoot();
+					if (path == string.Empty) ReturnToRoot();
 					else if (FileHistory.Count > ++currentFileHistoryIndex) CutBackTheList();
 					FileHistory.Add(path!);
 
