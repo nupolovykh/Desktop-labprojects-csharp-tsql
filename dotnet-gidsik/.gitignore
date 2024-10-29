@@ -402,7 +402,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+<<<<<<< HEAD
 .idea
+=======
+>>>>>>> main
 
 ##
 ## Visual studio for Mac
@@ -479,6 +482,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+<<<<<<< HEAD
 
 # Vim temporary swap files
 *.swp
+=======
+>>>>>>> main
