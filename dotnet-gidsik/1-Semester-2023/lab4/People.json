@@ -1,0 +1,162 @@
+[
+  {
+    "Id": "e1ed8d1a-9a22-4d56-b3a0-b9eb87c33a58",
+    "Name": "Karina",
+    "SurName": "Kolodov",
+    "Age": 42,
+    "Birthday": "1981-08-12T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "ac055d43-994d-4788-9fe7-1d22718deb6c",
+    "Name": "Jhon",
+    "SurName": "Electrov",
+    "Age": 37,
+    "Birthday": "1986-05-11T00:00:00",
+    "IsAdmin": true
+  },
+  {
+    "Id": "caf06171-8bf9-46aa-a0f3-9f46b870f0bf",
+    "Name": "Valeriy",
+    "SurName": "Kishalin",
+    "Age": 42,
+    "Birthday": "1981-10-04T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "2a96c34b-f210-4460-9c7e-3e50f9ceb464",
+    "Name": "Tom",
+    "SurName": "Red",
+    "Age": 15,
+    "Birthday": "2008-02-09T11:56:25.4967308+06:00",
+    "IsAdmin": true
+  },
+  {
+    "Id": "d94f1fc0-7344-4132-837a-1500f14aa95f",
+    "Name": "Uliana",
+    "SurName": "Usov",
+    "Age": 26,
+    "Birthday": "1997-03-04T11:56:25.496732+06:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "d4ad81d0-9cc4-440d-a7a6-afbf392299f6",
+    "Name": "Valeria",
+    "SurName": "Kaprizin",
+    "Age": 21,
+    "Birthday": "2002-07-09T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "8c4911a9-e736-432c-b6e7-47ebac4f345b",
+    "Name": "Valeriy",
+    "SurName": "Kaprizin",
+    "Age": 45,
+    "Birthday": "1978-06-01T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "d48e89de-3301-45fc-b898-1a579cee6794",
+    "Name": "Aboba",
+    "SurName": "Harpunin",
+    "Age": 47,
+    "Birthday": "1976-08-31T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "30269b1b-230a-4275-a294-dd6d847cec8c",
+    "Name": "Daria",
+    "SurName": "Barskih",
+    "Age": 34,
+    "Birthday": "1989-08-25T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "76eed939-04c7-4426-8e4f-d64eb5b6ecd3",
+    "Name": "Jhon",
+    "SurName": "Kolodov",
+    "Age": 38,
+    "Birthday": "1985-07-18T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "12956d69-833e-4ca6-a64b-ff94078891cc",
+    "Name": "Uliana",
+    "SurName": "Kolodov",
+    "Age": 19,
+    "Birthday": "2004-07-25T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "f64b60eb-fd5f-446b-9e85-0006fa000abd",
+    "Name": "Jhon",
+    "SurName": "Electrov",
+    "Age": 35,
+    "Birthday": "1988-02-08T11:56:25.4967399+06:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "f155edbd-62b4-4bac-9963-687723faa963",
+    "Name": "Karina",
+    "SurName": "Vod",
+    "Age": 52,
+    "Birthday": "1971-02-15T11:56:25.4967427+06:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "361efd9f-2f0c-4e55-a8ba-86b15d0e6c5d",
+    "Name": "Albina",
+    "SurName": "Kishalin",
+    "Age": 41,
+    "Birthday": "1982-03-16T11:56:25.4967434+06:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "f3fc8041-d320-4090-b314-a23e9e6996f1",
+    "Name": "Gricha",
+    "SurName": "Red",
+    "Age": 53,
+    "Birthday": "1970-05-01T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "9bd456ea-1dff-4b6d-bfba-160be8d0f8d6",
+    "Name": "Uliana",
+    "SurName": "Harpunin",
+    "Age": 30,
+    "Birthday": "1993-03-22T11:56:25.4967451+06:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "10dfca6b-614c-4484-ba7c-819434222da2",
+    "Name": "Gricha",
+    "SurName": "Electrov",
+    "Age": 55,
+    "Birthday": "1968-03-31T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "0fc760c9-5432-4dca-9d8b-255ba372c894",
+    "Name": "Valeria",
+    "SurName": "Red",
+    "Age": 41,
+    "Birthday": "1982-01-01T11:56:25.4967471+06:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "cffbea28-4870-417d-a753-0dc85ed596b2",
+    "Name": "Daria",
+    "SurName": "Barskih",
+    "Age": 17,
+    "Birthday": "2006-08-31T00:00:00",
+    "IsAdmin": false
+  },
+  {
+    "Id": "f4ab08d8-4fa4-405b-a76d-60cb8594eb2f",
+    "Name": "Gricha",
+    "SurName": "Usov",
+    "Age": 25,
+    "Birthday": "1998-07-01T00:00:00",
+    "IsAdmin": false
+  }
+]
