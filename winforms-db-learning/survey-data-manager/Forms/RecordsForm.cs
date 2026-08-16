@@ -2,7 +2,7 @@
 
 namespace MyWinFormsAppForDb
 {
-	public partial class CRUD_db : Form
+	public partial class RecordsForm : Form
 	{
 		private readonly IServiceProvider _serviceProvider;
 		private readonly IDbWorker _worker;
@@ -30,7 +30,7 @@ namespace MyWinFormsAppForDb
 
 		private List<string> _tableNames = new();
 
-		public CRUD_db(IServiceProvider serviceProvider, IDbWorker worker)
+		public RecordsForm(IServiceProvider serviceProvider, IDbWorker worker)
 		{
 			InitializeComponent();
 
@@ -396,7 +396,7 @@ namespace MyWinFormsAppForDb
 			if (_dictionaryEntity.ContainsKey(key!)) await UpdataTheDataGrid(key!);
 		}
 
-		private void CRUD_db_FormClosing(object sender, FormClosingEventArgs e)
+		private void RecordsForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (e.CloseReason == CloseReason.UserClosing && states_for_closing_window.Equals(statesForClosingWindow.ClosingByTheShutDownWindow))
 			{
