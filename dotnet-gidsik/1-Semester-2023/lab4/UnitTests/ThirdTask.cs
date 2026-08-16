@@ -10,8 +10,8 @@ public class UnitTestThird
 {
     [Fact]
     public void TestSerialize(){
-        string pathInputJson = @"..\..\..\..\People.json";
-        string pathInputBin = @"..\..\..\..\People.bin";
+        string pathInputJson = Path.Combine("..", "..", "..", "..", "People.json");
+        string pathInputBin = Path.Combine("..", "..", "..", "..", "People.bin");
         bool answer = true;
 
         using StreamReader readerJson = new StreamReader(pathInputJson);
@@ -80,7 +80,7 @@ public class UnitTestThird
 
     [Fact]
     public void TestDeserialize(){
-        string pathInput = @"..\..\..\..\People.json";
+        string pathInput = Path.Combine("..", "..", "..", "..", "People.json");
         bool answer = true;
 
         using StreamReader reader = new StreamReader(pathInput);
