@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Screenshot harness, not part of the shipped app. Lays out LoginView offscreen
+    (no Show(), no message loop) and renders it via RenderTargetBitmap. LoginView
+    is a UserControl (not a top-level Window), so it's measured at a fixed size
+    matching its XAML design-time width/height rather than reading Width/Height
+    off the control itself. Usage: dotnet run, output path as arg.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Lab8.Screenshot</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lab8.csproj" />
+  </ItemGroup>
+
+</Project>

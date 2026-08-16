@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Screenshot harness, not part of the shipped app. Wires up the same DI
+    container as Program.cs and renders Entrance via DrawToBitmap.
+    Usage: dotnet run, output path as arg.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>MyWinFormsAppForDb.Screenshot</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyWinFormsAppForDb.csproj" />
+  </ItemGroup>
+
+</Project>
