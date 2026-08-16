@@ -6,4 +6,8 @@ One project: `Lab8` — WPF MVVM, Dropbox API.
 
 Needs a Dropbox app key/secret in `appsettings.json` to actually connect. The values currently committed there are redacted placeholders (`***REMOVED-...***`) — a real key/secret pair was originally committed and was scrubbed from git history; drop in your own to run this. See `curl.txt` for example API calls (also redacted).
 
+![Screenshot](docs/screenshot.png)
+
+*(the login/auth-key screen — the app needs a Dropbox key to get past it, see above)*
+
 **Tech stack:** C#, .NET 6.0, WPF, MVVM, Dropbox API
