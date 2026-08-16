@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CodeFirstExistingDatabaseSample.Models
 {
-	public partial class temptForConsoleContext : DbContext
+	public partial class BlogContext : DbContext
 	{
-		public temptForConsoleContext()
+		public BlogContext()
 		{
 		}
 
-		public temptForConsoleContext(DbContextOptions<temptForConsoleContext> options)
+		public BlogContext(DbContextOptions<BlogContext> options)
 			: base(options)
 		{
 		}
@@ -23,7 +23,7 @@ namespace CodeFirstExistingDatabaseSample.Models
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
-				optionsBuilder.UseSqlServer("Server=.\\;Database=temptForConsole;Trusted_Connection=True;TrustServerCertificate=true;");
+				optionsBuilder.UseSqlServer("Server=.\\;Database=BlogDb;Trusted_Connection=True;TrustServerCertificate=true;");
 			}
 		}
 
