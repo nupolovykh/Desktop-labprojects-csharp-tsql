@@ -31,10 +31,19 @@ internal static class Program
 		var provider = services.BuildServiceProvider();
 
 		using var form = provider.GetRequiredService<MainForm>();
-		form.CreateControl();
+
+		// DrawToBitmap doesn't paint child controls correctly on a form that's never
+		// actually been shown (a documented WinForms limitation) - show it for real,
+		// just positioned off the visible desktop so nothing appears on screen.
+		form.StartPosition = FormStartPosition.Manual;
+		form.Location = new Point(-32000, -32000);
+		form.ShowInTaskbar = false;
+		form.Show();
+		Application.DoEvents();
 
 		using var bitmap = new Bitmap(form.Width, form.Height);
 		form.DrawToBitmap(bitmap, new Rectangle(0, 0, form.Width, form.Height));
+		form.Close();
 
 		var outputPath = args[0];
 		Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(outputPath))!);

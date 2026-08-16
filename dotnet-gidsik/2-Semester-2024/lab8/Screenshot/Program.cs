@@ -1,12 +1,10 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Lab6.Views;
-using Lab6.ViewModels;
+using Lab8.Views;
 
 if (args.Length < 1)
 {
@@ -16,6 +14,10 @@ if (args.Length < 1)
 
 var outputPath = args[0];
 
+// Matches the XAML's d:DesignWidth/d:DesignHeight - LoginView is a UserControl,
+// not a Window, so it has no intrinsic size of its own to measure against.
+var size = new Size(800, 450);
+
 // WPF's Window/FrameworkElement machinery requires an STA thread; top-level
 // statements don't run on one by default, so spin up a dedicated STA thread.
 var thread = new Thread(() =>
@@ -23,28 +25,13 @@ var thread = new Thread(() =>
 	// WPF expects an Application instance to exist even though we never call Run().
 	_ = new Application();
 
-	var viewModel = new PeopleViewModelMVVM();
-	// The detail pane's TextBoxes are bound to ChosenPerson and center-aligned
-	// (auto width) - with nothing selected they're empty and collapse to a
-	// sliver. Select the first person so the pane has something to show.
-	viewModel.ChosenPerson = viewModel.People.First();
-
-	var window = new PeopleView(provider: null!)
-	{
-		DataContext = viewModel,
-	};
-
-	// A Window's own render root isn't fully constructed until it's actually
-	// shown, so RenderTargetBitmap.Render(window) on an unshown window produces
-	// blank output - render its Content instead, which has no such dependency.
-	var content = (FrameworkElement)window.Content;
-	var size = new Size(window.Width, window.Height);
-	content.Measure(size);
-	content.Arrange(new Rect(size));
-	content.UpdateLayout();
+	var view = new LoginView();
+	view.Measure(size);
+	view.Arrange(new Rect(size));
+	view.UpdateLayout();
 
 	var bitmap = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
-	bitmap.Render(content);
+	bitmap.Render(view);
 
 	var encoder = new PngBitmapEncoder();
 	encoder.Frames.Add(BitmapFrame.Create(bitmap));

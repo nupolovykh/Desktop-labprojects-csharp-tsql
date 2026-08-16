@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Screenshot harness, not part of the shipped app. Lays out the Login window
+    offscreen (no Show(), no message loop) and renders it via RenderTargetBitmap.
+    Usage: dotnet run, output path as arg.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Lab7.Screenshot</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lab7.csproj" />
+  </ItemGroup>
+
+</Project>
