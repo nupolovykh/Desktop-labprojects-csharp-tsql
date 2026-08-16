@@ -37,7 +37,7 @@
 
 		private void btn_crud_db_Click(object sender, EventArgs e)
 		{
-			var crud = _serviceProvider.GetService<CRUD_db>();
+			var crud = _serviceProvider.GetService<RecordsForm>();
 			crud!.Show();
 			states_for_closing_window = statesForClosingWindow.PassingToAnotherPage;
 

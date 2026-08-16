@@ -3,7 +3,7 @@ using CodeFirstExistingDatabaseSample.Models;
 
 Console.WriteLine("Hello, Database!");
 
-using (var db = new temptForConsoleContext())
+using (var db = new BlogContext())
 {
     // Create and save a new Blog
     Console.Write("Enter a name for a new Blog: ");

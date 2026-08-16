@@ -26,7 +26,7 @@ jobs:
       matrix:
         include:
           - name: 1-Semester-2023/lab1
-            path: dotnet-gidsik/1-Semester-2023/lab1/TestConsoleApp.sln
+            path: dotnet-gidsik/1-Semester-2023/lab1/AreaConsoleApp.sln
           - name: 1-Semester-2023/lab2
             path: dotnet-gidsik/1-Semester-2023/lab2/lab2.sln
           - name: 1-Semester-2023/lab3
@@ -39,7 +39,7 @@ jobs:
             # separately, not blocking CI until it's fixed in the test code itself.
             allow_test_failure: true
           - name: 1-Semester-2023/lab5
-            path: dotnet-gidsik/1-Semester-2023/lab5/Main.sln
+            path: dotnet-gidsik/1-Semester-2023/lab5/FactoryPatterns.sln
           - name: 1-Semester-2023/lab6
             path: dotnet-gidsik/1-Semester-2023/lab6/Laba6.sln
           - name: musicstore-avalonia
