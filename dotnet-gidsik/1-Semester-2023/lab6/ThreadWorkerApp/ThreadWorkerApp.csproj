@@ -7,8 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Interface\Interface.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThreadWorkerSupport\ThreadWorkerSupport.csproj" />
+  </ItemGroup>
 
 </Project>

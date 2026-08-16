@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TestConsoleApp
 {
 
-    public class chechbreaker
+    public class BracketChecker
     {
         public static bool Check(string tempt)
         {
