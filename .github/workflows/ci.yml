@@ -100,10 +100,10 @@ jobs:
       - run: msbuild winforms-db-learning\sql-table-browser\WinFormAppDbFirstSem.csproj /p:Configuration=Debug /p:Platform=AnyCPU
         shell: cmd
 
-  # Pilot: render a handful of GUI screens headlessly (no Show()/message loop) and
-  # upload the PNGs as build artifacts. Untested harness code - allowed to fail
-  # while we validate the approach before rolling it out to the rest of the GUI apps.
-  screenshot-pilot:
+  # Render GUI screens headlessly (no Show()/message loop) and upload the PNGs
+  # as build artifacts. Marked non-blocking: this is newer, less-tested code
+  # than the rest of the CI matrix.
+  screenshot:
     name: screenshot (${{ matrix.name }})
     runs-on: ${{ matrix.os }}
     continue-on-error: true
@@ -123,6 +123,34 @@ jobs:
             os: windows-latest
             project: dotnet-gidsik/2-Semester-2024/lab6/Screenshot/Screenshot.csproj
             output: lab6.png
+          - name: dotnet-gidsik-lab1
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab1/WinFormsApp1/Screenshot/Screenshot.csproj
+            output: lab1.png
+          - name: dotnet-gidsik-lab2
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab2/Screenshot/Screenshot.csproj
+            output: lab2.png
+          - name: dotnet-gidsik-lab3
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab3/Screenshot/Screenshot.csproj
+            output: lab3.png
+          - name: dotnet-gidsik-lab4
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab4/Screenshot/Screenshot.csproj
+            output: lab4.png
+          - name: dotnet-gidsik-lab7
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab7/Screenshot/Screenshot.csproj
+            output: lab7.png
+          - name: dotnet-gidsik-lab8
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab8/Screenshot/Screenshot.csproj
+            output: lab8.png
+          - name: survey-data-manager
+            os: windows-latest
+            project: winforms-db-learning/survey-data-manager/Screenshot/Screenshot.csproj
+            output: survey-data-manager.png
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4

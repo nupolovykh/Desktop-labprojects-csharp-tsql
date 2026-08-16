@@ -1,12 +1,10 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Lab6.Views;
-using Lab6.ViewModels;
+using Lab7.Views;
 
 if (args.Length < 1)
 {
@@ -23,16 +21,7 @@ var thread = new Thread(() =>
 	// WPF expects an Application instance to exist even though we never call Run().
 	_ = new Application();
 
-	var viewModel = new PeopleViewModelMVVM();
-	// The detail pane's TextBoxes are bound to ChosenPerson and center-aligned
-	// (auto width) - with nothing selected they're empty and collapse to a
-	// sliver. Select the first person so the pane has something to show.
-	viewModel.ChosenPerson = viewModel.People.First();
-
-	var window = new PeopleView(provider: null!)
-	{
-		DataContext = viewModel,
-	};
+	var window = new Login();
 
 	// A Window's own render root isn't fully constructed until it's actually
 	// shown, so RenderTargetBitmap.Render(window) on an unshown window produces

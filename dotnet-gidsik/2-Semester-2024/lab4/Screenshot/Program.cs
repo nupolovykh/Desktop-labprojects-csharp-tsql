@@ -1,12 +1,14 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Lab6.Views;
-using Lab6.ViewModels;
+using Lab4;
+using Lab4.Database;
+using Lab4.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 if (args.Length < 1)
 {
@@ -23,16 +25,13 @@ var thread = new Thread(() =>
 	// WPF expects an Application instance to exist even though we never call Run().
 	_ = new Application();
 
-	var viewModel = new PeopleViewModelMVVM();
-	// The detail pane's TextBoxes are bound to ChosenPerson and center-aligned
-	// (auto width) - with nothing selected they're empty and collapse to a
-	// sliver. Select the first person so the pane has something to show.
-	viewModel.ChosenPerson = viewModel.People.First();
+	var services = new ServiceCollection();
+	services.AddTransient<MainWindow>();
+	services.AddScoped<IDbWorker, DbWorker>();
+	services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=./app.db"));
+	var provider = services.BuildServiceProvider();
 
-	var window = new PeopleView(provider: null!)
-	{
-		DataContext = viewModel,
-	};
+	var window = provider.GetRequiredService<MainWindow>();
 
 	// A Window's own render root isn't fully constructed until it's actually
 	// shown, so RenderTargetBitmap.Render(window) on an unshown window produces
