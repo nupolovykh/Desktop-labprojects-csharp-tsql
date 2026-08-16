@@ -13,8 +13,8 @@ public class UnitTestSecond
     [Fact]
     public void AgeTest()
     {
-        string pathToInput = @"..\..\..\..\People.json";
-        string pathToOutput = @"..\..\..\..\OfficeBirthdays.txt";
+        string pathToInput = Path.Combine("..", "..", "..", "..", "People.json");
+        string pathToOutput = Path.Combine("..", "..", "..", "..", "OfficeBirthdays.txt");
         List<Person> people = Birthdays.CreateBirthdayFile(pathToInput, pathToOutput);
 
         using FileStream stream = new FileStream(pathToOutput, FileMode.Open);
@@ -65,8 +65,8 @@ public class UnitTestSecond
     [InlineData("31 Марта: Gricha Electrov - исполнится 55", 8)]
     public void LinesTest(string input, int index)
     {
-        string pathToInput = @"..\..\..\..\People.json";
-        string pathToOutput = @"..\..\..\..\OfficeBirthdays.txt";
+        string pathToInput = Path.Combine("..", "..", "..", "..", "People.json");
+        string pathToOutput = Path.Combine("..", "..", "..", "..", "OfficeBirthdays.txt");
         List<Person> people = Birthdays.CreateBirthdayFile(pathToInput, pathToOutput);
         using FileStream stream = new FileStream(pathToOutput, FileMode.Open);
         using StreamReader reader = new StreamReader(stream);
