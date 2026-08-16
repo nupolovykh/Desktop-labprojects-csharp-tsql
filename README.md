@@ -7,7 +7,6 @@ Merged repository covering C# desktop development work: an Avalonia MVVM tutoria
 ## Sub-projects
 
 ### [`musicstore-avalonia/`](musicstore-avalonia)
-> 🚀 **Portfolio Project** — Avalonia UI tutorial
 
 A desktop music-store app built from the [official Avalonia tutorial](https://docs.avaloniaui.net/docs/tutorials/music-store-app/): searches the iTunes album catalog and displays results with acrylic blurred backgrounds. MVVM architecture (`Models/`, `ViewModels/`, `Views/`).
 
@@ -24,12 +23,12 @@ See each folder's README for the lab-by-lab index.
 
 **Tech stack:** C#, .NET 6.0, WinForms, WPF, EF Core, xUnit
 
-### [`winforms-db-learning/`](winforms-db-learning)
+### [`winforms-db-learning/survey-data-manager/`](winforms-db-learning/survey-data-manager)
 > ⏹️ **Archived Coursework** — WinForms + database learning
 
-Four independent WinForms/Entity Framework exercises — see [its README](winforms-db-learning/README.md) for what each one does.
+WinForms app for geodetic survey data — `Project`, `Terrain`, `Picket`, `Measurement`, `Equipment`, `Operator`, `Customer`, `Datum`, `User`, `SurveyLine` entities, wired up with DI and EF Core against SQLite. `Entrance` is the login screen, `RecordsForm` is the main CRUD grid, `Analytics` is a read-only summary view.
 
-**Tech stack:** C#, WinForms, Entity Framework
+**Tech stack:** C#, WinForms, EF Core, SQLite, DI
 
 ## CI
 
