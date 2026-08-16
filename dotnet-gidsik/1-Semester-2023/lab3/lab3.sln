@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interface", "Interface\Interface.csproj", "{80E2CF28-9706-4390-AB97-B842D7E69144}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockableEntities", "LockableEntities\LockableEntities.csproj", "{80E2CF28-9706-4390-AB97-B842D7E69144}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lab3", "lab3\lab3.csproj", "{E84FE3E6-F7A8-4071-A4E3-AD6544F36BA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{E84FE3E6-F7A8-4071-A4E3-AD6544F36BA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
