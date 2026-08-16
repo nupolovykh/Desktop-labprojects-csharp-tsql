@@ -2,6 +2,8 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,37 +14,76 @@ using MyWinFormsAppForDb.Services.Interfaces;
 
 if (args.Length < 1)
 {
-	Console.Error.WriteLine("Usage: Screenshot <output-png-path>");
+	Console.Error.WriteLine("Usage: Screenshot <output-png-path> [entrance|records|analytics]");
 	return 1;
 }
+
+// Which screen to capture - RecordsForm/Analytics both need a logged-in user
+// (Personalization() reads the current role to pick which tables/buttons are
+// visible), so log one in directly via IUserIdentity rather than driving
+// Entrance's login form headlessly.
+var screen = args.Length > 1 ? args[1] : "entrance";
 
 Application.EnableVisualStyles();
 Application.SetCompatibleTextRenderingDefault(false);
 
 var services = new ServiceCollection();
-services.AddTransient<Entrance>();
+services.AddSingleton<Entrance>();
+services.AddTransient<Main>();
+services.AddTransient<RecordsForm>();
+services.AddTransient<Analytics>();
 services.AddDbContext<AppDbContext>();
 services.AddScoped<IDbWorker, RealDbWorker>();
 services.AddSingleton<IUserIdentity, UserIdentity>();
 var provider = services.BuildServiceProvider();
 
-using var form = provider.GetRequiredService<Entrance>();
+Form form;
+if (screen is "records" or "analytics")
+{
+	var identity = provider.GetRequiredService<IUserIdentity>();
+	var worker = provider.GetRequiredService<IDbWorker>();
+	var admin = worker.Users.First(u => u.Login == "admin");
+	identity.Login(admin);
 
-// DrawToBitmap doesn't paint child controls correctly on a form that's never
-// actually been shown (a documented WinForms limitation) - show it for real,
-// just positioned off the visible desktop so nothing appears on screen.
-form.StartPosition = FormStartPosition.Manual;
-form.Location = new Point(-32000, -32000);
-form.ShowInTaskbar = false;
-form.Show();
-Application.DoEvents();
+	form = screen == "records"
+		? provider.GetRequiredService<RecordsForm>()
+		: provider.GetRequiredService<Analytics>();
+}
+else
+{
+	form = provider.GetRequiredService<Entrance>();
+}
 
-using var bitmap = new Bitmap(form.Width, form.Height);
-form.DrawToBitmap(bitmap, new Rectangle(0, 0, form.Width, form.Height));
-form.Close();
+using (form)
+{
+	// DrawToBitmap doesn't paint child controls correctly on a form that's
+	// never actually been shown (a documented WinForms limitation) - show it
+	// for real, just positioned off the visible desktop so nothing appears
+	// on screen.
+	form.StartPosition = FormStartPosition.Manual;
+	form.Location = new Point(-32000, -32000);
+	form.ShowInTaskbar = false;
+	form.Show();
+	Application.DoEvents();
 
-var outputPath = args[0];
-Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(outputPath))!);
-bitmap.Save(outputPath, ImageFormat.Png);
-Console.WriteLine($"Saved {outputPath}");
+	// RecordsForm/Analytics populate their grid/chart via an async void event
+	// handler fired from setting SelectedIndex in the constructor - pump the
+	// message loop a few times so that continuation actually completes
+	// before capturing, instead of racing ahead to an empty grid/chart.
+	for (var i = 0; i < 20; i++)
+	{
+		Application.DoEvents();
+		Thread.Sleep(100);
+	}
+
+	using var bitmap = new Bitmap(form.Width, form.Height);
+	form.DrawToBitmap(bitmap, new Rectangle(0, 0, form.Width, form.Height));
+	form.Close();
+
+	var outputPath = args[0];
+	Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(outputPath))!);
+	bitmap.Save(outputPath, ImageFormat.Png);
+	Console.WriteLine($"Saved {outputPath}");
+}
+
 return 0;
