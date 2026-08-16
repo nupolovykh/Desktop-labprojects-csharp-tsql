@@ -30,8 +30,20 @@ var thread = new Thread(() =>
 	view.Arrange(new Rect(size));
 	view.UpdateLayout();
 
+	// RenderTargetBitmap defaults to a transparent canvas - paint an opaque
+	// white background first (VisualBrush lets us draw the already laid-out
+	// view on top without reparenting it), or the PNG ends up with a fully
+	// transparent background and the text is invisible on anything but a
+	// white page.
+	var visual = new DrawingVisual();
+	using (var dc = visual.RenderOpen())
+	{
+		dc.DrawRectangle(Brushes.White, null, new Rect(size));
+		dc.DrawRectangle(new VisualBrush(view), null, new Rect(size));
+	}
+
 	var bitmap = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
-	bitmap.Render(view);
+	bitmap.Render(visual);
 
 	var encoder = new PngBitmapEncoder();
 	encoder.Frames.Add(BitmapFrame.Create(bitmap));
