@@ -9,3 +9,11 @@ the iTunes online list of albums, and select albums for my own list.
 <p align="center">
   <img width="900" height="471" src="https://docs.avaloniaui.net/assets/images/image-20210310184538120-6cb6d8ac692816f0943e3f86b08d252a.png">
 </p>
+
+*(screenshot from the official tutorial, not this checkout)*
+
+## Structure
+
+MVVM: `Models/Album`, `ViewModels/MusicStoreViewModel` + `AlbumViewModel` + `MainWindowViewModel`, `Views/MusicStoreView` + `AlbumView` + `MainWindow`. `MusicStoreViewModel` queries the [iTunes Search API](https://performance-partners.apple.com/search-api) for albums and exposes them as `AlbumViewModel`s; selecting one shows its artwork and details via `AlbumView`.
+
+**Tech stack:** C#, .NET 8.0, Avalonia UI, MVVM
