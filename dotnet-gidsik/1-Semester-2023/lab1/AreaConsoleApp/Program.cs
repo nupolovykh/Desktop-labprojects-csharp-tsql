@@ -23,5 +23,5 @@ var collection = new List<IHaveArea>
 //}
 
 string tempt = Console.ReadLine()!; //// = "(){[(})]";
-Console.WriteLine(chechbreaker.Check(tempt));
+Console.WriteLine(BracketChecker.Check(tempt));
 
