@@ -99,3 +99,40 @@ jobs:
       - uses: microsoft/setup-msbuild@v2
       - run: msbuild winforms-db-learning\sql-table-browser\WinFormAppDbFirstSem.csproj /p:Configuration=Debug /p:Platform=AnyCPU
         shell: cmd
+
+  # Pilot: render a handful of GUI screens headlessly (no Show()/message loop) and
+  # upload the PNGs as build artifacts. Untested harness code - allowed to fail
+  # while we validate the approach before rolling it out to the rest of the GUI apps.
+  screenshot-pilot:
+    name: screenshot (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: musicstore-avalonia
+            os: ubuntu-latest
+            project: musicstore-avalonia/Screenshot/Screenshot.csproj
+            output: musicstore-avalonia.png
+          - name: materials-products-inventory
+            os: windows-latest
+            project: winforms-db-learning/materials-products-inventory/Screenshot/Screenshot.csproj
+            output: materials-products-inventory.png
+          - name: dotnet-gidsik-lab6
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab6/Screenshot/Screenshot.csproj
+            output: lab6.png
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            8.0.x
+      - run: dotnet run --project "${{ matrix.project }}" -c Release -- "${{ runner.temp }}/${{ matrix.output }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshot-${{ matrix.name }}
+          path: ${{ runner.temp }}/${{ matrix.output }}
+          if-no-files-found: error
