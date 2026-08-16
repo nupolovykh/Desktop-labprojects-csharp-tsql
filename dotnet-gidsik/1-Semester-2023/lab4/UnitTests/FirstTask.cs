@@ -8,8 +8,8 @@ public class UnitTestFirst
     [Fact]
     public void TestTxtToJson()
     {
-        string pathToInput = @"..\..\..\..\InputData.txt";
-        string pathToOutput = @"..\..\..\..\People.json";   
+        string pathToInput = Path.Combine("..", "..", "..", "..", "InputData.txt");
+        string pathToOutput = Path.Combine("..", "..", "..", "..", "People.json");   
 
         List<Person> txtPeople = TxtToJson.PeopleTxtToJson(pathToInput, pathToOutput);
         string jsonString = File.ReadAllText(pathToOutput);
