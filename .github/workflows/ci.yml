@@ -164,3 +164,62 @@ jobs:
           name: screenshot-${{ matrix.name }}
           path: ${{ runner.temp }}/${{ matrix.output }}
           if-no-files-found: error
+
+  # Collect every screenshot artifact from the matrix above and commit them
+  # into each project's own docs/ folder, so they're viewable directly on
+  # GitHub (and embeddable in READMEs) instead of only existing as
+  # expiring CI artifacts. Single job (not a matrix) so there's only ever
+  # one commit/push, avoiding concurrent-push races.
+  publish-screenshots:
+    name: publish screenshots to repo
+    needs: screenshot
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: screenshot-*
+          path: screenshots-download
+      - name: Copy screenshots into project docs folders and commit
+        shell: bash
+        env:
+          TARGET_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          declare -A DEST=(
+            [musicstore-avalonia]="musicstore-avalonia/docs/screenshot.png"
+            [materials-products-inventory]="winforms-db-learning/materials-products-inventory/docs/screenshot.png"
+            [survey-data-manager]="winforms-db-learning/survey-data-manager/docs/screenshot.png"
+            [dotnet-gidsik-lab1]="dotnet-gidsik/2-Semester-2024/lab1/docs/screenshot.png"
+            [dotnet-gidsik-lab2]="dotnet-gidsik/2-Semester-2024/lab2/docs/screenshot.png"
+            [dotnet-gidsik-lab3]="dotnet-gidsik/2-Semester-2024/lab3/docs/screenshot.png"
+            [dotnet-gidsik-lab4]="dotnet-gidsik/2-Semester-2024/lab4/docs/screenshot.png"
+            [dotnet-gidsik-lab6]="dotnet-gidsik/2-Semester-2024/lab6/docs/screenshot.png"
+            [dotnet-gidsik-lab7]="dotnet-gidsik/2-Semester-2024/lab7/docs/screenshot.png"
+            [dotnet-gidsik-lab8]="dotnet-gidsik/2-Semester-2024/lab8/docs/screenshot.png"
+          )
+          for name in "${!DEST[@]}"; do
+            src_dir="screenshots-download/screenshot-${name}"
+            dest="${DEST[$name]}"
+            src_file=$(find "$src_dir" -type f -name '*.png' 2>/dev/null | head -1)
+            if [ -z "$src_file" ]; then
+              echo "::warning::no screenshot artifact found for ${name}, skipping"
+              continue
+            fi
+            mkdir -p "$(dirname "$dest")"
+            cp "$src_file" "$dest"
+            git add -- "$dest"
+          done
+
+          git config user.name "nupolovykh"
+          git config user.email "96892429+nupolovykh@users.noreply.github.com"
+          if git diff --cached --quiet; then
+            echo "No screenshot changes to commit"
+          else
+            git commit -m "Update generated screenshots [skip ci]"
+            git push origin "HEAD:${TARGET_REF}"
+          fi
