@@ -151,6 +151,17 @@ jobs:
             os: windows-latest
             project: winforms-db-learning/survey-data-manager/Screenshot/Screenshot.csproj
             output: survey-data-manager.png
+            screen: entrance
+          - name: survey-data-manager-records
+            os: windows-latest
+            project: winforms-db-learning/survey-data-manager/Screenshot/Screenshot.csproj
+            output: survey-data-manager-records.png
+            screen: records
+          - name: survey-data-manager-analytics
+            os: windows-latest
+            project: winforms-db-learning/survey-data-manager/Screenshot/Screenshot.csproj
+            output: survey-data-manager-analytics.png
+            screen: analytics
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -158,7 +169,7 @@ jobs:
           dotnet-version: |
             6.0.x
             8.0.x
-      - run: dotnet run --project "${{ matrix.project }}" -c Release -- "${{ runner.temp }}/${{ matrix.output }}"
+      - run: dotnet run --project "${{ matrix.project }}" -c Release -- "${{ runner.temp }}/${{ matrix.output }}" "${{ matrix.screen }}"
       - uses: actions/upload-artifact@v4
         with:
           name: screenshot-${{ matrix.name }}
@@ -196,9 +207,8 @@ jobs:
           - name: 1-Semester-2023-lab6
             title: ThreadWorkerApp
             project: dotnet-gidsik/1-Semester-2023/lab6/ThreadWorkerApp/ThreadWorkerApp.csproj
-            stdin: |
-              foo
-              exit
+            stdin: ""
+            timed: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -209,6 +219,7 @@ jobs:
         env:
           PROJECT: ${{ matrix.project }}
           STDIN: ${{ matrix.stdin }}
+          TIMED: ${{ matrix.timed }}
         run: |
           # `dotnet run` mixes its own restore/build chatter (incl. long absolute
           # paths) into stdout - build once, then invoke the built DLL directly
@@ -217,7 +228,16 @@ jobs:
           proj_dir=$(dirname "$PROJECT")
           proj_name=$(basename "$PROJECT" .csproj)
           dll="$proj_dir/bin/Release/net6.0/$proj_name.dll"
-          echo "$STDIN" | dotnet "$dll" > console-output.txt 2>&1 || true
+          if [ "$TIMED" = "true" ]; then
+            # ThreadWorkerApp's "create" case and its background thread's
+            # add/sort step each do a real Thread.Sleep(5000) while holding a
+            # mutex/lock - piping all input at once races ahead of that and
+            # "list" shows an empty result. Deliver "list" only after a real
+            # wall-clock delay so the background thread has actually finished.
+            { echo "create"; echo "Alice"; echo "25"; sleep 17; echo "list"; echo "exit"; } | dotnet "$dll" > console-output.txt 2>&1 || true
+          else
+            echo "$STDIN" | dotnet "$dll" > console-output.txt 2>&1 || true
+          fi
       - name: Render terminal screenshot
         env:
           TITLE: ${{ matrix.title }}
@@ -260,6 +280,8 @@ jobs:
             [musicstore-avalonia]="musicstore-avalonia/docs/screenshot.png"
             [materials-products-inventory]="winforms-db-learning/materials-products-inventory/docs/screenshot.png"
             [survey-data-manager]="winforms-db-learning/survey-data-manager/docs/screenshot.png"
+            [survey-data-manager-records]="winforms-db-learning/survey-data-manager/docs/screenshot-records.png"
+            [survey-data-manager-analytics]="winforms-db-learning/survey-data-manager/docs/screenshot-analytics.png"
             [dotnet-gidsik-lab1]="dotnet-gidsik/2-Semester-2024/lab1/docs/screenshot.png"
             [dotnet-gidsik-lab2]="dotnet-gidsik/2-Semester-2024/lab2/docs/screenshot.png"
             [dotnet-gidsik-lab3]="dotnet-gidsik/2-Semester-2024/lab3/docs/screenshot.png"

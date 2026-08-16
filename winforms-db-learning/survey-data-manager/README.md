@@ -8,4 +8,12 @@ WinForms app for geodetic survey data — `Project`, `Terrain`, `Picket`, `Measu
 
 *(the `Entrance` login screen)*
 
+![Screenshot](docs/screenshot-records.png)
+
+*(`RecordsForm`, logged in as `admin` — the main CRUD grid)*
+
+![Screenshot](docs/screenshot-analytics.png)
+
+*(`Analytics`, logged in as `admin` — the read-only summary chart)*
+
 **Tech stack:** C#, .NET 6.0, WinForms, EF Core, SQLite, DI
