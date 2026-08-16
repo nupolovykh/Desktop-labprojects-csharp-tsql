@@ -210,7 +210,14 @@ jobs:
           PROJECT: ${{ matrix.project }}
           STDIN: ${{ matrix.stdin }}
         run: |
-          echo "$STDIN" | dotnet run --project "$PROJECT" -c Release > console-output.txt 2>&1 || true
+          # `dotnet run` mixes its own restore/build chatter (incl. long absolute
+          # paths) into stdout - build once, then invoke the built DLL directly
+          # so the captured transcript is only the app's own output.
+          dotnet build "$PROJECT" -c Release -v quiet
+          proj_dir=$(dirname "$PROJECT")
+          proj_name=$(basename "$PROJECT" .csproj)
+          dll="$proj_dir/bin/Release/net6.0/$proj_name.dll"
+          echo "$STDIN" | dotnet "$dll" > console-output.txt 2>&1 || true
       - name: Render terminal screenshot
         env:
           TITLE: ${{ matrix.title }}
