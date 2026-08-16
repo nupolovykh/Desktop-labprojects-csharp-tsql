@@ -76,7 +76,7 @@
     <Compile Include="Views\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extentions\MessageBoxCreator.cs" />
+    <Compile Include="Extensions\MessageBoxCreator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Views\Entry.resx">
