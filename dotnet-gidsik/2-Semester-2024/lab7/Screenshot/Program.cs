@@ -23,11 +23,20 @@ var thread = new Thread(() =>
 
 	var window = new Login();
 
-	// A Window's own render root isn't fully constructed until it's actually
-	// shown, so RenderTargetBitmap.Render(window) on an unshown window produces
-	// blank output - render its Content instead, which has no such dependency.
+	// Rendering Content directly without ever showing the Window skips WPF's
+	// real initialization pass: implicit Grid resource styles (the TextBox
+	// Style below) don't get applied and content isn't clipped to its layout
+	// bounds, so text/controls render oversized and unstyled. Show it for
+	// real, off-screen, like the analogous WinForms DrawToBitmap fix.
+	window.WindowStartupLocation = WindowStartupLocation.Manual;
+	window.Left = -32000;
+	window.Top = -32000;
+	window.ShowInTaskbar = false;
+	window.Show();
+	window.UpdateLayout();
+
 	var content = (FrameworkElement)window.Content;
-	var size = new Size(window.Width, window.Height);
+	var size = new Size(window.ActualWidth, window.ActualHeight);
 	content.Measure(size);
 	content.Arrange(new Rect(size));
 	content.UpdateLayout();
@@ -55,6 +64,8 @@ var thread = new Thread(() =>
 	{
 		encoder.Save(stream);
 	}
+
+	window.Close();
 });
 thread.SetApartmentState(ApartmentState.STA);
 thread.Start();
