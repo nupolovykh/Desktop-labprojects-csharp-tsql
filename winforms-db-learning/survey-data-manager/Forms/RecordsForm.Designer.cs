@@ -1,6 +1,6 @@
 ﻿namespace MyWinFormsAppForDb
 {
-	partial class CRUD_db
+	partial class RecordsForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -215,7 +215,7 @@
 			btn_search.UseVisualStyleBackColor = true;
 			btn_search.Click += btn_search_Click;
 			// 
-			// CRUD_db
+			// RecordsForm
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
@@ -237,9 +237,9 @@
 			Controls.Add(dgv);
 			Controls.Add(btn_retrn);
 			Margin = new Padding(3, 2, 3, 2);
-			Name = "CRUD_db";
-			Text = "CRUD_db";
-			FormClosing += CRUD_db_FormClosing;
+			Name = "RecordsForm";
+			Text = "RecordsForm";
+			FormClosing += RecordsForm_FormClosing;
 			((ISupportInitialize)dgv).EndInit();
 			ResumeLayout(false);
 			PerformLayout();

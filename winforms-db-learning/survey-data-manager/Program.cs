@@ -50,7 +50,7 @@ namespace MyWinFormsAppForDb
 		{
 			services.AddSingleton<Entrance>();
 			services.AddTransient<Main>();
-			services.AddTransient<CRUD_db>();
+			services.AddTransient<RecordsForm>();
 			services.AddTransient<Analytics>();
 		}
 
