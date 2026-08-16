@@ -8,8 +8,6 @@ the iTunes online list of albums, and select albums for my own list.
 
 ![Screenshot](docs/screenshot.png)
 
-*(this checkout's default/empty state — the library is genuinely empty until you search and buy an album, there's no persistence between launches)*
-
 ## Structure
 
 MVVM: `Models/Album`, `ViewModels/MusicStoreViewModel` + `AlbumViewModel` + `MainWindowViewModel`, `Views/MusicStoreView` + `AlbumView` + `MainWindow`. `MusicStoreViewModel` queries the [iTunes Search API](https://performance-partners.apple.com/search-api) for albums and exposes them as `AlbumViewModel`s; selecting one shows its artwork and details via `AlbumView`.
