@@ -4,4 +4,6 @@ WinForms app for a small materials/products catalog — `Material` (Plastic/Wood
 
 `MainForm` is the entry point; `MaterialsDataGridForm`/`ProductsDataGridForm` are read-only grids; `ProductsCustomForm` + the custom `ProductView` control show a single product in detail. Data access behind `IDbWorker`/`DbWorker`, DI-wired in `Program.cs`.
 
+![Screenshot](docs/screenshot.png)
+
 **Tech stack:** C#, .NET 6.0, WinForms, EF Core, SQLite, DI
