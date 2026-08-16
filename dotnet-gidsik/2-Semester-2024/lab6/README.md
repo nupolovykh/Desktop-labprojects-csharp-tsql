@@ -4,4 +4,6 @@ One project: `Lab6` — WPF, EF Core (SQLite, currently commented out — runs a
 
 Two parallel implementations of the same "people" screen: `PersonModelSimple` (plain POCO) + `PeopleViewModelSimple` vs. `PersonModelMVVM` (implements `INotifyPropertyChanged`, so edits push to the UI automatically) + `PeopleViewModelMVVM`. `PeopleView.xaml` binds to whichever view model is set as its `DataContext`, making the difference directly observable.
 
+![Screenshot](docs/screenshot.png)
+
 **Tech stack:** C#, .NET 6.0, WPF, MVVM
