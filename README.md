@@ -34,8 +34,3 @@ Four independent WinForms/Entity Framework exercises — see [its README](winfor
 ## CI
 
 `.github/workflows/ci.yml` builds every project on every push/PR: portable (net6.0/net8.0, non-Windows) projects on `ubuntu-latest`, WinForms/WPF (`net6.0-windows`) projects on `windows-latest`, and the one legacy .NET Framework 4.8 project (`sql-table-browser`) via classic MSBuild, non-blocking.
-
-## Related
-
-This repository is part of a themed reorganization of coursework/project repos. See also:
-- [Webdev-labprojects-js-ts-react](https://github.com/nupolovykh/Webdev-labprojects-js-ts-react) — the equivalent merge for React/web coursework
