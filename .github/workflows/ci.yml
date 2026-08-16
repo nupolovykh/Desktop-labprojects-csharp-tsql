@@ -165,6 +165,65 @@ jobs:
           path: ${{ runner.temp }}/${{ matrix.output }}
           if-no-files-found: error
 
+  # Console apps have no window to render, so "screenshot" means: run it with
+  # representative sample input, capture the transcript, and draw it onto a
+  # dark terminal-style PNG (.github/scripts/render_terminal_screenshot.py).
+  # 1-Semester-2023/lab4 is skipped - it only does file I/O, no console output.
+  console-screenshot:
+    name: console screenshot (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: 1-Semester-2023-lab1
+            title: AreaConsoleApp
+            project: dotnet-gidsik/1-Semester-2023/lab1/AreaConsoleApp/AreaConsoleApp.csproj
+            stdin: "([{}])"
+          - name: 1-Semester-2023-lab2
+            title: Calculator
+            project: dotnet-gidsik/1-Semester-2023/lab2/Calculator/Calculator.csproj
+            stdin: "(0-3)*(5+8-(1*5)+2)/2"
+          - name: 1-Semester-2023-lab3
+            title: ConsoleApp
+            project: dotnet-gidsik/1-Semester-2023/lab3/ConsoleApp/ConsoleApp.csproj
+            stdin: ""
+          - name: 1-Semester-2023-lab5
+            title: FactoryPatterns
+            project: dotnet-gidsik/1-Semester-2023/lab5/FactoryPatterns/FactoryPatterns.csproj
+            stdin: ""
+          - name: 1-Semester-2023-lab6
+            title: ThreadWorkerApp
+            project: dotnet-gidsik/1-Semester-2023/lab6/ThreadWorkerApp/ThreadWorkerApp.csproj
+            stdin: |
+              foo
+              exit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.x
+      - run: pip install --quiet Pillow
+      - name: Run and capture console output
+        env:
+          PROJECT: ${{ matrix.project }}
+          STDIN: ${{ matrix.stdin }}
+        run: |
+          echo "$STDIN" | dotnet run --project "$PROJECT" -c Release > console-output.txt 2>&1 || true
+      - name: Render terminal screenshot
+        env:
+          TITLE: ${{ matrix.title }}
+          OUT_NAME: ${{ matrix.name }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/console-screenshots"
+          python3 .github/scripts/render_terminal_screenshot.py "$TITLE" console-output.txt "$RUNNER_TEMP/console-screenshots/${OUT_NAME}.png"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshot-${{ matrix.name }}
+          path: ${{ runner.temp }}/console-screenshots/${{ matrix.name }}.png
+          if-no-files-found: error
+
   # Collect every screenshot artifact from the matrix above and commit them
   # into each project's own docs/ folder, so they're viewable directly on
   # GitHub (and embeddable in READMEs) instead of only existing as
@@ -172,7 +231,7 @@ jobs:
   # one commit/push, avoiding concurrent-push races.
   publish-screenshots:
     name: publish screenshots to repo
-    needs: screenshot
+    needs: [screenshot, console-screenshot]
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -201,6 +260,11 @@ jobs:
             [dotnet-gidsik-lab6]="dotnet-gidsik/2-Semester-2024/lab6/docs/screenshot.png"
             [dotnet-gidsik-lab7]="dotnet-gidsik/2-Semester-2024/lab7/docs/screenshot.png"
             [dotnet-gidsik-lab8]="dotnet-gidsik/2-Semester-2024/lab8/docs/screenshot.png"
+            [1-Semester-2023-lab1]="dotnet-gidsik/1-Semester-2023/lab1/docs/screenshot.png"
+            [1-Semester-2023-lab2]="dotnet-gidsik/1-Semester-2023/lab2/docs/screenshot.png"
+            [1-Semester-2023-lab3]="dotnet-gidsik/1-Semester-2023/lab3/docs/screenshot.png"
+            [1-Semester-2023-lab5]="dotnet-gidsik/1-Semester-2023/lab5/docs/screenshot.png"
+            [1-Semester-2023-lab6]="dotnet-gidsik/1-Semester-2023/lab6/docs/screenshot.png"
           )
           for name in "${!DEST[@]}"; do
             src_dir="screenshots-download/screenshot-${name}"

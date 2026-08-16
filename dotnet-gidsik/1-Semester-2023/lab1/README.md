@@ -4,4 +4,8 @@ Two projects: `AreaConsoleApp` (console entry point) and `figures` (class librar
 
 `figures` defines `IHaveArea` and three shapes implementing it — `Circle`, `Rectangle`, `Triangle` — each computing its own area. `AreaConsoleApp` builds a `List<IHaveArea>` of all three and sums their areas via `ListArea`. Also includes `BracketChecker`, an unrelated bracket-matching validator (`(){}[]`) using a `Stack<char>`.
 
+![Console output](docs/screenshot.png)
+
+*(the app's actual entry point just reads a bracket string from stdin and validates it — sample input `([{}])`)*
+
 **Tech stack:** C#, .NET 6.0, console
