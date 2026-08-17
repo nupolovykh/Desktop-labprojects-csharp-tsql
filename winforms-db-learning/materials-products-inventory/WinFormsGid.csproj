@@ -20,4 +20,11 @@
 	  </Compile>
 	</ItemGroup>
 
+	<!-- Screenshot/ is a separate project (its own .csproj); exclude it from this
+	     project's own default globs so its files aren't compiled twice. -->
+	<ItemGroup>
+	  <Compile Remove="Screenshot\**" />
+	  <None Remove="Screenshot\**" />
+	</ItemGroup>
+
 </Project>

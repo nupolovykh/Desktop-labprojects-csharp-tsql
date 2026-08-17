@@ -8,12 +8,14 @@ on:
       - "musicstore-avalonia/**"
       - "winforms-db-learning/**"
       - ".github/workflows/ci.yml"
+      - ".github/scripts/**"
   pull_request:
     paths:
       - "dotnet-gidsik/**"
       - "musicstore-avalonia/**"
       - "winforms-db-learning/**"
       - ".github/workflows/ci.yml"
+      - ".github/scripts/**"
 
 jobs:
   # Cross-platform projects (net6.0 / net8.0, no Windows-only APIs): console apps,
@@ -99,3 +101,220 @@ jobs:
       - uses: microsoft/setup-msbuild@v2
       - run: msbuild winforms-db-learning\sql-table-browser\WinFormAppDbFirstSem.csproj /p:Configuration=Debug /p:Platform=AnyCPU
         shell: cmd
+
+  # Render GUI screens headlessly (no Show()/message loop) and upload the PNGs
+  # as build artifacts. Marked non-blocking: this is newer, less-tested code
+  # than the rest of the CI matrix.
+  screenshot:
+    name: screenshot (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: musicstore-avalonia
+            os: ubuntu-latest
+            project: musicstore-avalonia/Screenshot/Screenshot.csproj
+            output: musicstore-avalonia.png
+          - name: materials-products-inventory
+            os: windows-latest
+            project: winforms-db-learning/materials-products-inventory/Screenshot/Screenshot.csproj
+            output: materials-products-inventory.png
+          - name: dotnet-gidsik-lab6
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab6/Screenshot/Screenshot.csproj
+            output: lab6.png
+          - name: dotnet-gidsik-lab1
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab1/WinFormsApp1/Screenshot/Screenshot.csproj
+            output: lab1.png
+          - name: dotnet-gidsik-lab2
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab2/Screenshot/Screenshot.csproj
+            output: lab2.png
+          - name: dotnet-gidsik-lab3
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab3/Screenshot/Screenshot.csproj
+            output: lab3.png
+          - name: dotnet-gidsik-lab4
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab4/Screenshot/Screenshot.csproj
+            output: lab4.png
+          - name: dotnet-gidsik-lab7
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab7/Screenshot/Screenshot.csproj
+            output: lab7.png
+          - name: dotnet-gidsik-lab8
+            os: windows-latest
+            project: dotnet-gidsik/2-Semester-2024/lab8/Screenshot/Screenshot.csproj
+            output: lab8.png
+          - name: survey-data-manager
+            os: windows-latest
+            project: winforms-db-learning/survey-data-manager/Screenshot/Screenshot.csproj
+            output: survey-data-manager.png
+            screen: entrance
+          - name: survey-data-manager-records
+            os: windows-latest
+            project: winforms-db-learning/survey-data-manager/Screenshot/Screenshot.csproj
+            output: survey-data-manager-records.png
+            screen: records
+          - name: survey-data-manager-analytics
+            os: windows-latest
+            project: winforms-db-learning/survey-data-manager/Screenshot/Screenshot.csproj
+            output: survey-data-manager-analytics.png
+            screen: analytics
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            8.0.x
+      - run: dotnet run --project "${{ matrix.project }}" -c Release -- "${{ runner.temp }}/${{ matrix.output }}" "${{ matrix.screen }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshot-${{ matrix.name }}
+          path: ${{ runner.temp }}/${{ matrix.output }}
+          if-no-files-found: error
+
+  # Console apps have no window to render, so "screenshot" means: run it with
+  # representative sample input, capture the transcript, and draw it onto a
+  # dark terminal-style PNG (.github/scripts/render_terminal_screenshot.py).
+  # 1-Semester-2023/lab4 is skipped - it only does file I/O, no console output.
+  console-screenshot:
+    name: console screenshot (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: 1-Semester-2023-lab1
+            title: AreaConsoleApp
+            project: dotnet-gidsik/1-Semester-2023/lab1/AreaConsoleApp/AreaConsoleApp.csproj
+            stdin: "([{}])"
+          - name: 1-Semester-2023-lab2
+            title: Calculator
+            project: dotnet-gidsik/1-Semester-2023/lab2/Calculator/Calculator.csproj
+            stdin: "(0-3)*(5+8-(1*5)+2)/2"
+          - name: 1-Semester-2023-lab3
+            title: ConsoleApp
+            project: dotnet-gidsik/1-Semester-2023/lab3/ConsoleApp/ConsoleApp.csproj
+            stdin: ""
+          - name: 1-Semester-2023-lab5
+            title: FactoryPatterns
+            project: dotnet-gidsik/1-Semester-2023/lab5/FactoryPatterns/FactoryPatterns.csproj
+            stdin: ""
+          - name: 1-Semester-2023-lab6
+            title: ThreadWorkerApp
+            project: dotnet-gidsik/1-Semester-2023/lab6/ThreadWorkerApp/ThreadWorkerApp.csproj
+            stdin: ""
+            timed: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.x
+      - run: pip install --quiet Pillow
+      - name: Run and capture console output
+        env:
+          PROJECT: ${{ matrix.project }}
+          STDIN: ${{ matrix.stdin }}
+          TIMED: ${{ matrix.timed }}
+        run: |
+          # `dotnet run` mixes its own restore/build chatter (incl. long absolute
+          # paths) into stdout - build once, then invoke the built DLL directly
+          # so the captured transcript is only the app's own output.
+          dotnet build "$PROJECT" -c Release -v quiet
+          proj_dir=$(dirname "$PROJECT")
+          proj_name=$(basename "$PROJECT" .csproj)
+          dll="$proj_dir/bin/Release/net6.0/$proj_name.dll"
+          if [ "$TIMED" = "true" ]; then
+            # ThreadWorkerApp's "create" case and its background thread's
+            # add/sort step each do a real Thread.Sleep(5000) while holding a
+            # mutex/lock - piping all input at once races ahead of that and
+            # "list" shows an empty result. Deliver "list" only after a real
+            # wall-clock delay so the background thread has actually finished.
+            { echo "create"; echo "Alice"; echo "25"; sleep 17; echo "list"; echo "exit"; } | dotnet "$dll" > console-output.txt 2>&1 || true
+          else
+            echo "$STDIN" | dotnet "$dll" > console-output.txt 2>&1 || true
+          fi
+      - name: Render terminal screenshot
+        env:
+          TITLE: ${{ matrix.title }}
+          OUT_NAME: ${{ matrix.name }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/console-screenshots"
+          python3 .github/scripts/render_terminal_screenshot.py "$TITLE" console-output.txt "$RUNNER_TEMP/console-screenshots/${OUT_NAME}.png"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: screenshot-${{ matrix.name }}
+          path: ${{ runner.temp }}/console-screenshots/${{ matrix.name }}.png
+          if-no-files-found: error
+
+  # Collect every screenshot artifact from the matrix above and commit them
+  # into each project's own docs/ folder, so they're viewable directly on
+  # GitHub (and embeddable in READMEs) instead of only existing as
+  # expiring CI artifacts. Single job (not a matrix) so there's only ever
+  # one commit/push, avoiding concurrent-push races.
+  publish-screenshots:
+    name: publish screenshots to repo
+    needs: [screenshot, console-screenshot]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: screenshot-*
+          path: screenshots-download
+      - name: Copy screenshots into project docs folders and commit
+        shell: bash
+        env:
+          TARGET_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          declare -A DEST=(
+            [musicstore-avalonia]="musicstore-avalonia/docs/screenshot.png"
+            [materials-products-inventory]="winforms-db-learning/materials-products-inventory/docs/screenshot.png"
+            [survey-data-manager]="winforms-db-learning/survey-data-manager/docs/screenshot.png"
+            [survey-data-manager-records]="winforms-db-learning/survey-data-manager/docs/screenshot-records.png"
+            [survey-data-manager-analytics]="winforms-db-learning/survey-data-manager/docs/screenshot-analytics.png"
+            [dotnet-gidsik-lab1]="dotnet-gidsik/2-Semester-2024/lab1/docs/screenshot.png"
+            [dotnet-gidsik-lab2]="dotnet-gidsik/2-Semester-2024/lab2/docs/screenshot.png"
+            [dotnet-gidsik-lab3]="dotnet-gidsik/2-Semester-2024/lab3/docs/screenshot.png"
+            [dotnet-gidsik-lab4]="dotnet-gidsik/2-Semester-2024/lab4/docs/screenshot.png"
+            [dotnet-gidsik-lab6]="dotnet-gidsik/2-Semester-2024/lab6/docs/screenshot.png"
+            [dotnet-gidsik-lab7]="dotnet-gidsik/2-Semester-2024/lab7/docs/screenshot.png"
+            [dotnet-gidsik-lab8]="dotnet-gidsik/2-Semester-2024/lab8/docs/screenshot.png"
+            [1-Semester-2023-lab1]="dotnet-gidsik/1-Semester-2023/lab1/docs/screenshot.png"
+            [1-Semester-2023-lab2]="dotnet-gidsik/1-Semester-2023/lab2/docs/screenshot.png"
+            [1-Semester-2023-lab3]="dotnet-gidsik/1-Semester-2023/lab3/docs/screenshot.png"
+            [1-Semester-2023-lab5]="dotnet-gidsik/1-Semester-2023/lab5/docs/screenshot.png"
+            [1-Semester-2023-lab6]="dotnet-gidsik/1-Semester-2023/lab6/docs/screenshot.png"
+          )
+          for name in "${!DEST[@]}"; do
+            src_dir="screenshots-download/screenshot-${name}"
+            dest="${DEST[$name]}"
+            src_file=$(find "$src_dir" -type f -name '*.png' 2>/dev/null | head -1)
+            if [ -z "$src_file" ]; then
+              echo "::warning::no screenshot artifact found for ${name}, skipping"
+              continue
+            fi
+            mkdir -p "$(dirname "$dest")"
+            cp "$src_file" "$dest"
+            git add -- "$dest"
+          done
+
+          git config user.name "nupolovykh"
+          git config user.email "96892429+nupolovykh@users.noreply.github.com"
+          if git diff --cached --quiet; then
+            echo "No screenshot changes to commit"
+          else
+            git commit -m "Update generated screenshots [skip ci]"
+            git push origin "HEAD:${TARGET_REF}"
+          fi

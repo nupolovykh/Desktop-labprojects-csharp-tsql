@@ -12,6 +12,14 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
+  <!-- Screenshot/ is a separate project (its own .csproj); exclude it from this
+       project's own default globs so its files aren't compiled twice. -->
+  <ItemGroup>
+    <Compile Remove="Screenshot\**" />
+    <None Remove="Screenshot\**" />
+    <AvaloniaResource Remove="Screenshot\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.1.3" />
     <PackageReference Include="Avalonia.Desktop" Version="11.1.3" />
