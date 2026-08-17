@@ -8,12 +8,14 @@ on:
       - "musicstore-avalonia/**"
       - "winforms-db-learning/**"
       - ".github/workflows/ci.yml"
+      - ".github/scripts/**"
   pull_request:
     paths:
       - "dotnet-gidsik/**"
       - "musicstore-avalonia/**"
       - "winforms-db-learning/**"
       - ".github/workflows/ci.yml"
+      - ".github/scripts/**"
 
 jobs:
   # Cross-platform projects (net6.0 / net8.0, no Windows-only APIs): console apps,
