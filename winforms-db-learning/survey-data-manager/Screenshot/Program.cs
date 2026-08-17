@@ -66,6 +66,14 @@ using (form)
 	form.Show();
 	Application.DoEvents();
 
+	// KNOWN LIMITATION: RecordsForm/Analytics's Designer-declared ClientSize
+	// is 1108x598, but in this CI environment the form actually renders
+	// narrower than that (~1044px) - AutoScaleMode, MaximumSize/MinimumSize,
+	// and forcing ClientSize directly were all tried and none of them
+	// changed what DrawToBitmap actually paints, so the right-most controls
+	// (Search, DESC, the second CRUD button column, Return to) end up
+	// outside the captured frame.
+
 	// RecordsForm/Analytics populate their grid/chart via an async void event
 	// handler fired from setting SelectedIndex in the constructor - pump the
 	// message loop a few times so that continuation actually completes
@@ -76,8 +84,13 @@ using (form)
 		Thread.Sleep(100);
 	}
 
-	using var bitmap = new Bitmap(form.Width, form.Height);
-	form.DrawToBitmap(bitmap, new Rectangle(0, 0, form.Width, form.Height));
+	// DrawToBitmap paints the control's *client area* into the bitmap's
+	// top-left corner, not its full outer bounds - Width/Height (which
+	// include the title bar and borders) would leave a blank margin of
+	// uninitialized pixels along the right/bottom edge. ClientSize is what
+	// actually gets painted, so allocate exactly that.
+	using var bitmap = new Bitmap(form.ClientSize.Width, form.ClientSize.Height);
+	form.DrawToBitmap(bitmap, new Rectangle(Point.Empty, form.ClientSize));
 	form.Close();
 
 	var outputPath = args[0];
