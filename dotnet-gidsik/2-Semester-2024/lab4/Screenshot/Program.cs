@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Lab4;
@@ -38,24 +39,22 @@ var thread = new Thread(() =>
 	// blank output - render its Content instead, which has no such dependency.
 	var content = (FrameworkElement)window.Content;
 	var size = new Size(window.Width, window.Height);
-	content.Measure(size);
-	content.Arrange(new Rect(size));
-	content.UpdateLayout();
 
-	// RenderTargetBitmap defaults to a transparent canvas - paint an opaque
-	// white background first (VisualBrush lets us draw the already laid-out
-	// content on top without reparenting it), or the PNG ends up with a fully
-	// transparent background and the text is invisible on anything but a
-	// white page.
-	var visual = new DrawingVisual();
-	using (var dc = visual.RenderOpen())
-	{
-		dc.DrawRectangle(Brushes.White, null, new Rect(size));
-		dc.DrawRectangle(new VisualBrush(content), null, new Rect(size));
-	}
+	// RenderTargetBitmap defaults to a transparent canvas - a VisualBrush
+	// painted behind the content (to add an opaque white background without
+	// reparenting it) computes its own Viewbox from the content's visual
+	// bounds and stretches to fill, which silently distorts/enlarges layouts
+	// that don't exactly fill their arranged rect. Detach content from the
+	// Window and wrap it in a Border instead - a real opaque background with
+	// no brush-stretching involved.
+	window.Content = null;
+	var wrapper = new Border { Background = Brushes.White, Child = content };
+	wrapper.Measure(size);
+	wrapper.Arrange(new Rect(size));
+	wrapper.UpdateLayout();
 
 	var bitmap = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
-	bitmap.Render(visual);
+	bitmap.Render(wrapper);
 
 	var encoder = new PngBitmapEncoder();
 	encoder.Frames.Add(BitmapFrame.Create(bitmap));
