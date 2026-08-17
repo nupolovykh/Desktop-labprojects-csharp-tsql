@@ -33,8 +33,12 @@ form.ShowInTaskbar = false;
 form.Show();
 Application.DoEvents();
 
-using var bitmap = new Bitmap(form.Width, form.Height);
-form.DrawToBitmap(bitmap, new Rectangle(0, 0, form.Width, form.Height));
+// DrawToBitmap paints the control's client area into the bitmap's top-left
+// corner, not its full outer bounds - Width/Height (which include the title
+// bar and borders) leaves a blank margin of uninitialized pixels along the
+// right/bottom edge. Allocate by ClientSize instead.
+using var bitmap = new Bitmap(form.ClientSize.Width, form.ClientSize.Height);
+form.DrawToBitmap(bitmap, new Rectangle(Point.Empty, form.ClientSize));
 form.Close();
 
 var outputPath = args[0];
