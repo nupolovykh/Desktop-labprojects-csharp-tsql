@@ -1,4 +1,9 @@
+using System.Runtime.CompilerServices;
 using System.Windows;
+
+// Lets Screenshot/ construct internal DbWorker/AppDbContext types directly
+// instead of duplicating them or changing their visibility just for a screenshot harness.
+[assembly: InternalsVisibleTo("Lab4.Screenshot")]
 
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None,            //where theme specific resource dictionaries are located
