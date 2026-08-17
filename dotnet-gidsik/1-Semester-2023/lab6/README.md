@@ -1,3 +1,17 @@
+# lab6 — Threading (Mutex/Monitor/AutoResetEvent)
+
+Three projects: `ThreadingExamples` (theory-section practice: basic/advanced thread and Task examples), `ThreadWorkerSupport` (shared `Person` + queue/list helper methods), and `ThreadWorkerApp` (the actual assignment — `ThreadWorker` runs a background thread that consumes a `Mutex`-protected queue and appends to a `Monitor`-protected list, synchronized via `AutoResetEvent`).
+
+![Console output](docs/screenshot.png)
+
+*(an unrecognized command, followed by `exit` — the `create`/`list` paths involve several seconds of `Thread.Sleep()` each and aren't practical to capture as a single static screenshot)*
+
+**Tech stack:** C#, .NET 6.0, `System.Threading`
+
+The assignment brief this lab was built against, kept for reference:
+
+---
+
 # Laba6 - Многопоточное программирование, Синхронное и Асинхронное программирование 
 
 > **ВАЖНО:**
