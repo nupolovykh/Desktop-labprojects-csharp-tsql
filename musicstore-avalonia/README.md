@@ -1,10 +1,10 @@
 # Music Store App
 
-## Official tutorial of from https://docs.avaloniaui.net/docs/tutorials/music-store-app/
+## Official tutorial from https://docs.avaloniaui.net/docs/tutorials/music-store-app/
 
-In this tutorial i will repeat a desktop app based on the idea of a music store. The app is highly graphical - it presents images of album covers, 
-and uses semi-transparent 'acrylic' blurred window backgrounds to give a very up-to-date look. By the end of the tutorial, i will be able search 
-the iTunes online list of albums, and select albums for my own list.
+A desktop app built from the official Avalonia tutorial, based on the idea of a music store. The app is highly graphical - it presents images of album covers,
+and uses semi-transparent 'acrylic' blurred window backgrounds to give a very up-to-date look. It can search
+the iTunes online list of albums, and select albums for a personal list.
 
 ![Screenshot](docs/screenshot.png)
 
