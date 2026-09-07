@@ -1,0 +1,26 @@
+# Build output — this repository had no .gitignore, which is how 249 files under
+# bin/ and obj/ ended up committed. They are gone from the history now.
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+# Local databases created by the sample apps on first run
+*.db
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+
+# OS
+.DS_Store
+Thumbs.db
