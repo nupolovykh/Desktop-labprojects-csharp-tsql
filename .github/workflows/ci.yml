@@ -177,7 +177,7 @@ jobs:
             6.0.x
             8.0.x
       - run: dotnet run --project "${{ matrix.project }}" -c Release -- "${{ runner.temp }}/${{ matrix.output }}" "${{ matrix.screen }}"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: screenshot-${{ matrix.name }}
           path: ${{ runner.temp }}/${{ matrix.output }}
@@ -252,7 +252,7 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/console-screenshots"
           python3 .github/scripts/render_terminal_screenshot.py "$TITLE" console-output.txt "$RUNNER_TEMP/console-screenshots/${OUT_NAME}.png"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: screenshot-${{ matrix.name }}
           path: ${{ runner.temp }}/console-screenshots/${{ matrix.name }}.png
