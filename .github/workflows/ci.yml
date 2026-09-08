@@ -1,6 +1,11 @@
 name: CI
 
 on:
+  # Manual trigger. The push filter below matches on the list of changed files,
+  # which GitHub cannot compute for a force push that rewrites history — so after
+  # any history rewrite this is the only way to get the build validated.
+  workflow_dispatch:
+
   push:
     branches: [main]
     paths:
