@@ -1,0 +1,30 @@
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directories:
+      - "/dotnet-gidsik/1-Semester-2023/lab1"
+      - "/dotnet-gidsik/1-Semester-2023/lab2"
+      - "/dotnet-gidsik/1-Semester-2023/lab3"
+      - "/dotnet-gidsik/1-Semester-2023/lab4"
+      - "/dotnet-gidsik/1-Semester-2023/lab5"
+      - "/dotnet-gidsik/1-Semester-2023/lab6"
+      - "/dotnet-gidsik/2-Semester-2024/lab1"
+      - "/dotnet-gidsik/2-Semester-2024/lab2"
+      - "/dotnet-gidsik/2-Semester-2024/lab3"
+      - "/dotnet-gidsik/2-Semester-2024/lab4"
+      - "/dotnet-gidsik/2-Semester-2024/lab6"
+      - "/dotnet-gidsik/2-Semester-2024/lab7"
+      - "/dotnet-gidsik/2-Semester-2024/lab8"
+      - "/musicstore-avalonia"
+      - "/winforms-db-learning/survey-data-manager"
+    schedule:
+      interval: "weekly"
+    target-branch: "security-features-main"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "security-features-main"
+    open-pull-requests-limit: 5
