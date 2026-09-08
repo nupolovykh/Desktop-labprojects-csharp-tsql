@@ -49,7 +49,7 @@ jobs:
           - name: winforms-db-learning/code-first-existing-db-sample
             path: winforms-db-learning/code-first-existing-db-sample/CodeFirstExistingDatabaseSample.csproj
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
@@ -87,7 +87,7 @@ jobs:
           - name: winforms-db-learning/materials-products-inventory
             path: winforms-db-learning/materials-products-inventory/WinFormsGid.csproj
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 6.0.x
@@ -102,7 +102,7 @@ jobs:
     runs-on: windows-latest
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: microsoft/setup-msbuild@v2
       - run: msbuild winforms-db-learning\sql-table-browser\WinFormAppDbFirstSem.csproj /p:Configuration=Debug /p:Platform=AnyCPU
         shell: cmd
@@ -170,7 +170,7 @@ jobs:
             output: survey-data-manager-analytics.png
             screen: analytics
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
@@ -217,7 +217,7 @@ jobs:
             stdin: ""
             timed: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 6.0.x
@@ -271,7 +271,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/download-artifact@v4
