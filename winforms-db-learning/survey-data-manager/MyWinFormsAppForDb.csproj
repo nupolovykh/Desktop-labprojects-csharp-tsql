@@ -19,7 +19,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.27" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.27" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
-		<PackageReference Include="WinForms.DataVisualization" Version="1.9.2" />
+		<PackageReference Include="WinForms.DataVisualization" Version="1.10.2" />
 	</ItemGroup>
 
 	<!-- Screenshot/ is a separate project (its own .csproj); exclude it from this
