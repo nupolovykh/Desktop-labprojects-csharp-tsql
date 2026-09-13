@@ -1,3 +1,9 @@
+# Version updates land on `deps`, never on main. Each pull request merges itself
+# once CI is green on that exact commit; the collected result reaches main
+# through one promotion pull request that a human merges.
+#
+# 99 means "no limit". Everything lands on `deps`, and an update that fails CI
+# stays an open pull request against that branch, where it blocks nothing.
 version: 2
 updates:
   - package-ecosystem: "nuget"
@@ -19,12 +25,46 @@ updates:
       - "/winforms-db-learning/survey-data-manager"
     schedule:
       interval: "weekly"
-    target-branch: "security-features-main"
-    open-pull-requests-limit: 5
+    target-branch: "deps"
+    open-pull-requests-limit: 99
+    labels: ["dependencies"]
+    commit-message:
+      prefix: "ci(actions)"
+    labels: ["dependencies"]
+    commit-message:
+      prefix: "build(deps)"
+
+    # The EntityFrameworkCore packages have to move together. Nine projects here
+    # pin EntityFrameworkCore alongside Sqlite, SqlServer or Design at the same
+    # version, and those packages carry version ranges on each other: bumping one
+    # alone leaves the rest below what it now demands and the restore breaks.
+    # Ungrouped that is not one blocked update but a queue that cannot drain,
+    # because every pull request in it fails the same way. Measured in
+    # Marketplace-coursework-wpf-mvvm, which has the identical shape.
+    groups:
+      microsoft-data-and-hosting:
+        patterns:
+          - "Microsoft.EntityFrameworkCore*"
+          - "Microsoft.Extensions.*"
+
+    # A target-framework fact, not caution. Every project holding EF Core here
+    # targets net6.0 (most of them net6.0-windows) and pins 6.x. EF Core 7 still
+    # ships net6.0 assets; EF Core 8 requires net8.0 and cannot restore on any of
+    # them, however it is grouped. So 6 -> 7 stays available and 8 and above are
+    # held back. Microsoft.Extensions is deliberately not capped: its 8.x and 9.x
+    # releases still ship netstandard2.0 and restore fine on net6.0.
+    #
+    # Remove this when the projects are retargeted, not before.
+    ignore:
+      - dependency-name: "Microsoft.EntityFrameworkCore*"
+        versions: [">= 8.0.0"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-    target-branch: "security-features-main"
-    open-pull-requests-limit: 5
+    target-branch: "deps"
+    open-pull-requests-limit: 99
+    labels: ["dependencies"]
+    commit-message:
+      prefix: "ci(actions)"

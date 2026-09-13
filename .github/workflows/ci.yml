@@ -12,14 +12,14 @@ on:
       - "dotnet-gidsik/**"
       - "musicstore-avalonia/**"
       - "winforms-db-learning/**"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/**"
       - ".github/scripts/**"
   pull_request:
     paths:
       - "dotnet-gidsik/**"
       - "musicstore-avalonia/**"
       - "winforms-db-learning/**"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/**"
       - ".github/scripts/**"
 
 jobs:
@@ -266,6 +266,15 @@ jobs:
   publish-screenshots:
     name: publish screenshots to repo
     needs: [screenshot, console-screenshot]
+    # Never write to the dependency branch or to a Dependabot pull request.
+    # This job commits under a human name and pushes to the ref it ran on, and
+    # `deps` is bot-only by contract: deps-promote.yml refuses to reset a branch
+    # carrying a commit that is not a bot's, and turns the run red. That refusal
+    # is correct — it cannot tell such a commit from someone's real work — so the
+    # job stays off that path rather than the guard being loosened.
+    if: >-
+      (github.head_ref || github.ref_name) != 'deps' &&
+      github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
