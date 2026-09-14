@@ -12,14 +12,14 @@ on:
       - "dotnet-gidsik/**"
       - "musicstore-avalonia/**"
       - "winforms-db-learning/**"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/**"
       - ".github/scripts/**"
   pull_request:
     paths:
       - "dotnet-gidsik/**"
       - "musicstore-avalonia/**"
       - "winforms-db-learning/**"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/**"
       - ".github/scripts/**"
 
 jobs:
