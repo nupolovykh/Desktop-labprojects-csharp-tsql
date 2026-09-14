@@ -12,14 +12,14 @@ on:
       - "dotnet-gidsik/**"
       - "musicstore-avalonia/**"
       - "winforms-db-learning/**"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/**"
       - ".github/scripts/**"
   pull_request:
     paths:
       - "dotnet-gidsik/**"
       - "musicstore-avalonia/**"
       - "winforms-db-learning/**"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/**"
       - ".github/scripts/**"
 
 jobs:
@@ -266,6 +266,27 @@ jobs:
   publish-screenshots:
     name: publish screenshots to repo
     needs: [screenshot, console-screenshot]
+    # This job commits under a human name and pushes to the ref it ran on, so it
+    # stays away from three refs entirely.
+    #
+    # `deps` is bot-only by contract: deps-promote.yml refuses to reset a branch
+    # carrying a commit that is not a bot's, and says so. That refusal is correct
+    # — it cannot tell such a commit from someone's real work — so the job stays
+    # off that path rather than the guard being loosened. The same goes for a
+    # Dependabot pull request, whose branch becomes that history.
+    #
+    # The default branch is the third, and that one is not a matter of contract
+    # but of arithmetic: it is protected, changes must arrive through a pull
+    # request, and a direct push is answered with GH006. `continue-on-error`
+    # keeps the workflow green but not this job's own check, so every run on the
+    # default branch left a red mark on the commit it ran against —
+    # permanently, because a check run cannot be deleted. Screenshots lose
+    # nothing: they are regenerated on the branch where the change is made and
+    # reach the default branch inside the pull request that carries it.
+    if: >-
+      (github.head_ref || github.ref_name) != 'deps' &&
+      (github.head_ref || github.ref_name) != github.event.repository.default_branch &&
+      github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
@@ -274,6 +295,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref || github.ref_name }}
+          # The guard below compares this ref against the default branch, which
+          # needs the history that joins them; the default depth of 1 has none.
+          fetch-depth: 0
       - uses: actions/download-artifact@v4
         with:
           pattern: screenshot-*
@@ -282,7 +306,34 @@ jobs:
         shell: bash
         env:
           TARGET_REF: ${{ github.head_ref || github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
+          # A change that touches no application code cannot change what the
+          # screenshots show — but the renders differ byte-for-byte on every run
+          # anyway (fonts, antialiasing, timestamps), so without this the job
+          # commits binary churn onto every branch it sees.
+          #
+          # That commit carries `[skip ci]`, so the head it creates has no check
+          # runs at all. A pull request can then no longer be merged on a tested
+          # head: the gate's --match-head-commit stops matching, and merging it by
+          # hand puts a commit with zero runs on the default branch and folds
+          # unrelated screenshot churn into an unrelated change. Observed on the
+          # pull request that added this guard.
+          #
+          # The comparison is against the default branch rather than the pull
+          # request's file list, so it holds for workflow_dispatch too — where
+          # there is no pull request to ask about, and where a run on a branch
+          # would otherwise publish for a change that cannot have moved a pixel.
+          base=$(git merge-base "origin/${DEFAULT_BRANCH}" HEAD 2>/dev/null || true)
+          if [ -n "$base" ]; then
+            if ! git diff --name-only "$base" HEAD | grep -qvE '^\.github/'; then
+              echo "Nothing outside .github/ changed; the screenshots are left alone."
+              exit 0
+            fi
+          else
+            echo "::warning::no merge base with ${DEFAULT_BRANCH}; publishing anyway"
+          fi
+
           declare -A DEST=(
             [musicstore-avalonia]="musicstore-avalonia/docs/screenshot.png"
             [materials-products-inventory]="winforms-db-learning/materials-products-inventory/docs/screenshot.png"
