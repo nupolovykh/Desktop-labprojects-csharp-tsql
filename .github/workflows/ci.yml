@@ -266,6 +266,27 @@ jobs:
   publish-screenshots:
     name: publish screenshots to repo
     needs: [screenshot, console-screenshot]
+    # This job commits under a human name and pushes to the ref it ran on, so it
+    # stays away from three refs entirely.
+    #
+    # `deps` is bot-only by contract: deps-promote.yml refuses to reset a branch
+    # carrying a commit that is not a bot's, and says so. That refusal is correct
+    # — it cannot tell such a commit from someone's real work — so the job stays
+    # off that path rather than the guard being loosened. The same goes for a
+    # Dependabot pull request, whose branch becomes that history.
+    #
+    # The default branch is the third, and that one is not a matter of contract
+    # but of arithmetic: it is protected, changes must arrive through a pull
+    # request, and a direct push is answered with GH006. `continue-on-error`
+    # keeps the workflow green but not this job's own check, so every run on the
+    # default branch left a red mark on the commit it ran against —
+    # permanently, because a check run cannot be deleted. Screenshots lose
+    # nothing: they are regenerated on the branch where the change is made and
+    # reach the default branch inside the pull request that carries it.
+    if: >-
+      (github.head_ref || github.ref_name) != 'deps' &&
+      (github.head_ref || github.ref_name) != github.event.repository.default_branch &&
+      github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     continue-on-error: true
     permissions:
