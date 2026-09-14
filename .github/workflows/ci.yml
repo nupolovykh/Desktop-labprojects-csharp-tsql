@@ -326,8 +326,8 @@ jobs:
           # would otherwise publish for a change that cannot have moved a pixel.
           base=$(git merge-base "origin/${DEFAULT_BRANCH}" HEAD 2>/dev/null || true)
           if [ -n "$base" ]; then
-            if ! git diff --name-only "$base" HEAD | grep -qvE '^\.github/'; then
-              echo "Nothing outside .github/ changed; the screenshots are left alone."
+            if ! git diff --name-only "$base" HEAD | grep -qvE '^(\.github|docs)/'; then
+              echo "Nothing outside .github/ and docs/ changed; the screenshots are left alone."
               exit 0
             fi
           else
