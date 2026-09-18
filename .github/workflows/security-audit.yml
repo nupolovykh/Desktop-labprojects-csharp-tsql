@@ -1,0 +1,127 @@
+name: Security audit
+
+# Deliberately NOT part of CI.
+#
+# `dotnet list package --vulnerable` reports on the global advisory database, not
+# on the commit under test. A newly published advisory would turn every open pull
+# request red at once — including the very bump that fixes it — and in a
+# repository where green CI is what merges updates, that stops the updates from
+# landing exactly when they matter most. Here it reports on a schedule and blocks
+# nothing.
+#
+# It is also the one workflow that speaks about `main` itself. Dependabot's
+# security updates ignore `target-branch` and never enter the `deps` flow, so a
+# red run here is the signal that main needs a human.
+
+on:
+  schedule:
+    - cron: "41 5 * * 1"
+  workflow_dispatch:
+
+# GITHUB_TOKEN is enough here: the only thing this writes is the report issue.
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  nuget:
+    name: dotnet list package --vulnerable
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      # Both lines are in use across the labs; restoring either one needs its own
+      # SDK present.
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            8.0.x
+
+      # The solutions are discovered rather than listed, so a lab added later is
+      # audited without anybody remembering to edit this file.
+      #
+      # A restore that fails is reported and skipped rather than ending the run:
+      # several of these target Windows and are built on a Windows runner in CI,
+      # and a Linux restore of one of them failing says nothing about whether its
+      # packages carry advisories. Blindness is still not allowed to be silent —
+      # if nothing at all could be audited, the run goes red.
+      - name: Audit every solution
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -uo pipefail
+          audited=0
+          skipped=0
+          vulnerable=0
+
+          while IFS= read -r sln; do
+            echo "::group::${sln}"
+            if ! dotnet restore "$sln" >/dev/null 2>&1; then
+              echo "::warning::restore failed, not audited: ${sln}"
+              skipped=$((skipped + 1))
+              echo "::endgroup::"
+              continue
+            fi
+            report=$(dotnet list "$sln" package --vulnerable --include-transitive 2>&1)
+            printf '%s\n' "$report"
+            audited=$((audited + 1))
+            if grep -q 'has the following vulnerable packages' <<<"$report"; then
+              vulnerable=$((vulnerable + 1))
+              echo "::warning::vulnerable packages referenced by ${sln}"
+            fi
+            echo "::endgroup::"
+          done < <(find . -name '*.sln' -not -path './.git/*' | sort)
+
+          summary="Audited ${audited} solution(s); ${skipped} could not be restored; ${vulnerable} carry advisories."
+          echo "$summary"
+
+          # The finding is reported as an issue, not by failing the run.
+          #
+          # This workflow runs on a schedule against the default branch, so its
+          # check run lands on whatever commit that branch points at. A failure
+          # would therefore pin a red mark to an unrelated commit — permanently,
+          # since a check run cannot be deleted and the mark outlives the fix.
+          # An issue is addressed to the repository instead, GitHub emails it the
+          # same way, and it closes itself on the first clean run.
+          marker="<!-- vulnerable-dependencies -->"
+          # The marker is matched inside jq, against the body as one value. Reading
+          # the listing line by line does not work: an issue body is multi-line, the
+          # marker sits on a line of its own, and the first field of *that* line is
+          # the marker itself rather than a number — which then goes into the request
+          # path and comes back 404.
+          issue=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues?state=open&per_page=100" \
+            --jq ".[] | select(.pull_request | not) | select((.body // \"\") | contains(\"$marker\")) | .number" \
+            2>/dev/null | head -1)
+
+          if [ "$vulnerable" -gt 0 ] || [ "$audited" -eq 0 ]; then
+            if [ "$audited" -eq 0 ]; then
+              detail="No solution could be restored, so this run proves nothing about the packages."
+            else
+              detail="${vulnerable} solution(s) reference packages with published advisories."
+            fi
+            body="${detail}
+
+          ${summary}
+
+          Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+
+          ${marker}"
+            if [ -n "$issue" ]; then
+              gh api --method PATCH "repos/$GITHUB_REPOSITORY/issues/${issue}" -f "body=${body}" >/dev/null \
+                && { echo "::warning::${detail} Updated issue #${issue}."; exit 0; }
+            else
+              issue=$(gh api "repos/$GITHUB_REPOSITORY/issues" -f "title=Vulnerable dependencies" \
+                -f "body=${body}" --jq '.number' 2>/dev/null) \
+                && { echo "::warning::${detail} Opened issue #${issue}."; exit 0; }
+            fi
+            echo "::error::${detail} The report could not be filed, so this run fails instead."
+            exit 1
+          fi
+
+          if [ -n "$issue" ]; then
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/issues/${issue}" \
+              -f state=closed -f state_reason=completed >/dev/null 2>&1 || true
+            echo "Nothing vulnerable is referenced any more; closed issue #${issue}."
+          fi
