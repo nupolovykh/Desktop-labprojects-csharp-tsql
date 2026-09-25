@@ -29,10 +29,20 @@ from `main` after every promotion, never merged into. That works because every
 commit on it is a bot commit and every bot commit is regenerable: reset the
 branch and Dependabot raises the same bumps again. The guard in
 `deps-promote.yml` keeps the assumption true — one non-bot commit on `deps` and
-the workflow resets nothing and turns the run red.
+the workflow resets nothing and opens a *Dependency promotion is blocked* issue,
+which it closes itself on the first run that is not blocked.
 
 `deps` was cut from `security-features-main`, which held one Dependabot merge
 with no route into `main`. `security-features-main` is now dead.
+
+## Schedule, groups and reports
+
+Monthly. Per directory, one pull request for every minor and patch bump and one
+per major. The EntityFrameworkCore family below is a group of its own across
+all update types, so Dependabot never raises one of its members alone.
+`security-audit.yml` writes its findings into the run summary, never an issue.
+Dependabot security updates are switched off: they target `main` directly and
+would bypass `deps`.
 
 ## Three things this repository needed that the others did not
 
@@ -74,7 +84,8 @@ Remove the cap when the projects are retargeted, not before.
 2. **Actions → General → Workflow permissions**: *Allow GitHub Actions to create
    and approve pull requests* — ticked.
 3. **General → Pull Requests**: squash merging enabled.
-4. **Advanced Security → Dependabot alerts**: enabled.
+4. **Advanced Security → Dependabot alerts**: enabled. **Dependabot security
+   updates**: disabled — they target `main` directly and would bypass `deps`.
 5. **Branch protection on `main`**: require a pull request, and tick *Do not
    allow bypassing the above settings*.
 
