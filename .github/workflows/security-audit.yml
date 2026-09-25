@@ -9,19 +9,24 @@ name: Security audit
 # landing exactly when they matter most. Here it reports on a schedule and blocks
 # nothing.
 #
-# It is also the one workflow that speaks about `main` itself. Dependabot's
-# security updates ignore `target-branch` and never enter the `deps` flow, so a
-# red run here is the signal that main needs a human.
+# It is also the one workflow that speaks about `main` itself: Dependabot's
+# security updates are switched off in this repository, so this report is the
+# only place the whole picture is written down. For NuGet it is also the only
+# place transitive advisories show up at all — without a lock file the
+# dependency graph lists direct packages only.
+#
+# The report is the run's summary and its warnings, not an issue. An issue stays
+# open until every advisory is fixed, which for coursework may be never, and it
+# is one more thing a human has to close. The summary is on the Actions tab of
+# every run, and a finding never fails the run.
 
 on:
   schedule:
     - cron: "41 5 * * 1"
   workflow_dispatch:
 
-# GITHUB_TOKEN is enough here: the only thing this writes is the report issue.
 permissions:
   contents: read
-  issues: write
 
 jobs:
   nuget:
@@ -46,10 +51,9 @@ jobs:
       # several of these target Windows and are built on a Windows runner in CI,
       # and a Linux restore of one of them failing says nothing about whether its
       # packages carry advisories. Blindness is still not allowed to be silent —
-      # if nothing at all could be audited, the run goes red.
+      # if nothing at all could be audited, the run says so in a warning and in
+      # its summary.
       - name: Audit every solution
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -uo pipefail
           audited=0
@@ -77,51 +81,23 @@ jobs:
           summary="Audited ${audited} solution(s); ${skipped} could not be restored; ${vulnerable} carry advisories."
           echo "$summary"
 
-          # The finding is reported as an issue, not by failing the run.
-          #
-          # This workflow runs on a schedule against the default branch, so its
-          # check run lands on whatever commit that branch points at. A failure
-          # would therefore pin a red mark to an unrelated commit — permanently,
-          # since a check run cannot be deleted and the mark outlives the fix.
-          # An issue is addressed to the repository instead, GitHub emails it the
-          # same way, and it closes itself on the first clean run.
-          marker="<!-- vulnerable-dependencies -->"
-          # The marker is matched inside jq, against the body as one value. Reading
-          # the listing line by line does not work: an issue body is multi-line, the
-          # marker sits on a line of its own, and the first field of *that* line is
-          # the marker itself rather than a number — which then goes into the request
-          # path and comes back 404.
-          issue=$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues?state=open&per_page=100" \
-            --jq ".[] | select(.pull_request | not) | select((.body // \"\") | contains(\"$marker\")) | .number" \
-            2>/dev/null | head -1)
-
-          if [ "$vulnerable" -gt 0 ] || [ "$audited" -eq 0 ]; then
-            if [ "$audited" -eq 0 ]; then
-              detail="No solution could be restored, so this run proves nothing about the packages."
-            else
-              detail="${vulnerable} solution(s) reference packages with published advisories."
-            fi
-            body="${detail}
-
-          ${summary}
-
-          Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
-
-          ${marker}"
-            if [ -n "$issue" ]; then
-              gh api --method PATCH "repos/$GITHUB_REPOSITORY/issues/${issue}" -f "body=${body}" >/dev/null \
-                && { echo "::warning::${detail} Updated issue #${issue}."; exit 0; }
-            else
-              issue=$(gh api "repos/$GITHUB_REPOSITORY/issues" -f "title=Vulnerable dependencies" \
-                -f "body=${body}" --jq '.number' 2>/dev/null) \
-                && { echo "::warning::${detail} Opened issue #${issue}."; exit 0; }
-            fi
-            echo "::error::${detail} The report could not be filed, so this run fails instead."
-            exit 1
+          # A finding never fails the run: this workflow runs on a schedule
+          # against the default branch, so a failure would pin a red check to
+          # whatever commit that branch points at — permanently, since a check run
+          # cannot be deleted and the mark outlives the fix.
+          if [ "$audited" -eq 0 ]; then
+            detail="No solution could be restored, so this run proves nothing about the packages."
+            echo "::warning::${detail}"
+          elif [ "$vulnerable" -gt 0 ]; then
+            detail="${vulnerable} solution(s) reference packages with published advisories."
+          else
+            detail="Nothing vulnerable is referenced."
           fi
 
-          if [ -n "$issue" ]; then
-            gh api --method PATCH "repos/$GITHUB_REPOSITORY/issues/${issue}" \
-              -f state=closed -f state_reason=completed >/dev/null 2>&1 || true
-            echo "Nothing vulnerable is referenced any more; closed issue #${issue}."
-          fi
+          {
+            echo "### Security audit"
+            echo
+            echo "${detail}"
+            echo
+            echo "${summary}"
+          } >>"$GITHUB_STEP_SUMMARY"

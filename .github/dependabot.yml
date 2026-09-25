@@ -2,8 +2,18 @@
 # once CI is green on that exact commit; the collected result reaches main
 # through one promotion pull request that a human merges.
 #
+# Monthly, one pull request per directory for every minor and patch bump, and
+# one pull request per major. Minor and patch bumps rarely break anything, so
+# grouping them costs little and cuts the noise to one pull request a month.
+# Majors stay separate, so a major that breaks the build blocks only itself.
+# Packages that must move together get their own group across all update types.
+#
 # 99 means "no limit". Everything lands on `deps`, and an update that fails CI
 # stays an open pull request against that branch, where it blocks nothing.
+#
+# Dependabot security updates are switched off for this repository: they always
+# target main and would bypass `deps`. security-audit.yml reports advisories
+# instead — see docs/dependency-updates.md.
 version: 2
 updates:
   - package-ecosystem: "nuget"
@@ -24,12 +34,9 @@ updates:
       - "/musicstore-avalonia"
       - "/winforms-db-learning/survey-data-manager"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     target-branch: "deps"
     open-pull-requests-limit: 99
-    labels: ["dependencies"]
-    commit-message:
-      prefix: "ci(actions)"
     labels: ["dependencies"]
     commit-message:
       prefix: "build(deps)"
@@ -46,6 +53,9 @@ updates:
         patterns:
           - "Microsoft.EntityFrameworkCore*"
           - "Microsoft.Extensions.*"
+      minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
 
     # A target-framework fact, not caution. Every project holding EF Core here
     # targets net6.0 (most of them net6.0-windows) and pins 6.x. EF Core 7 still
@@ -62,9 +72,13 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     target-branch: "deps"
     open-pull-requests-limit: 99
     labels: ["dependencies"]
     commit-message:
       prefix: "ci(actions)"
+    groups:
+      minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
