@@ -48,6 +48,12 @@ updates:
     # Ungrouped that is not one blocked update but a queue that cannot drain,
     # because every pull request in it fails the same way. Measured in
     # Marketplace-coursework-wpf-mvvm, which has the identical shape.
+    #
+    # minor-and-patch excludes the family's patterns. Without that, one scan
+    # computes both groups against the same base: the family group raises a
+    # package to its next major, minor-and-patch raises the same package to its
+    # latest patch on the same line, and whichever merges second conflicts. That
+    # happened here on 2026-09-25 (#54, #56).
     groups:
       microsoft-data-and-hosting:
         patterns:
@@ -55,6 +61,9 @@ updates:
           - "Microsoft.Extensions.*"
       minor-and-patch:
         patterns: ["*"]
+        exclude-patterns:
+          - "Microsoft.EntityFrameworkCore*"
+          - "Microsoft.Extensions.*"
         update-types: ["minor", "patch"]
 
     # A target-framework fact, not caution. Every project holding EF Core here
