@@ -39,7 +39,9 @@ with no route into `main`. `security-features-main` is now dead.
 
 Monthly. Per directory, one pull request for every minor and patch bump and one
 per major. The EntityFrameworkCore family below is a group of its own across
-all update types, so Dependabot never raises one of its members alone.
+all update types, so Dependabot never raises one of its members alone, and its
+members are excluded from the minor-and-patch group, so the two groups never
+edit the same line in one scan.
 `security-audit.yml` writes its findings into the run summary, never an issue.
 Dependabot security updates are switched off: they target `main` directly and
 would bypass `deps`.
